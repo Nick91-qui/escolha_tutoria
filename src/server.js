@@ -131,7 +131,7 @@ async function iniciarServidor() {
         app.get('/api/admin/exportar', verificarAdmin, async (req, res) => {
             try {
                 const preferencias = await db.collection('preferencias').find().toArray();
-                
+
                 // Formatar dados para CSV
                 const csv = [
                     ['Turma', 'Nome', 'Preferências', 'Data de Escolha'].join(','),
@@ -204,6 +204,27 @@ process.on('SIGINT', () => {
     console.log('Recebido SIGINT. Encerrando graciosamente...');
     process.exit(0);
 });
+
+
+// No server.js
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
+
+// Comprimir respostas
+app.use(compression());
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minuto
+    max: 100 // limite por IP
+});
+
+app.use(limiter);
+
+// Cache para respostas estáticas
+app.use(express.static('public', {
+    maxAge: '1h'
+}));
 
 // Iniciar servidor
 iniciarServidor().catch(error => {

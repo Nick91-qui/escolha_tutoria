@@ -1,0 +1,59 @@
+config:
+  target: "http://seu-site-glitch.com"  # Substitua pela URL do seu site
+  phases:
+    - duration: 60  # Duração do teste em segundos
+      arrivalRate: 10  # Novos usuários por segundo
+      rampTo: 50      # Aumenta gradualmente até 50 usuários/segundo
+      name: "Ramp up load"
+  variables:
+    turmas:
+      - "1I01"
+      - "1I02"
+      - "1I03"
+      - "1I04"
+      - "1I05"
+      - "1I06"
+      - "2I01"
+      - "2I02"
+      - "2I03"
+      - "2I04"
+      - "2I05"
+      - "2I06"
+      - "3I01"
+
+scenarios:
+  - name: "Fluxo completo de escolha"
+    flow:
+      # 1. Verificar aluno
+      - post:
+          url: "/api/verificar-aluno"
+          json:
+            turma: "{{ $randomItem(turmas) }}"
+            nome: "TESTE ALUNO {{ $randomNumber(1, 500) }}"
+          capture:
+            - json: "$.verificado"
+              as: "verificado"
+          expect:
+            - statusCode: 200
+
+      # 2. Carregar professores
+      - get:
+          url: "/api/professores"
+          expect:
+            - statusCode: 200
+
+      # 3. Salvar preferências
+      - post:
+          url: "/api/preferencias"
+          json:
+            turma: "{{ $randomItem(turmas) }}"
+            nome: "TESTE ALUNO {{ $randomNumber(1, 500) }}"
+            preferencias: ["Professor 1", "Professor 2", "Professor 3"]
+          expect:
+            - statusCode: 200
+
+      # 4. Verificar preferências salvas
+      - get:
+          url: "/api/preferencias/{{ $randomItem(turmas) }}/TESTE ALUNO {{ $randomNumber(1, 500) }}"
+          expect:
+            - statusCode: 200
