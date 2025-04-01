@@ -10,7 +10,7 @@ Sistema web desenvolvido para gerenciar as escolhas de tutoria dos alunos do IFE
 - **Exportação de Dados**: Possibilidade de exportar dados em CSV
 - **Sistema Offline**: Funciona mesmo com problemas de conexão
 
-📊 Funcionalidades Administrativas
+## 📊 Funcionalidades Administrativas
 Visualização de estatísticas gerais
 Acompanhamento de alunos pendentes
 Exportação de relatórios
@@ -30,3 +30,4 @@ Gestão de preferências
 - MongoDB
 - NPM ou Yarn
 
+##  ⌨️ com ❤️ por nicholascm 😊
