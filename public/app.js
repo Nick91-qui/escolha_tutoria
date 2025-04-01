@@ -1,13 +1,18 @@
-// app.js
-
+// Variáveis globais
 let alunoAtual = null;
 let professores = [];
 
+// Cache
+const CACHE_KEY = 'app_cache_v1';
+const cache = {
+    professores: null,
+    lastUpdate: null
+};
+
 // Função para verificar aluno
 async function verificarAluno() {
-    const turma = document.getElementById('turma').value.trim().toUpperCase();
+    const turma = document.getElementById('turma').value.trim();
     const nome = document.getElementById('nome').value.trim().toUpperCase();
-    const errorElement = document.getElementById('loginError');
 
     if (!turma || !nome) {
         mostrarErro('Por favor, preencha todos os campos');
@@ -34,7 +39,7 @@ async function verificarAluno() {
             await carregarProfessores();
             await verificarPreferenciasExistentes();
         } else {
-            mostrarErro('Aluno não encontrado. Verifique turma e nome.');
+            mostrarErro('Nome não encontrado. Digite seu nome completo exatamente como consta na chamada.');
         }
     } catch (error) {
         console.error('Erro:', error);
@@ -65,15 +70,20 @@ async function carregarProfessores() {
     }
 }
 
-// Renderizar lista de professores
-function renderizarProfessores() {
+// Renderizar professores
+function renderizarProfessores(readonly = false) {
     const container = document.getElementById('lista-professores');
     container.innerHTML = '';
 
     professores.forEach((professor, index) => {
         const card = document.createElement('div');
         card.className = 'professor-card';
-        card.draggable = true;
+        if (!readonly) {
+            card.draggable = true;
+        }
+        if (readonly) {
+            card.classList.add('preferencia-final');
+        }
         card.dataset.index = index;
 
         card.innerHTML = `
@@ -84,11 +94,12 @@ function renderizarProfessores() {
             </div>
         `;
 
-        // Eventos de drag and drop
-        card.addEventListener('dragstart', handleDragStart);
-        card.addEventListener('dragend', handleDragEnd);
-        card.addEventListener('dragover', handleDragOver);
-        card.addEventListener('drop', handleDrop);
+        if (!readonly) {
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+            card.addEventListener('dragover', handleDragOver);
+            card.addEventListener('drop', handleDrop);
+        }
 
         container.appendChild(card);
     });
@@ -131,7 +142,7 @@ function handleDrop(e) {
     }
 }
 
-// Atualizar números após drag and drop
+// Atualizar numeração
 function atualizarNumeracao() {
     const cards = document.querySelectorAll('.professor-card');
     cards.forEach((card, index) => {
@@ -149,7 +160,6 @@ async function verificarPreferenciasExistentes() {
         const data = await response.json();
 
         if (data.sucesso && data.preferencias) {
-            // Desabilitar drag and drop e botão de salvar
             const container = document.getElementById('lista-professores');
             const cards = container.querySelectorAll('.professor-card');
             cards.forEach(card => {
@@ -157,13 +167,11 @@ async function verificarPreferenciasExistentes() {
                 card.classList.add('preferencia-final');
             });
 
-            // Mostrar mensagem e desabilitar botão
             mostrarMensagemFinal('Suas preferências já foram registradas e não podem ser alteradas.');
             const botaoSalvar = document.querySelector('button[onclick="salvarPreferencias()"]');
             botaoSalvar.disabled = true;
             botaoSalvar.style.display = 'none';
 
-            // Ordenar professores conforme preferências salvas
             const prefsOrdenadas = data.preferencias.preferencias;
             professores.sort((a, b) => {
                 const indexA = prefsOrdenadas.indexOf(a.nome);
@@ -171,66 +179,11 @@ async function verificarPreferenciasExistentes() {
                 return indexA - indexB;
             });
             
-            renderizarProfessores(true); // true indica que é readonly
+            renderizarProfessores(true);
         }
     } catch (error) {
         console.error('Erro:', error);
     }
-}
-
-// Adicione esta nova função
-function mostrarMensagemFinal(mensagem) {
-    const container = document.getElementById('preferencias-section');
-    const mensagemDiv = document.createElement('div');
-    mensagemDiv.className = 'mensagem-final';
-    mensagemDiv.innerHTML = `
-        <div style="background-color: #f8d7da; 
-                    color: #721c24; 
-                    padding: 15px; 
-                    margin: 10px 0; 
-                    border-radius: 4px; 
-                    text-align: center;
-                    border: 1px solid #f5c6cb;">
-            <strong>⚠️ ${mensagem}</strong>
-        </div>
-    `;
-    container.insertBefore(mensagemDiv, container.firstChild);
-}
-
-// Modifique a função renderizarProfessores para aceitar o parâmetro readonly
-function renderizarProfessores(readonly = false) {
-    const container = document.getElementById('lista-professores');
-    container.innerHTML = '';
-
-    professores.forEach((professor, index) => {
-        const card = document.createElement('div');
-        card.className = 'professor-card';
-        if (!readonly) {
-            card.draggable = true;
-        }
-        if (readonly) {
-            card.classList.add('preferencia-final');
-        }
-        card.dataset.index = index;
-
-        card.innerHTML = `
-            <div class="professor-numero">${index + 1}</div>
-            <div class="professor-info">
-                <div class="professor-nome">${professor.nome}</div>
-                <div class="professor-disciplina">${professor.disciplina}</div>
-            </div>
-        `;
-
-        // Adicionar eventos de drag and drop apenas se não for readonly
-        if (!readonly) {
-            card.addEventListener('dragstart', handleDragStart);
-            card.addEventListener('dragend', handleDragEnd);
-            card.addEventListener('dragover', handleDragOver);
-            card.addEventListener('drop', handleDrop);
-        }
-
-        container.appendChild(card);
-    });
 }
 
 // Salvar preferências
@@ -262,6 +215,7 @@ async function salvarPreferencias() {
 
         if (data.sucesso) {
             mostrarMensagemSucesso('Preferências salvas com sucesso!');
+            verificarPreferenciasExistentes(); // Recarrega em modo readonly
         } else {
             mostrarErro('Erro ao salvar preferências.');
         }
@@ -296,36 +250,37 @@ function mostrarMensagemSucesso(mensagem) {
     }, 5000);
 }
 
+function mostrarMensagemFinal(mensagem) {
+    const container = document.getElementById('preferencias-section');
+    const mensagemDiv = document.createElement('div');
+    mensagemDiv.className = 'mensagem-final';
+    mensagemDiv.innerHTML = `
+        <div style="background-color: #f8d7da; 
+                    color: #721c24; 
+                    padding: 15px; 
+                    margin: 10px 0; 
+                    border-radius: 4px; 
+                    text-align: center;
+                    border: 1px solid #f5c6cb;">
+            <strong>⚠️ ${mensagem}</strong>
+        </div>
+    `;
+    container.insertBefore(mensagemDiv, container.firstChild);
+}
+
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar se há aluno salvo no localStorage
-    const alunoSalvo = localStorage.getItem('alunoAtual');
-    if (alunoSalvo) {
-        alunoAtual = JSON.parse(alunoSalvo);
-        document.getElementById('turma').value = alunoAtual.turma;
-        document.getElementById('nome').value = alunoAtual.nome;
-    }
+    inicializarDados();
 });
-
-// Cache de dados
-const CACHE_KEY = 'app_cache_v1';
-const cache = {
-    turmas: null,
-    alunos: {},
-    professores: null,
-    lastUpdate: null
-};
 
 // Função para carregar dados iniciais
 async function inicializarDados() {
     try {
-        // Tentar carregar do localStorage primeiro
         const cachedData = localStorage.getItem(CACHE_KEY);
         if (cachedData) {
             const { data, timestamp } = JSON.parse(cachedData);
             const cacheAge = Date.now() - timestamp;
             
-            // Cache válido por 1 hora
             if (cacheAge < 3600000) {
                 Object.assign(cache, data);
                 console.log('Dados carregados do cache');
@@ -333,88 +288,22 @@ async function inicializarDados() {
             }
         }
 
-        // Se não há cache válido, carregar do servidor
-        const [professoresRes, turmasRes] = await Promise.all([
-            fetch('/api/professores'),
-            fetch('/api/turmas')
-        ]);
+        const response = await fetch('/api/professores');
+        const data = await response.json();
 
-        const [professoresData, turmasData] = await Promise.all([
-            professoresRes.json(),
-            turmasRes.json()
-        ]);
+        if (data.sucesso) {
+            cache.professores = data.professores;
+            cache.lastUpdate = Date.now();
 
-        // Atualizar cache
-        cache.professores = professoresData.professores;
-        cache.turmas = turmasData.turmas;
-        cache.lastUpdate = Date.now();
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                data: cache,
+                timestamp: Date.now()
+            }));
 
-        // Salvar no localStorage
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-            data: cache,
-            timestamp: Date.now()
-        }));
-
-        console.log('Dados atualizados do servidor');
+            console.log('Dados atualizados do servidor');
+        }
     } catch (error) {
         console.error('Erro ao carregar dados:', error);
         mostrarErro('Erro ao carregar dados iniciais');
     }
 }
-
-// Carregar alunos da turma apenas quando necessário
-async function carregarAlunosTurma(turma) {
-    if (cache.alunos[turma]) {
-        return cache.alunos[turma];
-    }
-
-    try {
-        const response = await fetch(`/api/alunos/${turma}`);
-        const data = await response.json();
-        
-        if (data.sucesso) {
-            cache.alunos[turma] = data.alunos;
-            return data.alunos;
-        }
-    } catch (error) {
-        console.error('Erro ao carregar alunos:', error);
-        throw error;
-    }
-}
-
-// Autocompletar nome do aluno
-function configurarAutoComplete() {
-    const turmaSelect = document.getElementById('turma');
-    const nomeInput = document.getElementById('nome');
-    
-    turmaSelect.addEventListener('change', async () => {
-        const turma = turmaSelect.value;
-        if (!turma) return;
-
-        try {
-            const alunos = await carregarAlunosTurma(turma);
-            
-            // Configurar datalist para autocompletar
-            let datalist = document.getElementById('alunos-list');
-            if (!datalist) {
-                datalist = document.createElement('datalist');
-                datalist.id = 'alunos-list';
-                document.body.appendChild(datalist);
-            }
-
-            datalist.innerHTML = alunos
-                .map(aluno => `<option value="${aluno.nome}">`)
-                .join('');
-
-            nomeInput.setAttribute('list', 'alunos-list');
-        } catch (error) {
-            mostrarErro('Erro ao carregar lista de alunos');
-        }
-    });
-}
-
-// Inicializar quando a página carregar
-document.addEventListener('DOMContentLoaded', () => {
-    inicializarDados();
-    configurarAutoComplete();
-});
