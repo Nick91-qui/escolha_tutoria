@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo - Sistema de Preferências</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Dashboard Administrativo</h1>
+            <div class="actions">
+                <button onclick="exportarCSV()">Exportar CSV</button>
+                <button onclick="exportarExcel()">Exportar Excel</button>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total de Alunos</h3>
+                <div id="totalAlunos" class="stat-number">Carregando...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Já Escolheram</h3>
+                <div id="totalEscolhas" class="stat-number">Carregando...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Faltam Escolher</h3>
+                <div id="faltamEscolher" class="stat-number">Carregando...</div>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <div class="turmas-section">
+                <h2>Por Turma</h2>
+                <div id="estatisticasTurmas" class="data-grid"></div>
+            </div>
+
+            <div class="professores-section">
+                <h2>Preferências por Professor</h2>
+                <div id="estatisticasProfessores" class="data-grid"></div>
+            </div>
+        </div>
+
+        <div class="alunos-section">
+            <h2>Alunos que Faltam Escolher</h2>
+            <div id="alunosPendentes" class="alunos-list"></div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

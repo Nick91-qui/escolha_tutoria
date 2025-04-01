@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste API</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+        }
+        .resultado { 
+            margin: 20px 0; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            background: #f9f9f9; 
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input, button {
+            margin: 5px;
+            padding: 5px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Sistema de Preferências - Teste</h2>
+    
+    <div class="section">
+        <h3>1. Verificar Aluno</h3>
+        <input type="text" id="turma" placeholder="Turma (ex: 1I01)" value="1I01">
+        <input type="text" id="nome" placeholder="Nome do Aluno">
+        <button onclick="verificarAluno()">Verificar</button>
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <div class="section">
+        <h3>2. Salvar Preferências</h3>
+        <p>Primeiro verifique o aluno, depois:</p>
+        <div id="preferencias-container">
+            <input type="text" id="pref1" placeholder="Preferência 1">
+            <input type="text" id="pref2" placeholder="Preferência 2">
+            <input type="text" id="pref3" placeholder="Preferência 3">
+        </div>
+        <button onclick="salvarPreferencias()">Salvar Preferências</button>
+        <div id="resultado-preferencias" class="resultado"></div>
+    </div>
+
+    <div class="section">
+        <h3>3. Consultar Preferências</h3>
+        <button onclick="consultarPreferencias()">Consultar Preferências do Aluno</button>
+        <div id="resultado-consulta" class="resultado"></div>
+    </div>
+
+    <script>
+        let alunoVerificado = null;
+
+        async function verificarAluno() {
+            const turma = document.getElementById('turma').value;
+            const nome = document.getElementById('nome').value;
+            
+            try {
+                const response = await fetch('/api/verificar-aluno', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ turma, nome })
+                });
+                
+                const data = await response.json();
+                alunoVerificado = data.verificado ? { turma, nome } : null;
+                
+                document.getElementById('resultado').innerHTML = 
+                    `<pre class="${data.verificado ? 'success' : 'error'}">
+                        ${JSON.stringify(data, null, 2)}
+                    </pre>`;
+            } catch (error) {
+                document.getElementById('resultado').innerHTML = 
+                    `<pre class="error">Erro: ${error.message}</pre>`;
+            }
+        }
+
+        async function salvarPreferencias() {
+            if (!alunoVerificado) {
+                alert('Por favor, verifique o aluno primeiro!');
+                return;
+            }
+
+            const preferencias = [
+                document.getElementById('pref1').value,
+                document.getElementById('pref2').value,
+                document.getElementById('pref3').value
+            ].filter(p => p.trim());
+
+            if (preferencias.length === 0) {
+                alert('Por favor, insira pelo menos uma preferência!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/preferencias', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        turma: alunoVerificado.turma,
+                        nome: alunoVerificado.nome,
+                        preferencias
+                    })
+                });
+                
+                const data = await response.json();
+                document.getElementById('resultado-preferencias').innerHTML = 
+                    `<pre class="${data.sucesso ? 'success' : 'error'}">
+                        ${JSON.stringify(data, null, 2)}
+                    </pre>`;
+            } catch (error) {
+                document.getElementById('resultado-preferencias').innerHTML = 
+                    `<pre class="error">Erro: ${error.message}</pre>`;
+            }
+        }
+
+        async function consultarPreferencias() {
+            if (!alunoVerificado) {
+                alert('Por favor, verifique o aluno primeiro!');
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `/api/preferencias/${alunoVerificado.turma}/${alunoVerificado.nome}`
+                );
+                
+                const data = await response.json();
+                document.getElementById('resultado-consulta').innerHTML = 
+                    `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('resultado-consulta').innerHTML = 
+                    `<pre class="error">Erro: ${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Preferências de Tutoria</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="offline-warning" id="offlineWarning">
+        Modo offline - Os dados serão sincronizados quando houver conexão
+    </div>
+
+    <div class="container">
+        <div id="login-section">
+            <h2>Login do Aluno</h2>
+            <div class="error-message" id="loginError"></div>
+            <!-- Substituir o input de turma por: -->
+            <select id="turma" required>
+                <option value="">Selecione sua turma</option>
+                <optgroup label="1º Ano">
+                    <option value="1I01">1I01</option>
+                    <option value="1I02">1I02</option>
+                    <option value="1I03">1I03</option>
+                    <option value="1I04">1I04</option>
+                    <option value="1I05">1I05</option>
+                    <option value="1I06">1I06</option>
+                </optgroup>
+                <optgroup label="2º Ano">
+                    <option value="2I01">2I01</option>
+                    <option value="2I02">2I02</option>
+                    <option value="2I03">2I03</option>
+                    <option value="2I04">2I04</option>
+                    <option value="2I05">2I05</option>
+                    <option value="2I06">2I06</option>
+                </optgroup>
+                <optgroup label="3º Ano">
+                    <option value="3I01">3I01</option>
+                </optgroup>
+            </select>
+            <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+            <button onclick="verificarAluno()">Entrar</button>
+        </div>
+
+        <div id="preferencias-section" style="display: none;">
+            <h2>Ordenar Preferências de Tutoria</h2>
+
+            <div class="instrucoes">
+                <h3>Como ordenar suas preferências:</h3>
+                <ul>
+                    <li>Arraste os professores para cima ou para baixo</li>
+                    <li>O primeiro da lista será sua primeira escolha</li>
+                    <li>O número indica a ordem de preferência</li>
+                    <li>Organize todos os professores antes de salvar</li>
+                </ul>
+            </div>
+
+            <div id="lista-professores"></div>
+            <div id="loading">Carregando professores...</div>
+            <div class="error-message" id="preferenciaError"></div>
+            <div class="success-message" id="successMessage"></div>
+            <button onclick="salvarPreferencias()" id="botaoSalvar">Salvar Preferências</button>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator && 'SyncManager' in window) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('SW registrado:', registration);
+                })
+                .catch(error => {
+                    console.log('Erro no registro do SW:', error);
+                });
+        }
+
+        window.addEventListener('online', () => {
+            document.getElementById('offlineWarning').style.display = 'none';
+        });
+
+        window.addEventListener('offline', () => {
+            document.getElementById('offlineWarning').style.display = 'block';
+        });
+    </script>
+    <script src="app.js"></script>
+</body>
+
+</html>
