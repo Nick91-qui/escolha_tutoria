@@ -24,7 +24,7 @@ async function importarTodosAlunos() {
         
         // Ler todo o CSV primeiro
         await new Promise((resolve, reject) => {
-            fs.createReadStream('alunos.csv')
+            fs.createReadStream('data/alunos.csv')
                 .pipe(csv())
                 .on('data', (row) => {
                     alunos.push({

@@ -12,59 +12,81 @@ async function limparDados() {
         console.log("Conectado ao MongoDB com sucesso!");
 
         const db = client.db("escola");
-        const collection = db.collection('alunos');
-
+        
         console.log("\nIniciando limpeza dos dados...");
 
-        // 1. Encontrar duplicatas
-        const duplicatas = await collection.aggregate([
-            {
-                $group: {
-                    _id: { nome: "$nome", turma: "$turma" },
-                    count: { $sum: 1 },
-                    ids: { $push: "$_id" }
-                }
-            },
-            {
-                $match: {
-                    count: { $gt: 1 }
-                }
-            }
-        ]).toArray();
+        // 1. Backup das coleções (opcional)
+        const backupAlunos = await db.collection('alunos').find({}).toArray();
+        const backupPreferencias = await db.collection('preferencias').find({}).toArray();
+        const backupProfessores = await db.collection('professores').find({}).toArray();
 
-        // 2. Remover duplicatas
-        for (const dup of duplicatas) {
-            // Manter o primeiro registro e remover os outros
-            const idsParaRemover = dup.ids.slice(1);
-            await collection.deleteMany({ _id: { $in: idsParaRemover } });
-            console.log(`Removidas ${idsParaRemover.length} duplicatas de ${dup._id.nome}`);
-        }
+        console.log("\nStatus antes da limpeza:");
+        console.log(`Alunos: ${backupAlunos.length}`);
+        console.log(`Preferências: ${backupPreferencias.length}`);
+        console.log(`Professores: ${backupProfessores.length}`);
 
-        // 3. Mostrar estatísticas finais
-        const estatisticas = await collection.aggregate([
-            {
-                $group: {
-                    _id: "$turma",
-                    total: { $sum: 1 }
-                }
-            },
-            { $sort: { _id: 1 } }
-        ]).toArray();
+        // 2. Limpar todas as coleções
+        await db.collection('alunos').deleteMany({});
+        await db.collection('preferencias').deleteMany({});
+        await db.collection('professores').deleteMany({});
 
-        console.log("\nEstatísticas após limpeza:");
-        estatisticas.forEach(turma => {
-            console.log(`Turma ${turma._id}: ${turma.total} alunos`);
-        });
+        console.log("\nTodas as coleções foram limpas!");
 
-        const totalFinal = await collection.countDocuments();
-        console.log(`\nTotal final de alunos: ${totalFinal}`);
+        // 3. Remover índices existentes
+        await db.collection('alunos').dropIndexes();
+        await db.collection('preferencias').dropIndexes();
+        await db.collection('professores').dropIndexes();
+
+        console.log("Índices removidos!");
+
+        // 4. Recriar índices necessários
+        await db.collection('alunos').createIndex(
+            { turma: 1, nome: 1 },
+            { unique: true }
+        );
+
+        await db.collection('preferencias').createIndex(
+            { turma: 1, nome: 1 }
+        );
+
+        console.log("Novos índices criados!");
+
+        // 5. Verificar estado final
+        const estatisticasFinal = {
+            alunos: await db.collection('alunos').countDocuments(),
+            preferencias: await db.collection('preferencias').countDocuments(),
+            professores: await db.collection('professores').countDocuments()
+        };
+
+        console.log("\nStatus final do banco:");
+        console.log(`Alunos: ${estatisticasFinal.alunos}`);
+        console.log(`Preferências: ${estatisticasFinal.preferencias}`);
+        console.log(`Professores: ${estatisticasFinal.professores}`);
+
+        console.log("\nLimpeza concluída com sucesso!");
+        console.log("Para recarregar os dados, execute:");
+        console.log("1. node scripts/importar-alunos.js");
+        console.log("2. node scripts/importar-professores.js");
 
     } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro durante a limpeza:', error);
     } finally {
         await client.close();
+        console.log("\nConexão com o banco fechada");
         process.exit(0);
     }
 }
 
-limparDados();
+// Adicionar confirmação antes de limpar
+console.log("⚠️  ATENÇÃO: Este script irá limpar todos os dados do banco!");
+console.log("Digite 'CONFIRMAR' para prosseguir...");
+
+process.stdin.on('data', data => {
+    const input = data.toString().trim();
+    if (input === 'CONFIRMAR') {
+        limparDados();
+    } else {
+        console.log("Operação cancelada!");
+        process.exit(0);
+    }
+});

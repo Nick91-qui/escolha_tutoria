@@ -24,7 +24,7 @@ async function importarProfessores() {
         
         // Ler CSV
         await new Promise((resolve, reject) => {
-            fs.createReadStream('professores.csv')
+            fs.createReadStream('data/professores.csv')
                 .pipe(csv())
                 .on('data', (row) => {
                     professores.push({
