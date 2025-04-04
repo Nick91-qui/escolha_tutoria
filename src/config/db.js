@@ -10,33 +10,29 @@ const client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 5000,
 });
 
+
 let dbConnection;
 
-// Mantendo suas funções auxiliares e índices
-async function criarIndices(db) {
+async function conectar() {
     try {
-        await db.collection('alunos').createIndex(
-            { turma: 1, nome: 1 },
-            { unique: true, background: true }
-        );
+        if (dbConnection) {
+            return dbConnection;
+        }
 
-        await db.collection('preferencias').createIndex(
-            { turma: 1, nome: 1 },
-            { background: true }
-        );
-
-        await db.collection('preferencias').createIndex(
-            { dataCriacao: -1 },
-            { background: true }
-        );
-
-        console.log("Índices criados/atualizados com sucesso!");
+        await client.connect();
+        console.log("Conectado ao MongoDB com sucesso!");
+        
+        dbConnection = client.db("escola");
+        
+        // Criar índices ao conectar
+        await criarIndices(dbConnection);
+        
+        return dbConnection;
     } catch (error) {
-        console.error("Erro ao criar índices:", error);
+        console.error("Erro ao conectar:", error);
+        throw error;
     }
 }
-
-
 // Função auxiliar para gerar informações temporais
 function gerarInfoTemporal() {
     const agora = new Date();
