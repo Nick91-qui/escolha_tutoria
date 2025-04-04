@@ -1,5 +1,5 @@
 config:
-  target: "http://seu-site-glitch.com"  # Substitua pela URL do seu site
+  target: "https://harvest-piquant-whale.glitch.me/"  # Substitua pela URL do seu site
   phases:
     - duration: 60  # Duração do teste em segundos
       arrivalRate: 10  # Novos usuários por segundo

@@ -1,28 +1,25 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const uri = process.env.MONGODB_URI || "mongodb+srv://nicholascm:vQlI9iXWgmyTO5YB@cluster0.rpdnmdb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// URL local do MongoDB
+const uri = "mongodb://localhost:27017/escola";
 
 const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
 });
 
 let dbConnection;
 
-// Função para criar índices necessários
+// Mantendo suas funções auxiliares e índices
 async function criarIndices(db) {
     try {
-        // Índice para alunos (turma + nome)
         await db.collection('alunos').createIndex(
             { turma: 1, nome: 1 },
             { unique: true, background: true }
         );
 
-        // Índice para preferências (turma + nome + data)
         await db.collection('preferencias').createIndex(
             { turma: 1, nome: 1 },
             { background: true }
@@ -39,27 +36,6 @@ async function criarIndices(db) {
     }
 }
 
-async function conectar() {
-    try {
-        if (dbConnection) {
-            return dbConnection;
-        }
-
-        await client.connect();
-        await client.db("admin").command({ ping: 1 });
-        console.log("Conectado ao MongoDB com sucesso!");
-        
-        dbConnection = client.db("escola");
-        
-        // Criar índices ao conectar
-        await criarIndices(dbConnection);
-        
-        return dbConnection;
-    } catch (error) {
-        console.error("Erro ao conectar:", error);
-        throw error;
-    }
-}
 
 // Função auxiliar para gerar informações temporais
 function gerarInfoTemporal() {
