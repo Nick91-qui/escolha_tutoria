@@ -10,9 +10,33 @@ const client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 5000,
 });
 
-
 let dbConnection;
 
+// Primeiro definimos criarIndices
+async function criarIndices(db) {
+    try {
+        await db.collection('alunos').createIndex(
+            { turma: 1, nome: 1 },
+            { unique: true, background: true }
+        );
+
+        await db.collection('preferencias').createIndex(
+            { turma: 1, nome: 1 },
+            { background: true }
+        );
+
+        await db.collection('preferencias').createIndex(
+            { dataCriacao: -1 },
+            { background: true }
+        );
+
+        console.log("Índices criados/atualizados com sucesso!");
+    } catch (error) {
+        console.error("Erro ao criar índices:", error);
+    }
+}
+
+// Depois definimos conectar que usa criarIndices
 async function conectar() {
     try {
         if (dbConnection) {
@@ -33,6 +57,16 @@ async function conectar() {
         throw error;
     }
 }
+
+// Função para calcular a semana do ano
+function getWeekNumber(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    const weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    return weekNo;
+}
+
 // Função auxiliar para gerar informações temporais
 function gerarInfoTemporal() {
     const agora = new Date();
@@ -43,15 +77,6 @@ function gerarInfoTemporal() {
         timestamp: agora.getTime(),
         semanaAno: getWeekNumber(agora)
     };
-}
-
-// Função para calcular a semana do ano
-function getWeekNumber(d) {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-    const weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-    return weekNo;
 }
 
 const db = {
