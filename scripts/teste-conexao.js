@@ -1,4 +1,4 @@
-const { conectar } = require('./src/config/db');
+const { conectar } = require('../src/config/db');
 
 async function testarConexao() {
     try {
