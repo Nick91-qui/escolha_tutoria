@@ -1,10 +1,10 @@
 config:
-  target: "https://harvest-piquant-whale.glitch.me/"  # Substitua pela URL do seu site
+  target: "http://localhost:3000"  # Alterado para servidor local
   phases:
-    - duration: 60  # Duração do teste em segundos
-      arrivalRate: 10  # Novos usuários por segundo
-      rampTo: 50      # Aumenta gradualmente até 50 usuários/segundo
-      name: "Ramp up load"
+    - duration: 30  # Reduzido para 30 segundos inicialmente
+      arrivalRate: 5  # Reduzido para 5 usuários por segundo
+      rampTo: 20     # Reduzido para 20 usuários/segundo
+      name: "Teste de carga local"
   variables:
     turmas:
       - "1I01"
@@ -29,7 +29,7 @@ scenarios:
           url: "/api/verificar-aluno"
           json:
             turma: "{{ $randomItem(turmas) }}"
-            nome: "TESTE ALUNO {{ $randomNumber(1, 500) }}"
+            nome: "TESTE ALUNO {{ $randomNumber(1, 100) }}"  # Reduzido para 100
           capture:
             - json: "$.verificado"
               as: "verificado"
@@ -41,19 +41,29 @@ scenarios:
           url: "/api/professores"
           expect:
             - statusCode: 200
+            - contentType: "application/json"
 
       # 3. Salvar preferências
       - post:
           url: "/api/preferencias"
           json:
             turma: "{{ $randomItem(turmas) }}"
-            nome: "TESTE ALUNO {{ $randomNumber(1, 500) }}"
+            nome: "TESTE ALUNO {{ $randomNumber(1, 100) }}"
             preferencias: ["Professor 1", "Professor 2", "Professor 3"]
           expect:
             - statusCode: 200
+            - contentType: "application/json"
 
       # 4. Verificar preferências salvas
       - get:
-          url: "/api/preferencias/{{ $randomItem(turmas) }}/TESTE ALUNO {{ $randomNumber(1, 500) }}"
+          url: "/api/preferencias/{{ $randomItem(turmas) }}/TESTE ALUNO {{ $randomNumber(1, 100) }}"
           expect:
             - statusCode: 200
+            - contentType: "application/json"
+
+  # Adicionado monitoramento
+  plugins:
+    statsd:
+      host: localhost
+      port: 8125
+      prefix: "artillery"

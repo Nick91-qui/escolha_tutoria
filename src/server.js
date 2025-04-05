@@ -2,13 +2,29 @@ const express = require('express');
 const { conectar } = require('./config/db');
 const routes = require('./routes');
 const path = require('path');
-const adminRoutes = require('./routes/admin'); // Nova importação
+const adminRoutes = require('./routes/admin');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
 app.use(express.static('public'));
+app.use(compression());
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minuto
+    max: 100 // limite por IP
+});
+
+app.use(limiter);
+
+// Cache para respostas estáticas
+app.use(express.static('public', {
+    maxAge: '1h'
+}));
 
 // Middleware para logs
 app.use((req, res, next) => {
@@ -27,7 +43,6 @@ app.use((req, res, next) => {
 // Middleware para verificar autenticação admin
 const verificarAdmin = (req, res, next) => {
     // TODO: Implementar autenticação real
-    // Por enquanto, permite acesso livre ao dashboard
     next();
 };
 
@@ -53,7 +68,6 @@ async function iniciarServidor() {
         app.get('/admin', verificarAdmin, (req, res) => {
             res.sendFile(path.join(__dirname, '../public/admin.html'));
         });
-
         // Rota para estatísticas
         app.get('/api/admin/estatisticas', verificarAdmin, async (req, res) => {
             try {
@@ -70,7 +84,7 @@ async function iniciarServidor() {
                     }
                 ]).toArray();
 
-                // Estatísticas de preferências
+                // Estatísticas de preferências com timestamp
                 const estatisticasPreferencias = await db.collection('preferencias').aggregate([
                     { $unwind: "$preferencias" },
                     {
@@ -82,11 +96,28 @@ async function iniciarServidor() {
                     { $sort: { totalEscolhas: -1 } }
                 ]).toArray();
 
+                // Estatísticas por período
+                const estatisticasPorPeriodo = await db.collection('preferencias').aggregate([
+                    {
+                        $group: {
+                            _id: {
+                                $dateToString: { 
+                                    format: "%Y-%m-%d", 
+                                    date: "$timestamp" 
+                                }
+                            },
+                            total: { $sum: 1 }
+                        }
+                    },
+                    { $sort: { "_id": 1 } }
+                ]).toArray();
+
                 res.json({
                     totalAlunos,
                     totalEscolhas,
                     estatisticasTurmas,
-                    estatisticasPreferencias
+                    estatisticasPreferencias,
+                    estatisticasPorPeriodo
                 });
             } catch (error) {
                 console.error('Erro ao buscar estatísticas:', error);
@@ -132,14 +163,14 @@ async function iniciarServidor() {
             try {
                 const preferencias = await db.collection('preferencias').find().toArray();
 
-                // Formatar dados para CSV
                 const csv = [
-                    ['Turma', 'Nome', 'Preferências', 'Data de Escolha'].join(','),
+                    ['Turma', 'Nome', 'Preferências', 'Data de Escolha', 'Timestamp'].join(','),
                     ...preferencias.map(p => [
                         p.turma,
                         p.nome,
                         p.preferencias.join(';'),
-                        new Date(p.dataCriacao).toLocaleString()
+                        new Date(p.dataCriacao).toLocaleString(),
+                        p.timestamp.toISOString()
                     ].join(','))
                 ].join('\n');
 
@@ -205,29 +236,8 @@ process.on('SIGINT', () => {
     process.exit(0);
 });
 
-
-// No server.js
-const compression = require('compression');
-const rateLimit = require('express-rate-limit');
-
-// Comprimir respostas
-app.use(compression());
-
-// Rate limiting
-const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minuto
-    max: 100 // limite por IP
-});
-
-app.use(limiter);
-
-// Cache para respostas estáticas
-app.use(express.static('public', {
-    maxAge: '1h'
-}));
-
 // Iniciar servidor
 iniciarServidor().catch(error => {
     console.error('Erro ao iniciar servidor:', error);
     process.exit(1);
-});
+});        

@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-// URL local do MongoDB
-const uri = "mongodb://localhost:27017/escola";
+// URL local do MongoDB com o novo nome do banco
+const uri = "mongodb://localhost:27017/escola_tutoria";
 
 const client = new MongoClient(uri, {
     useNewUrlParser: true,
@@ -12,7 +12,6 @@ const client = new MongoClient(uri, {
 
 let dbConnection;
 
-// Primeiro definimos criarIndices
 async function criarIndices(db) {
     try {
         await db.collection('alunos').createIndex(
@@ -22,6 +21,11 @@ async function criarIndices(db) {
 
         await db.collection('preferencias').createIndex(
             { turma: 1, nome: 1 },
+            { background: true }
+        );
+
+        await db.collection('preferencias').createIndex(
+            { timestamp: -1 },
             { background: true }
         );
 
@@ -36,7 +40,6 @@ async function criarIndices(db) {
     }
 }
 
-// Depois definimos conectar que usa criarIndices
 async function conectar() {
     try {
         if (dbConnection) {
@@ -46,7 +49,7 @@ async function conectar() {
         await client.connect();
         console.log("Conectado ao MongoDB com sucesso!");
         
-        dbConnection = client.db("escola");
+        dbConnection = client.db("escola_tutoria");
         
         // Criar índices ao conectar
         await criarIndices(dbConnection);
@@ -58,7 +61,6 @@ async function conectar() {
     }
 }
 
-// Função para calcular a semana do ano
 function getWeekNumber(d) {
     d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
@@ -67,14 +69,13 @@ function getWeekNumber(d) {
     return weekNo;
 }
 
-// Função auxiliar para gerar informações temporais
 function gerarInfoTemporal() {
     const agora = new Date();
     return {
+        timestamp: agora,         // Campo principal para Time-Series
         dataCriacao: agora,
         dataFormatada: agora.toLocaleDateString('pt-BR'),
         horaFormatada: agora.toLocaleTimeString('pt-BR'),
-        timestamp: agora.getTime(),
         semanaAno: getWeekNumber(agora)
     };
 }
@@ -98,7 +99,6 @@ const db = {
         try {
             const db = await conectar();
             
-            // Verificar se já existe preferência para este aluno
             const existente = await db.collection('preferencias').findOne({
                 turma: dados.turma.trim().toUpperCase(),
                 nome: dados.nome.trim().toUpperCase()
@@ -112,17 +112,18 @@ const db = {
                 };
             }
 
+            const infoTemporal = gerarInfoTemporal();
             const resultado = await db.collection('preferencias').insertOne({
                 ...dados,
                 turma: dados.turma.trim().toUpperCase(),
                 nome: dados.nome.trim().toUpperCase(),
-                ...gerarInfoTemporal()
+                ...infoTemporal
             });
 
             return { 
                 success: true, 
                 id: resultado.insertedId,
-                timestamp: new Date()
+                timestamp: infoTemporal.timestamp
             };
         } catch (error) {
             console.error("Erro ao salvar preferências:", error);
@@ -138,7 +139,7 @@ const db = {
                     turma: turma.trim().toUpperCase(), 
                     nome: nome.trim().toUpperCase() 
                 })
-                .sort({ dataCriacao: -1 })
+                .sort({ timestamp: -1 })  // Ordenação pelo timestamp
                 .limit(1)
                 .toArray();
         } catch (error) {
@@ -147,17 +148,35 @@ const db = {
         }
     },
 
-    // Nova função para estatísticas
     async obterEstatisticas() {
         try {
             const db = await conectar();
             const stats = {
                 totalAlunos: await db.collection('alunos').countDocuments(),
                 totalPreferencias: await db.collection('preferencias').countDocuments(),
+                
+                // Estatísticas por turma
                 preferenciasPorTurma: await db.collection('preferencias')
                     .aggregate([
                         { $group: { _id: "$turma", total: { $sum: 1 } } },
                         { $sort: { _id: 1 } }
+                    ]).toArray(),
+                
+                // Estatísticas por período
+                preferenciasPorPeriodo: await db.collection('preferencias')
+                    .aggregate([
+                        {
+                            $group: {
+                                _id: {
+                                    $dateToString: { 
+                                        format: "%Y-%m-%d", 
+                                        date: "$timestamp" 
+                                    }
+                                },
+                                total: { $sum: 1 }
+                            }
+                        },
+                        { $sort: { "_id": 1 } }
                     ]).toArray()
             };
             return stats;
@@ -179,7 +198,6 @@ async function desconectar() {
     }
 }
 
-// Tratamento de erros do processo
 process.on('SIGINT', async () => {
     await desconectar();
     process.exit(0);
