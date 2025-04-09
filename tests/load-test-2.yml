@@ -1,0 +1,171 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    # Fase de aquecimento
+    - duration: 10
+      arrivalRate: 2
+      name: "Warm up"
+    
+    # Fase de carga moderada
+    - duration: 20
+      arrivalRate: 5
+      rampTo: 15
+      name: "Ramp up load"
+    
+    # Fase de pico
+    - duration: 30
+      arrivalRate: 20
+      name: "Peak load"
+    
+    # Fase de recuperação
+    - duration: 10
+      arrivalRate: 5
+      name: "Cool down"
+
+  variables:
+    turmas:
+      - "1I01"
+      - "1I02"
+      - "1I03"
+      - "1I04"
+      - "1I05"
+      - "1I06"
+      - "2I01"
+      - "2I02"
+      - "2I03"
+      - "2I04"
+      - "2I05"
+      - "2I06"
+      - "3I01"
+    
+    nomes: # Nomes mais realistas
+      - "JOAO SILVA"
+      - "MARIA SANTOS"
+      - "PEDRO OLIVEIRA"
+      - "ANA SOUZA"
+      - "LUCAS FERREIRA"
+      - "JULIA COSTA"
+
+  # Configurações de timeout e thresholds
+  timeout: 10
+  http:
+    pool: 10
+    maxSockets: 20
+
+scenarios:
+  - name: "Fluxo completo de escolha"
+    weight: 7 # 70% dos testes
+    flow:
+      # Delay inicial aleatório
+      - think: 2
+
+      # 1. Verificar aluno
+      - post:
+          url: "/api/verificar-aluno"
+          json:
+            turma: "{{ $randomItem(turmas) }}"
+            nome: "{{ $randomItem(nomes) }} {{ $randomNumber(1000, 9999) }}"
+          capture:
+            - json: "$.verificado"
+              as: "verificado"
+          expect:
+            - statusCode: 200
+            - hasProperty: "verificado"
+          headers:
+            Content-Type: "application/json"
+
+      # Pequena pausa
+      - think: 1
+
+      # 2. Carregar professores
+      - get:
+          url: "/api/professores"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json"
+            - hasProperty: "professores"
+          headers:
+            Accept: "application/json"
+
+      # Simular tempo de escolha do usuário
+      - think: 3
+
+      # 3. Salvar preferências
+      - post:
+          url: "/api/preferencias"
+          json:
+            turma: "{{ $randomItem(turmas) }}"
+            nome: "{{ $randomItem(nomes) }} {{ $randomNumber(1000, 9999) }}"
+            preferencias: ["Professor 1", "Professor 2", "Professor 3"]
+          expect:
+            - statusCode: 200
+            - contentType: "application/json"
+            - hasProperty: "success"
+          headers:
+            Content-Type: "application/json"
+
+      # 4. Verificar preferências salvas
+      - get:
+          url: "/api/preferencias/{{ turma }}/{{ nome }}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json"
+          headers:
+            Accept: "application/json"
+
+  # Cenário apenas de consulta
+  - name: "Apenas consulta"
+    weight: 3 # 30% dos testes
+    flow:
+      - get:
+          url: "/api/professores"
+          expect:
+            - statusCode: 200
+
+plugins:
+  # Monitoramento mais detalhado
+  statsd:
+    host: localhost
+    port: 8125
+    prefix: "artillery"
+    
+  # Plugin para relatórios detalhados
+  metrics-by-endpoint:
+    - endpoint: "/api/verificar-aluno"
+      name: "verificar_aluno"
+    - endpoint: "/api/professores"
+      name: "carregar_professores"
+    - endpoint: "/api/preferencias"
+      name: "salvar_preferencias"
+
+  # Plugin para verificação de erros
+  expect: {}
+
+  # Plugin para logs detalhados
+  debug: {}
+
+environments:
+  # Ambiente de desenvolvimento
+  development:
+    target: "http://localhost:3000"
+    phases:
+      - duration: 10
+        arrivalRate: 2
+    plugins:
+      debug: {}
+
+  # Ambiente de teste
+  test:
+    target: "http://localhost:3000"
+    phases:
+      - duration: 60
+        arrivalRate: 10
+        rampTo: 30
+
+  # Ambiente de produção
+  production:
+    target: "http://seu-site.com"
+    phases:
+      - duration: 300
+        arrivalRate: 20
+        rampTo: 50
