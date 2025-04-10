@@ -1,5 +1,5 @@
 config:
-  target: "http://localhost:3000"
+  target: "http://http://172.25.179.159:3000"
   phases:
     # Fase de aquecimento
     - duration: 10

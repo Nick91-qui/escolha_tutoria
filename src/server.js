@@ -5,7 +5,9 @@ const path = require('path');
 const adminRoutes = require('./routes/admin');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
-
+const helmet = require('helmet');
+const NodeCache = require('node-cache');
+const cache = new NodeCache({ stdTTL: 300 });
 const app = express();
 
 // Middlewares

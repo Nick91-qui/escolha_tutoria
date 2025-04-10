@@ -1,18 +1,23 @@
 const os = require('os');
 const http = require('http');
 const path = require('path');
-const ROOT_DIR = path.join(__dirname, '..');
+const NodeCache = require('node-cache');
+
+// Cache para armazenar métricas temporárias
+const metricsCache = new NodeCache({ stdTTL: 60 });
 
 // Configurações
 const CONFIG = {
-    checkInterval: 5000,
+    checkInterval: 10000, // 10 segundos
     serverUrl: 'http://localhost:3000',
-    rootDir: ROOT_DIR,
+    rootDir: path.join(__dirname, '..'),
     warningThresholds: {
         cpu: 80,
         memory: 80,
-        disk: 90
-    }
+        disk: 90,
+        requests: 1000
+    },
+    logRetention: 24 * 60 * 60 * 1000, // 24 horas em ms
 };
 
 // Cores para console
@@ -27,20 +32,44 @@ const colors = {
 };
 
 // Estatísticas globais
-let stats = {
+const stats = {
     startTime: Date.now(),
-    requests: 0,
-    errors: 0,
-    lastCheck: null
+    requests: {
+        total: 0,
+        success: 0,
+        errors: 0,
+        lastMinute: 0
+    },
+    system: {
+        cpu: [],
+        memory: [],
+        lastUpdate: null
+    },
+    alerts: [],
+    workers: new Set()
 };
 
-function formatBytes(bytes) {
+// Função para formatar bytes
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes === 0) return '0 Byte';
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+// Função para formatar tempo de atividade
+function formatUptime(ms) {
+    const seconds = Math.floor(ms / 1000);
+    const days = Math.floor(seconds / (3600 * 24));
+    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${days}d ${hours}h ${minutes}m ${secs}s`;
+}
+
+// Coleta de métricas do sistema otimizada
 function getSystemStats() {
     const cpus = os.cpus();
     const totalMemory = os.totalmem();
@@ -48,13 +77,22 @@ function getSystemStats() {
     const usedMemory = totalMemory - freeMemory;
     const memoryUsage = (usedMemory / totalMemory) * 100;
 
+    // Cálculo otimizado de CPU
     let cpuUsage = 0;
-    for (let cpu of cpus) {
-        const total = Object.values(cpu.times).reduce((acc, val) => acc + val, 0);
-        const idle = cpu.times.idle;
-        cpuUsage += ((total - idle) / total) * 100;
+    if (stats.system.cpu.length > 0) {
+        const previousCpu = stats.system.cpu[stats.system.cpu.length - 1];
+        const currentCpu = process.cpuUsage(previousCpu);
+        cpuUsage = ((currentCpu.user + currentCpu.system) / 1000000) * 100;
+    } else {
+        cpuUsage = process.cpuUsage().user / 1000000;
     }
-    cpuUsage /= cpus.length;
+
+    // Manter histórico limitado
+    stats.system.cpu.push(cpuUsage);
+    if (stats.system.cpu.length > 60) stats.system.cpu.shift();
+
+    stats.system.memory.push(memoryUsage);
+    if (stats.system.memory.length > 60) stats.system.memory.shift();
 
     return {
         cpu: cpuUsage.toFixed(2),
@@ -64,69 +102,118 @@ function getSystemStats() {
             free: formatBytes(freeMemory),
             percentage: memoryUsage.toFixed(2)
         },
-        uptime: formatUptime(os.uptime()),
-        platform: `${os.platform()} ${os.release()}`
+        platform: `${os.platform()} ${os.release()}`,
+        loadAverage: os.loadavg(),
+        uptime: formatUptime(os.uptime() * 1000)
     };
 }
 
-function formatUptime(seconds) {
-    const days = Math.floor(seconds / (3600 * 24));
-    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${days}d ${hours}h ${minutes}m ${secs}s`;
-}
-
+// Verificação de saúde do servidor otimizada
 function checkServerHealth() {
+    const startTime = Date.now();
     http.get(CONFIG.serverUrl, (res) => {
-        stats.requests++;
-        stats.lastCheck = new Date();
-        if (res.statusCode !== 200) stats.errors++;
+        const responseTime = Date.now() - startTime;
+        
+        stats.requests.total++;
+        if (res.statusCode === 200) {
+            stats.requests.success++;
+            metricsCache.set('lastResponseTime', responseTime);
+        } else {
+            stats.requests.errors++;
+            addAlert(`Resposta não-200 do servidor: ${res.statusCode}`);
+        }
+        
+        stats.system.lastUpdate = new Date();
     }).on('error', (err) => {
-        stats.errors++;
-        console.log(`${colors.red}[ERRO] Servidor não responde: ${err.message}${colors.reset}`);
+        stats.requests.errors++;
+        addAlert(`Erro de conexão com servidor: ${err.message}`);
     });
 }
 
-function displayStats() {
-    console.clear();
-    const sysStats = getSystemStats();
+// Gerenciamento de alertas
+function addAlert(message) {
+    const alert = {
+        timestamp: new Date(),
+        message: message
+    };
+    stats.alerts.unshift(alert);
     
+    // Manter apenas alertas das últimas 24 horas
+    const cutoff = Date.now() - CONFIG.logRetention;
+    stats.alerts = stats.alerts.filter(a => a.timestamp.getTime() > cutoff);
+}
+
+// Exibição de estatísticas otimizada
+function displayStats() {
+    const sysStats = getSystemStats();
+    const responseTime = metricsCache.get('lastResponseTime') || 0;
+    
+    console.clear();
     console.log(`
 ${colors.cyan}=== Monitor do Sistema de Tutoria ===${colors.reset}
-${colors.blue}Tempo de Execução: ${formatUptime((Date.now() - stats.startTime) / 1000)}${colors.reset}
+${colors.blue}Tempo de Execução: ${formatUptime(Date.now() - stats.startTime)}${colors.reset}
 
 ${colors.magenta}Sistema:${colors.reset}
 • Platform: ${sysStats.platform}
 • CPU Usage: ${sysStats.cpu}%
+• Load Average: ${sysStats.loadAverage.map(v => v.toFixed(2)).join(', ')}
 • Memória Total: ${sysStats.memory.total}
 • Memória Usada: ${sysStats.memory.used} (${sysStats.memory.percentage}%)
 • Memória Livre: ${sysStats.memory.free}
 
 ${colors.magenta}Servidor:${colors.reset}
 • URL: ${CONFIG.serverUrl}
-• Requisições: ${stats.requests}
-• Erros: ${stats.errors}
-• Última Verificação: ${stats.lastCheck ? stats.lastCheck.toLocaleTimeString() : 'N/A'}
+• Requisições Totais: ${stats.requests.total}
+• Requisições com Sucesso: ${stats.requests.success}
+• Erros: ${stats.requests.errors}
+• Último Tempo de Resposta: ${responseTime}ms
+• Última Verificação: ${stats.system.lastUpdate ? stats.system.lastUpdate.toLocaleTimeString() : 'N/A'}
+
+${colors.yellow}Alertas Recentes:${colors.reset}
+${stats.alerts.slice(0, 5).map(a => 
+    `[${a.timestamp.toLocaleTimeString()}] ${a.message}`
+).join('\n')}
 
 ${colors.yellow}Pressione Ctrl+C para encerrar${colors.reset}
 `);
 
-    // Alertas
-    if (sysStats.cpu > CONFIG.warningThresholds.cpu) {
+    // Verificação de limites
+    if (parseFloat(sysStats.cpu) > CONFIG.warningThresholds.cpu) {
         console.log(`${colors.red}[ALERTA] CPU uso alto: ${sysStats.cpu}%${colors.reset}`);
     }
-    if (sysStats.memory.percentage > CONFIG.warningThresholds.memory) {
+    if (parseFloat(sysStats.memory.percentage) > CONFIG.warningThresholds.memory) {
         console.log(`${colors.red}[ALERTA] Memória uso alto: ${sysStats.memory.percentage}%${colors.reset}`);
+    }
+    if (stats.requests.lastMinute > CONFIG.warningThresholds.requests) {
+        console.log(`${colors.red}[ALERTA] Alto número de requisições: ${stats.requests.lastMinute}/min${colors.reset}`);
     }
 }
 
-// Iniciar monitoramento
-setInterval(() => {
+// Limpeza periódica de métricas antigas
+function cleanupOldMetrics() {
+    const cutoff = Date.now() - CONFIG.logRetention;
+    stats.alerts = stats.alerts.filter(alert => alert.timestamp.getTime() > cutoff);
+}
+
+// Inicialização do monitor
+function initializeMonitor() {
+    console.log(`${colors.green}Iniciando monitor do sistema...${colors.reset}`);
+    
+    // Verificação inicial
     checkServerHealth();
     displayStats();
-}, CONFIG.checkInterval);
 
-// Primeira execução
-checkServerHealth();
-displayStats();
+    // Agendamento de verificações periódicas
+    setInterval(checkServerHealth, CONFIG.checkInterval);
+    setInterval(displayStats, CONFIG.checkInterval);
+    setInterval(cleanupOldMetrics, CONFIG.checkInterval * 6); // Limpar a cada minuto
+
+    // Tratamento de encerramento gracioso
+    process.on('SIGINT', () => {
+        console.log(`\n${colors.yellow}Encerrando monitor...${colors.reset}`);
+        process.exit(0);
+    });
+}
+
+// Iniciar monitoramento
+initializeMonitor();
