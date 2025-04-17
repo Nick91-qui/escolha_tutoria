@@ -1,92 +1,221 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Preferências de Tutoria</title>
+    <title>Sistema de Escolha de Tutoria</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div class="offline-warning" id="offlineWarning">
-        Modo offline - Os dados serão sincronizados quando houver conexão
-    </div>
-
     <div class="container">
-        <div id="login-section">
-            <h2>Login do Aluno</h2>
-            <div class="instrucoes-login">
-                <p>Digite seu nome completo exatamente como consta na chamada.</p>
-                <p>Exemplo: JOÃO DA SILVA SANTOS</p>
+        <div class="status-container">
+            <h1>Sistema de Escolha de Tutoria</h1>
+            <div class="status-info">
+                <div class="info-item">
+                    <span class="label">Sua posição na fila:</span>
+                    <span id="posicao-fila">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Tempo estimado:</span>
+                    <span id="tempo-estimado">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Alunos processados:</span>
+                    <span id="alunos-processados">-</span>
+                </div>
             </div>
-            <div class="error-message" id="loginError"></div>
-            <select id="turma" required>
-                <option value="">Selecione sua turma</option>
-                <optgroup label="1º Ano">
-                    <option value="1I01">1I01</option>
-                    <option value="1I02">1I02</option>
-                    <option value="1I03">1I03</option>
-                    <option value="1I04">1I04</option>
-                    <option value="1I05">1I05</option>
-                    <option value="1I06">1I06</option>
-                </optgroup>
-                <optgroup label="2º Ano">
-                    <option value="2I01">2I01</option>
-                    <option value="2I02">2I02</option>
-                    <option value="2I03">2I03</option>
-                    <option value="2I04">2I04</option>
-                    <option value="2I05">2I05</option>
-                    <option value="2I06">2I06</option>
-                </optgroup>
-                <optgroup label="3º Ano">
-                    <option value="3I01">3I01</option>
-                </optgroup>
-            </select>
-            <input type="text" 
-                   id="nome" 
-                   placeholder="Digite seu nome completo" 
-                   autocomplete="off" 
-                   required>
-            <button onclick="verificarAluno()">Entrar</button>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+            </div>
         </div>
-
-        <div id="preferencias-section" style="display: none;">
-            <h2>Ordenar Preferências de Tutoria</h2>
-            <div class="instrucoes">
-                <h3>Como ordenar suas preferências:</h3>
-                <ul>
-                    <li>Arraste os professores para cima ou para baixo</li>
-                    <li>O primeiro da lista será sua primeira escolha</li>
-                    <li>O número indica a ordem de preferência</li>
-                    <li>Organize todos os professores antes de salvar</li>
-                </ul>
-            </div>
-            <div id="lista-professores"></div>
-            <div id="loading">Carregando professores...</div>
-            <div class="error-message" id="preferenciaError"></div>
-            <div class="success-message" id="successMessage"></div>
-            <button onclick="salvarPreferencias()" id="botaoSalvar">Salvar Preferências</button>
+        
+        <div class="form-container" id="form-container">
+            <form id="escolha-form">
+                <div class="form-group">
+                    <label for="nome-completo">Nome Completo:</label>
+                    <input type="text" id="nome-completo" required 
+                           placeholder="Digite seu nome completo como consta na chamada">
+                    <div class="instrucoes-login">
+                        <p>Digite seu nome completo exatamente como consta na chamada.</p>
+                        <p>Exemplo: JOÃO DA SILVA SANTOS</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="turma">Sua Turma:</label>
+                    <select id="turma" required>
+                        <option value="">Selecione sua turma</option>
+                        <optgroup label="1º Ano">
+                            <option value="1I01">1I01</option>
+                            <option value="1I02">1I02</option>
+                            <option value="1I03">1I03</option>
+                            <option value="1I04">1I04</option>
+                            <option value="1I05">1I05</option>
+                            <option value="1I06">1I06</option>
+                        </optgroup>
+                        <optgroup label="2º Ano">
+                            <option value="2I01">2I01</option>
+                            <option value="2I02">2I02</option>
+                            <option value="2I03">2I03</option>
+                            <option value="2I04">2I04</option>
+                            <option value="2I05">2I05</option>
+                            <option value="2I06">2I06</option>
+                        </optgroup>
+                        <optgroup label="3º Ano">
+                            <option value="3I01">3I01</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="preferencias">Ordem de Preferência:</label>
+                    <div id="lista-professores" class="lista-professores">
+                        <!-- Lista de professores será preenchida via JavaScript -->
+                    </div>
+                </div>
+                <button type="submit" id="entrar-fila">Entrar na Fila</button>
+            </form>
         </div>
     </div>
 
     <script>
-        if ('serviceWorker' in navigator && 'SyncManager' in window) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('SW registrado:', registration);
-                })
-                .catch(error => {
-                    console.log('Erro no registro do SW:', error);
-                });
+        const socket = io();
+        const form = document.getElementById('escolha-form');
+        const nomeCompletoInput = document.getElementById('nome-completo');
+        const turmaSelect = document.getElementById('turma');
+        const listaProfessores = document.getElementById('lista-professores');
+        const posicaoFila = document.getElementById('posicao-fila');
+        const tempoEstimado = document.getElementById('tempo-estimado');
+        const alunosProcessados = document.getElementById('alunos-processados');
+        const progressBar = document.getElementById('progress-bar');
+
+        // Array para armazenar a ordem dos professores
+        let professores = [];
+        let ordemPreferencia = [];
+
+        // Carregar lista de professores
+        async function carregarProfessores() {
+            try {
+                const response = await fetch('/api/professores');
+                professores = await response.json();
+                renderizarProfessores();
+            } catch (error) {
+                console.error('Erro ao carregar professores:', error);
+            }
         }
 
-        window.addEventListener('online', () => {
-            document.getElementById('offlineWarning').style.display = 'none';
+        // Renderizar lista de professores
+        function renderizarProfessores() {
+            listaProfessores.innerHTML = '';
+            professores.forEach((professor, index) => {
+                const div = document.createElement('div');
+                div.className = 'professor-card';
+                div.draggable = true;
+                div.dataset.id = professor.id;
+                div.innerHTML = `
+                    <span class="numero">${index + 1}</span>
+                    <span class="nome">${professor.nome}</span>
+                `;
+                listaProfessores.appendChild(div);
+            });
+            configurarDragAndDrop();
+        }
+
+        // Configurar drag and drop
+        function configurarDragAndDrop() {
+            const cards = document.querySelectorAll('.professor-card');
+            cards.forEach(card => {
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+            });
+        }
+
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.id);
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.target.classList.add('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('text/plain');
+            const card = document.querySelector(`[data-id="${id}"]`);
+            const dropZone = e.target.closest('.professor-card');
+            
+            if (dropZone && card !== dropZone) {
+                const cards = Array.from(listaProfessores.children);
+                const oldIndex = cards.indexOf(card);
+                const newIndex = cards.indexOf(dropZone);
+                
+                if (oldIndex < newIndex) {
+                    dropZone.after(card);
+                } else {
+                    dropZone.before(card);
+                }
+                
+                atualizarOrdem();
+            }
+            
+            e.target.classList.remove('drag-over');
+            card.classList.remove('dragging');
+        }
+
+        function atualizarOrdem() {
+            const cards = Array.from(listaProfessores.children);
+            ordemPreferencia = cards.map(card => card.dataset.id);
+            
+            cards.forEach((card, index) => {
+                card.querySelector('.numero').textContent = index + 1;
+            });
+        }
+
+        // Atualizar status a cada 5 segundos
+        setInterval(() => {
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    alunosProcessados.textContent = data.alunosProcessados;
+                    progressBar.style.width = `${(data.alunosProcessados / 500) * 100}%`;
+                });
+        }, 5000);
+
+        socket.on('posicaoFila', (data) => {
+            posicaoFila.textContent = data.posicao;
+            tempoEstimado.textContent = `${data.tempoEstimado} segundos`;
         });
 
-        window.addEventListener('offline', () => {
-            document.getElementById('offlineWarning').style.display = 'block';
+        socket.on('erro', (data) => {
+            alert(data.mensagem);
         });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nomeCompleto = nomeCompletoInput.value.toUpperCase();
+            const turma = turmaSelect.value;
+            
+            if (ordemPreferencia.length !== professores.length) {
+                alert('Por favor, organize todos os professores antes de enviar.');
+                return;
+            }
+
+            const dadosEscolha = {
+                nomeCompleto,
+                turma,
+                preferencias: ordemPreferencia
+            };
+
+            socket.emit('entrarFila', dadosEscolha);
+            form.style.display = 'none';
+        });
+
+        // Iniciar carregamento
+        carregarProfessores();
     </script>
-    <script src="app.js"></script>
 </body>
 </html>

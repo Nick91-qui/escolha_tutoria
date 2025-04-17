@@ -1,4 +1,6 @@
 const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 const { conectar } = require('./config/db');
 const routes = require('./routes');
 const path = require('path');
@@ -7,13 +9,24 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const NodeCache = require('node-cache');
+const { escolhaQueue, adicionarNaFila, getStatusFila } = require('./config/queue');
+const { Monitor } = require('./config/monitor');
+const escolhaModel = require('./models/escolha');
 const cache = new NodeCache({ stdTTL: 300 });
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 
 // Middlewares
 app.use(express.json());
 app.use(express.static('public'));
 app.use(compression());
+app.use(helmet());
 
 // Configuração de Rate Limiting mais adequada para testes
 const limiter = rateLimit({
@@ -66,6 +79,71 @@ app.use((req, res, next) => {
 const verificarAdmin = (req, res, next) => {
     next();
 };
+
+// Instância do monitor
+const monitor = new Monitor();
+
+// Configuração do Socket.IO
+io.on('connection', (socket) => {
+    console.log('Novo cliente conectado');
+
+    socket.on('entrarFila', async (data) => {
+        try {
+            const { nomeCompleto, turma, dadosEscolha } = data;
+            
+            // Verificar se o aluno existe e se já fez a escolha
+            const { aluno, jaEscolheu } = await escolhaModel.verificarAluno(nomeCompleto, turma);
+            
+            if (jaEscolheu) {
+                socket.emit('erro', { mensagem: 'Você já fez sua escolha' });
+                return;
+            }
+
+            // Adicionar à fila
+            const job = await adicionarNaFila(aluno._id, {
+                ...dadosEscolha,
+                nomeCompleto,
+                turma
+            });
+            
+            const statusFila = await getStatusFila();
+            
+            socket.emit('posicaoFila', {
+                posicao: statusFila.waiting,
+                tempoEstimado: Math.ceil(statusFila.waiting / 50) * 5 // 5 segundos por lote
+            });
+
+            monitor.atualizarFila(statusFila.waiting);
+        } catch (error) {
+            if (error.message === 'Aluno não encontrado') {
+                socket.emit('erro', { mensagem: 'Aluno não encontrado. Verifique seu nome e turma.' });
+            } else {
+                socket.emit('erro', { mensagem: 'Erro ao entrar na fila' });
+            }
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
+});
+
+// Rota para status
+app.get('/status', async (req, res) => {
+    try {
+        const status = monitor.getStatus();
+        const estatisticas = await escolhaModel.getEstatisticas();
+        const statusFila = await getStatusFila();
+        
+        res.json({
+            ...status,
+            ...estatisticas,
+            fila: statusFila
+        });
+    } catch (error) {
+        res.status(500).json({ erro: 'Erro ao obter status' });
+    }
+});
 
 // Função para iniciar servidor com melhor tratamento de erros
 async function iniciarServidor() {
