@@ -149,6 +149,7 @@ app.get('/status', async (req, res) => {
 async function iniciarServidor() {
     try {
         const db = await conectar();
+        await escolhaModel.conectar();
         console.log('Conexão com MongoDB estabelecida');
 
         // Configurar timeout para requisições longas
@@ -256,9 +257,9 @@ async function iniciarServidor() {
             });
         });
 
-        // Iniciar servidor com melhor feedback
+        // Iniciar servidor HTTP
         const PORT = process.env.PORT || 3000;
-        const server = app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`
 ====================================
 🚀 Servidor iniciado com sucesso!

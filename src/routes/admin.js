@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { conectar } = require('../config/db');
-const XLSX = require('xlsx');
+const ExcelJS = require('exceljs');
 
 // Rota para estatísticas gerais
 router.get('/estatisticas', async (req, res) => {
@@ -263,11 +263,9 @@ router.get('/exportar-excel', async (req, res) => {
         });
 
         // Criar planilha de preferências
-        const wb = XLSX.utils.book_new();
-        const wsPreferencias = XLSX.utils.json_to_sheet(dadosPreferencias);
-
-        // Adicionar planilha de preferências
-        XLSX.utils.book_append_sheet(wb, wsPreferencias, 'Preferências');
+        const wb = new ExcelJS.Workbook();
+        const wsPreferencias = wb.addWorksheet('Preferências');
+        wsPreferencias.addRows(dadosPreferencias);
 
         // Preparar dados de alunos pendentes
         const alunosPendentes = alunos.filter(aluno => 
@@ -277,22 +275,16 @@ router.get('/exportar-excel', async (req, res) => {
         );
 
         // Criar planilha de alunos pendentes
-        const wsAlunosPendentes = XLSX.utils.json_to_sheet(
+        const wsAlunosPendentes = wb.addWorksheet('Alunos Pendentes');
+        wsAlunosPendentes.addRows(
             alunosPendentes.map(a => ({
                 Turma: a.turma,
                 Nome: a.nome
             }))
         );
 
-        // Adicionar planilha de alunos pendentes
-        XLSX.utils.book_append_sheet(wb, wsAlunosPendentes, 'Alunos Pendentes');
-
         // Gerar arquivo
-        const buffer = XLSX.write(wb, { 
-            type: 'buffer', 
-            bookType: 'xlsx',
-            bookSST: false
-        });
+        const buffer = await wb.xlsx.writeBuffer();
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', 'attachment; filename=preferencias.xlsx');

@@ -13,7 +13,8 @@ async function importarTodosAlunos() {
         await client.connect();
         console.log("Conectado ao MongoDB com sucesso!");
 
-        const db = client.db("escola");
+        const dbName = new URL(uri).pathname.substr(1) || 'escola_tutoria';
+        const db = client.db(dbName);
         const collection = db.collection('alunos');
 
         // Limpar coleção existente
@@ -28,8 +29,8 @@ async function importarTodosAlunos() {
                 .pipe(csv())
                 .on('data', (row) => {
                     alunos.push({
-                        turma: row.turma.trim(),
-                        nome: row.nomeAluno.trim(),
+                        turma: row.turma.trim().toUpperCase(),
+                        nome: row.nomeAluno.trim().toUpperCase(),
                         dataCriacao: new Date()
                     });
                 })
@@ -48,6 +49,12 @@ async function importarTodosAlunos() {
             await collection.insertMany(batch);
             console.log(`Importado lote ${Math.ceil((i + 1) / BATCH_SIZE)} de ${totalBatches}`);
         }
+
+        // Criar índices
+        await collection.createIndex(
+            { turma: 1, nome: 1 },
+            { unique: true, background: true }
+        );
 
         // Verificar resultados
         const estatisticas = await collection.aggregate([

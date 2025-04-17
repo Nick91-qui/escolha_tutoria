@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-// URL local do MongoDB com o novo nome do banco
-const uri = "mongodb://localhost:27017/escola";
+// Usar a URI do ambiente
+const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, {
     serverSelectionTimeoutMS: 5000,
@@ -56,7 +56,9 @@ async function conectar() {
         await client.connect();
         console.log("✅ Conectado ao MongoDB com sucesso!");
         
-        dbConnection = client.db("escola");
+        // Usar o nome do banco do ambiente
+        const dbName = new URL(uri).pathname.substr(1) || 'escola_tutoria';
+        dbConnection = client.db(dbName);
         
         // Criar índices ao conectar
         await criarIndices(dbConnection);

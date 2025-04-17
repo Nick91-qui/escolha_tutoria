@@ -12,7 +12,8 @@ async function conectarDB(req, res, next) {
         if (!client.topology || !client.topology.isConnected()) {
             await client.connect();
         }
-        req.db = client.db("escola");
+        const dbName = new URL(uri).pathname.substr(1) || 'escola_tutoria';
+        req.db = client.db(dbName);
         next();
     } catch (error) {
         console.error("Erro de conexão:", error);
@@ -44,16 +45,26 @@ router.post('/verificar-aluno', conectarDB, validarDadosAluno, async (req, res) 
             nome: nome.trim().toUpperCase()
         });
 
+        if (!aluno) {
+            return res.json({
+                verificado: false,
+                mensagem: "Aluno não encontrado"
+            });
+        }
+
         res.json({
-            verificado: !!aluno,
-            aluno: aluno ? {
+            verificado: true,
+            aluno: {
                 turma: aluno.turma,
                 nome: aluno.nome
-            } : null
+            }
         });
     } catch (error) {
         console.error("Erro na verificação:", error);
-        res.status(500).json({ erro: "Erro ao verificar aluno" });
+        res.status(500).json({ 
+            verificado: false,
+            erro: "Erro ao verificar aluno" 
+        });
     }
 });
 
