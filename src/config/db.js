@@ -57,7 +57,7 @@ async function conectar() {
         console.log("✅ Conectado ao MongoDB com sucesso!");
         
         // Usar o nome do banco do ambiente
-        const dbName = new URL(uri).pathname.substr(1) || 'escola_tutoria';
+        const dbName = new URL(uri).pathname.substr(1) || 'escola';
         dbConnection = client.db(dbName);
         
         // Criar índices ao conectar

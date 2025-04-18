@@ -1,26 +1,21 @@
-const { Cluster } = require('puppeteer-cluster');
+const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
 const path = require('path');
 
 // Configurações do teste
 const CONFIG = {
-    USUARIOS_SIMULTANEOS: 5,      // Reduzido para 5 usuários simultâneos
-    TEMPO_ENTRE_USUARIOS: 1000,   // Aumentado para 1 segundo
     URL_SISTEMA: 'http://localhost:3001',
-    HEADLESS: true,
-    TOTAL_ALUNOS_TESTE: 20,      // Reduzido para 20 alunos inicialmente
-    TIMEOUT_NAVEGACAO: 60000,     // 1 minuto de timeout
-    RETRY_LIMIT: 3               // Número de tentativas por aluno
+    TOTAL_ALUNOS_TESTE: 5,       // Apenas 5 alunos para teste
+    TIMEOUT_NAVEGACAO: 120000,    // 2 minutos de timeout
+    DELAY_ENTRE_ACOES: 2000      // 2 segundos entre ações
 };
 
 // Estatísticas do teste
 let estatisticas = {
     sucessos: 0,
     falhas: 0,
-    tempoMedioResposta: 0,
     temposResposta: [],
-    erros: {},
-    tentativas: {}
+    erros: {}
 };
 
 async function delay(ms) {
@@ -37,159 +32,158 @@ async function carregarAlunos() {
             const [turma, nome] = linha.split(',').map(item => item.trim());
             return { nome, turma };
         })
-        .slice(0, CONFIG.TOTAL_ALUNOS_TESTE); // Limita o número de alunos
+        .slice(0, CONFIG.TOTAL_ALUNOS_TESTE);
 }
 
-async function simularEscolha(page, aluno) {
-    const inicio = Date.now();
-    
-    // Inicializa contador de tentativas
-    if (!estatisticas.tentativas[aluno.nome]) {
-        estatisticas.tentativas[aluno.nome] = 0;
-    }
-    estatisticas.tentativas[aluno.nome]++;
+async function simularEscolha(aluno) {
+    const browser = await puppeteer.launch({
+        headless: false,
+        args: ['--no-sandbox', '--window-size=1366,768']
+    });
 
     try {
-        console.log(`🔄 Iniciando teste para ${aluno.nome} (${aluno.turma}) - Tentativa ${estatisticas.tentativas[aluno.nome]}`);
-        
-        // Configurações iniciais da página
-        await page.setDefaultNavigationTimeout(CONFIG.TIMEOUT_NAVEGACAO);
+        console.log(`🔄 Iniciando teste para ${aluno.nome} (${aluno.turma})`);
+        const page = await browser.newPage();
         await page.setViewport({ width: 1366, height: 768 });
+        await page.setDefaultNavigationTimeout(CONFIG.TIMEOUT_NAVEGACAO);
+
+        const inicio = Date.now();
 
         // Login
-        await page.goto(CONFIG.URL_SISTEMA, { 
-            waitUntil: 'networkidle0',
-            timeout: CONFIG.TIMEOUT_NAVEGACAO
-        });
-        
-        await page.waitForSelector('#nome', { timeout: 10000 });
-        await page.type('#nome', aluno.nome);
-        await page.waitForSelector('#turma', { timeout: 10000 });
+        await page.goto(CONFIG.URL_SISTEMA);
+        await delay(CONFIG.DELAY_ENTRE_ACOES);
+
+        await page.type('#nome', aluno.nome, { delay: 100 });
+        await delay(CONFIG.DELAY_ENTRE_ACOES);
+
         await page.select('#turma', aluno.turma);
-        
+        await delay(CONFIG.DELAY_ENTRE_ACOES);
+
         await Promise.all([
-            page.waitForNavigation({ 
-                waitUntil: 'networkidle0',
-                timeout: CONFIG.TIMEOUT_NAVEGACAO
-            }),
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
             page.click('.btn')
         ]);
         console.log(`👤 Login realizado: ${aluno.nome}`);
+        await delay(CONFIG.DELAY_ENTRE_ACOES);
 
         // Aguarda carregamento da página de escolhas
-        await page.waitForSelector('.lista-tutores', { 
-            visible: true,
-            timeout: CONFIG.TIMEOUT_NAVEGACAO
-        });
+        await page.waitForSelector('.lista-tutores', { visible: true });
         console.log(`📋 Página de escolhas carregada: ${aluno.nome}`);
-
-        // Aguarda um momento para garantir que os professores estão carregados
-        await delay(2000);
+        await delay(CONFIG.DELAY_ENTRE_ACOES);
 
         // Seleciona 3 professores aleatoriamente
         const professores = await page.$$('.card-professor');
+        console.log(`Found ${professores.length} professores`);
+
+        // Garantir que temos professores para selecionar
+        if (professores.length === 0) {
+            throw new Error('Nenhum professor encontrado para seleção');
+        }
+
+        // Seleciona 3 professores aleatoriamente
         const indices = Array.from({ length: professores.length }, (_, i) => i)
             .sort(() => Math.random() - 0.5)
             .slice(0, 3);
 
         for (const indice of indices) {
-            await professores[indice].evaluate(el => el.click());
+            // Rola até o professor estar visível
+            await professores[indice].evaluate(el => {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
             await delay(1000);
+
+            // Tenta clicar de diferentes maneiras
+            try {
+                await professores[indice].click({ delay: 100 });
+            } catch (error) {
+                try {
+                    // Tenta clicar usando JavaScript
+                    await page.evaluate(element => {
+                        element.click();
+                    }, professores[indice]);
+                } catch (error2) {
+                    console.error(`Erro ao clicar no professor ${indice}:`, error2);
+                    throw error2;
+                }
+            }
+            await delay(CONFIG.DELAY_ENTRE_ACOES);
         }
         console.log(`✏️ Professores selecionados: ${aluno.nome}`);
 
+        // Verifica se há professores selecionados
+        const selecionados = await page.$$('.lista-escolhas .card-professor');
+        if (selecionados.length === 0) {
+            throw new Error('Nenhum professor foi selecionado com sucesso');
+        }
+        console.log(`Número de professores selecionados: ${selecionados.length}`);
+
+        // Rola até o botão confirmar
+        await page.evaluate(() => {
+            const btn = document.querySelector('#btn-confirmar');
+            if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+        await delay(1000);
+
         // Confirma as escolhas
+        const btnConfirmar = await page.$('#btn-confirmar');
+        if (!btnConfirmar) {
+            throw new Error('Botão confirmar não encontrado');
+        }
+
         await Promise.all([
-            page.waitForNavigation({ 
-                waitUntil: 'networkidle0',
-                timeout: CONFIG.TIMEOUT_NAVEGACAO
-            }),
-            page.click('#btn-confirmar')
+            page.waitForNavigation({ waitUntil: 'networkidle0' }),
+            btnConfirmar.click({ delay: 100 })
         ]);
-        await delay(2000);
+        await delay(CONFIG.DELAY_ENTRE_ACOES);
 
         const tempoResposta = Date.now() - inicio;
         estatisticas.temposResposta.push(tempoResposta);
         estatisticas.sucessos++;
 
         console.log(`✅ Sucesso - Aluno: ${aluno.nome} - Tempo: ${tempoResposta}ms`);
-        return true;
     } catch (error) {
         const errorMsg = error.message.split('\n')[0];
-        console.error(`❌ Erro - Aluno: ${aluno.nome} - ${errorMsg}`);
-        
-        // Se ainda não atingiu o limite de tentativas, retorna false para tentar novamente
-        if (estatisticas.tentativas[aluno.nome] < CONFIG.RETRY_LIMIT) {
-            await delay(5000); // Espera 5 segundos antes de tentar novamente
-            return false;
-        }
-        
-        // Se atingiu o limite de tentativas, registra como falha
         estatisticas.falhas++;
         estatisticas.erros[errorMsg] = (estatisticas.erros[errorMsg] || 0) + 1;
-        return true;
+        console.error(`❌ Erro - Aluno: ${aluno.nome} - ${errorMsg}`);
+
+        // Tira screenshot em caso de erro
+        try {
+            const screenshotPath = path.join(__dirname, '..', 'screenshots');
+            if (!fs.existsSync(screenshotPath)) {
+                await fs.mkdir(screenshotPath);
+            }
+            await page.screenshot({
+                path: path.join(screenshotPath, `erro_${aluno.nome.replace(/\s+/g, '_')}_${Date.now()}.png`),
+                fullPage: true
+            });
+        } catch (screenshotError) {
+            console.error('Erro ao salvar screenshot:', screenshotError);
+        }
+    } finally {
+        await browser.close();
     }
 }
 
 async function executarTesteCarga() {
     console.log('🚀 Iniciando teste de carga...');
     console.log(`📊 Configurações:
-    - Usuários simultâneos: ${CONFIG.USUARIOS_SIMULTANEOS}
-    - Tempo entre usuários: ${CONFIG.TEMPO_ENTRE_USUARIOS}ms
     - Total de alunos: ${CONFIG.TOTAL_ALUNOS_TESTE}
     - Timeout de navegação: ${CONFIG.TIMEOUT_NAVEGACAO}ms
-    - Limite de tentativas: ${CONFIG.RETRY_LIMIT}
+    - Delay entre ações: ${CONFIG.DELAY_ENTRE_ACOES}ms
     `);
     console.time('Tempo total do teste');
 
     const alunos = await carregarAlunos();
     console.log(`📚 ${alunos.length} alunos carregados`);
 
-    const cluster = await Cluster.launch({
-        concurrency: Cluster.CONCURRENCY_CONTEXT,
-        maxConcurrency: CONFIG.USUARIOS_SIMULTANEOS,
-        puppeteerOptions: {
-            headless: CONFIG.HEADLESS,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--disable-gpu',
-                '--window-size=1366,768'
-            ]
-        },
-        monitor: true,
-        timeout: CONFIG.TIMEOUT_NAVEGACAO
-    });
-
-    // Evento para quando uma tarefa falhar
-    cluster.on('taskerror', (err, data) => {
-        console.error(`Erro na tarefa para ${data.nome}: ${err.message}`);
-    });
-
-    let completados = 0;
-    const total = alunos.length;
-
-    // Adiciona as tarefas ao cluster
-    for (const aluno of alunos) {
-        let concluido = false;
-        while (!concluido) {
-            concluido = await cluster.execute(aluno, async ({ page, data: aluno }) => {
-                return await simularEscolha(page, aluno);
-            });
-            
-            if (concluido) {
-                completados++;
-                const porcentagem = ((completados / total) * 100).toFixed(2);
-                console.log(`\n📈 Progresso: ${completados}/${total} (${porcentagem}%)\n`);
-            }
-        }
-        await delay(CONFIG.TEMPO_ENTRE_USUARIOS);
+    // Executa um aluno por vez
+    for (let i = 0; i < alunos.length; i++) {
+        const aluno = alunos[i];
+        await simularEscolha(aluno);
+        console.log(`\n📈 Progresso: ${i + 1}/${alunos.length} (${((i + 1) / alunos.length * 100).toFixed(2)}%)\n`);
+        await delay(5000); // 5 segundos entre cada aluno
     }
-
-    await cluster.idle();
-    await cluster.close();
 
     // Calcula e exibe estatísticas
     const tempoMedioResposta = estatisticas.temposResposta.reduce((a, b) => a + b, 0) / estatisticas.temposResposta.length;
@@ -207,12 +201,6 @@ async function executarTesteCarga() {
                 console.log(`${erro}: ${quantidade} ocorrências`);
             });
     }
-
-    console.log('\n📊 Tentativas por aluno:');
-    Object.entries(estatisticas.tentativas)
-        .forEach(([aluno, tentativas]) => {
-            console.log(`${aluno}: ${tentativas} tentativa(s)`);
-        });
 
     console.timeEnd('Tempo total do teste');
 }

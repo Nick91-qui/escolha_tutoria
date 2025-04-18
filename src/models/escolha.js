@@ -12,7 +12,7 @@ class EscolhaModel {
     async conectar() {
         try {
             await this.client.connect();
-            this.db = this.client.db('escola_tutoria');
+            this.db = this.client.db('escola');
             this.collection = this.db.collection('escolhas');
             this.alunosCollection = this.db.collection('alunos');
             logger.info('Conexão com MongoDB estabelecida');

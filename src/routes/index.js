@@ -12,7 +12,7 @@ async function conectarDB(req, res, next) {
         if (!client.topology || !client.topology.isConnected()) {
             await client.connect();
         }
-        const dbName = new URL(uri).pathname.substr(1) || 'escola_tutoria';
+        const dbName = new URL(uri).pathname.substr(1) || 'escola';
         req.db = client.db(dbName);
         next();
     } catch (error) {
