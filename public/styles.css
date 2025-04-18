@@ -691,3 +691,93 @@ input[list] {
 .arrow-button:hover {
     transform: scale(1.1);
 }
+
+/* Estilos para as notificações */
+.toastify {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Poppins', sans-serif;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.toastify.on {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Remove os estilos antigos de erro */
+.erro-mensagem {
+    display: none;
+}
+
+.professor-card.preferencia-final {
+    background-color: #e8f5e9;
+    border: 2px solid #4caf50;
+    cursor: not-allowed;
+    position: relative;
+    padding-right: 40px;
+}
+
+.professor-card.preferencia-final .acao {
+    background-color: #4caf50;
+    color: white;
+    cursor: not-allowed;
+}
+
+.professor-card.preferencia-final .info {
+    opacity: 0.8;
+}
+
+.numero-preferencia {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Destaques diferentes para cada posição */
+.professor-card.preferencia-1 {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.professor-card.preferencia-2 {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.professor-card.preferencia-3 {
+    background-color: #fff3e0;
+    border-color: #ff9800;
+}
+
+.mensagem-final {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #28a745;
+}

@@ -13,7 +13,7 @@ async function importarTodosAlunos() {
         await client.connect();
         console.log("Conectado ao MongoDB com sucesso!");
 
-        const dbName = new URL(uri).pathname.substr(1) || 'escola_tutoria';
+        const dbName = 'escola';
         const db = client.db(dbName);
         const collection = db.collection('alunos');
 

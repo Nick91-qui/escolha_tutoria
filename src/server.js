@@ -28,7 +28,21 @@ app.use(express.static('public'));
 app.use(compression());
 app.use(helmet());
 
-// Configuração de Rate Limiting mais adequada para testes
+// Configurações de timeout e limites
+const serverConfig = {
+    timeout: 120000, // 2 minutos
+    keepAliveTimeout: 120000,
+    headersTimeout: 120000,
+    maxConnections: 1000
+};
+
+// Aplicar configurações ao servidor
+server.timeout = serverConfig.timeout;
+server.keepAliveTimeout = serverConfig.keepAliveTimeout;
+server.headersTimeout = serverConfig.headersTimeout;
+server.maxConnections = serverConfig.maxConnections;
+
+// Configuração de Rate Limiting mais adequada para testes de carga
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minuto
     max: 1000, // Aumentado para 1000 requisições por minuto
@@ -269,10 +283,6 @@ async function iniciarServidor() {
 ====================================
             `);
         });
-
-        // Configurar timeouts do servidor
-        server.keepAliveTimeout = 65000;
-        server.headersTimeout = 66000;
 
         // Tratamento gracioso de desligamento
         const gracefulShutdown = () => {

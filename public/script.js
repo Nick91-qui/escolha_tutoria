@@ -156,13 +156,29 @@ document.addEventListener('DOMContentLoaded', () => {
                turma.trim().length > 0;
     }
 
-    // Função para mostrar mensagem de erro
+    // Função para mostrar notificação
+    function mostrarNotificacao(mensagem, tipo = 'info') {
+        const configs = {
+            text: mensagem,
+            duration: 3000,
+            gravity: "top",
+            position: "center",
+            stopOnFocus: true,
+            style: {
+                background: tipo === 'error' ? "#dc3545" : 
+                           tipo === 'success' ? "#28a745" : "#17a2b8",
+                borderRadius: "8px",
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: "14px",
+                padding: "12px 24px"
+            }
+        };
+        Toastify(configs).showToast();
+    }
+
+    // Função para mostrar erro (substituindo a antiga mostrarErro)
     function mostrarErro(mensagem) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'erro-mensagem';
-        errorDiv.textContent = mensagem;
-        document.body.appendChild(errorDiv);
-        setTimeout(() => errorDiv.remove(), 5000);
+        mostrarNotificacao(mensagem, 'error');
     }
 
     // Evento de submit do formulário de login
@@ -181,17 +197,87 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrarErro('Por favor, insira uma turma válida.');
             return;
         }
-        
-        nomeCompleto = nomeInput;
-        turma = turmaInput;
-        
-        formLogin.style.display = 'none';
-        escolhasContainer.style.display = 'block';
-        infoAluno.innerHTML = `<strong>Aluno:</strong> ${nomeCompleto} | <strong>Turma:</strong> ${turma}`;
-        
-        // Inicializar a lista de professores disponíveis
-        professores = professoresDisponiveis;
-        renderizarProfessores();
+
+        try {
+            // Verificar se o aluno existe no sistema
+            const response = await fetch('/api/verificar-aluno', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: nomeInput.toUpperCase(),
+                    turma: turmaInput
+                })
+            });
+
+            const data = await response.json();
+
+            if (!data.verificado) {
+                mostrarErro('Nome não encontrado. Digite seu nome completo exatamente como consta na chamada.');
+                return;
+            }
+
+            // Se chegou aqui, o aluno foi verificado com sucesso
+            nomeCompleto = nomeInput.toUpperCase();
+            turma = turmaInput;
+            
+            // Verificar se o aluno já tem preferências
+            const preferenciasResponse = await fetch(`/api/preferencias/${turma}/${nomeCompleto}`);
+            const preferenciasData = await preferenciasResponse.json();
+
+            formLogin.style.display = 'none';
+            escolhasContainer.style.display = 'block';
+            infoAluno.innerHTML = `<strong>Aluno:</strong> ${nomeCompleto} | <strong>Turma:</strong> ${turma}`;
+            
+            // Inicializar a lista de professores disponíveis
+            professores = professoresDisponiveis;
+            renderizarProfessores();
+
+            if (preferenciasData.sucesso && preferenciasData.preferencias) {
+                // Aluno já tem preferências
+                const prefsOrdenadas = preferenciasData.preferencias.preferencias;
+                
+                // Desabilitar todos os botões de ação
+                document.querySelectorAll('.acao').forEach(btn => {
+                    btn.disabled = true;
+                });
+
+                // Marcar os professores escolhidos com numeração
+                professores.forEach(professor => {
+                    const card = document.querySelector(`.professor-card[data-id="${professor.id}"]`);
+                    if (card && prefsOrdenadas.includes(professor.nome)) {
+                        const posicao = prefsOrdenadas.indexOf(professor.nome) + 1;
+                        card.classList.add('preferencia-final');
+                        card.classList.add(`preferencia-${posicao}`);
+                        
+                        // Adicionar número da preferência
+                        const numero = document.createElement('div');
+                        numero.className = 'numero-preferencia';
+                        numero.textContent = posicao;
+                        card.appendChild(numero);
+                    }
+                });
+
+                // Desabilitar botão de confirmação
+                if (btnConfirmar) {
+                    btnConfirmar.disabled = true;
+                    btnConfirmar.style.display = 'none';
+                }
+
+                mostrarMensagemFinal('Suas preferências já foram registradas e não podem ser alteradas.');
+            } else {
+                // Aluno não tem preferências, manter fluxo normal
+                if (btnConfirmar) {
+                    btnConfirmar.disabled = false;
+                    btnConfirmar.style.display = 'block';
+                }
+            }
+
+        } catch (error) {
+            console.error('Erro ao verificar aluno:', error);
+            mostrarErro('Erro ao verificar aluno. Por favor, tente novamente.');
+        }
     });
 
     // Carregar professores do servidor
@@ -216,41 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Erro ao carregar professores:', error);
             mostrarErro('Não foi possível carregar a lista de professores. Por favor, recarregue a página.');
-        }
-    }
-
-    // Verificar preferências existentes
-    async function verificarPreferenciasExistentes() {
-        const alunoAtual = JSON.parse(localStorage.getItem('alunoAtual'));
-        if (!alunoAtual) return;
-
-        try {
-            const response = await fetch(`/api/preferencias/${alunoAtual.turma}/${alunoAtual.nome}`);
-            const data = await response.json();
-
-            if (data.sucesso && data.preferencias) {
-                const cards = document.querySelectorAll('.professor-card');
-                cards.forEach(card => {
-                    card.classList.add('preferencia-final');
-                });
-
-                mostrarMensagemFinal('Suas preferências já foram registradas e não podem ser alteradas.');
-                if (btnConfirmar) {
-                    btnConfirmar.disabled = true;
-                    btnConfirmar.style.display = 'none';
-                }
-
-                const prefsOrdenadas = data.preferencias.preferencias;
-                professores.sort((a, b) => {
-                    const indexA = prefsOrdenadas.indexOf(a.nome);
-                    const indexB = prefsOrdenadas.indexOf(b.nome);
-                    return indexA - indexB;
-                });
-                
-                renderizarProfessores();
-            }
-        } catch (error) {
-            console.error('Erro:', error);
         }
     }
 
@@ -279,14 +330,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnConfirmar.addEventListener('click', async () => {
         if (escolhasAluno.length === 3) {
             try {
-                // Garantir que nome e turma estão em caixa alta
                 const dadosEnvio = {
                     nome: nomeCompleto.toUpperCase(),
                     turma: turma.toUpperCase(),
                     preferencias: escolhasAluno.map(p => p.nome)
                 };
 
-                console.log('Enviando dados:', dadosEnvio); // Para debug
+                console.log('Enviando dados:', dadosEnvio);
 
                 const response = await fetch('/api/preferencias', {
                     method: 'POST',
@@ -303,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const data = await response.json();
                 if (data.sucesso) {
-                    alert('Suas escolhas foram confirmadas com sucesso!');
+                    mostrarNotificacao('Suas escolhas foram confirmadas com sucesso!', 'success');
                     btnConfirmar.disabled = true;
                     
                     // Desabilitar todos os botões de ação
