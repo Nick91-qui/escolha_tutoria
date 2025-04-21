@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest",
-    "monitor": "node tests/monitor.js"
+    "monitor": "node tests/monitor.js",
+    "load-test": "node tests/load-test.js"
   },
   "engines": {
     "node": ">=16.x"
