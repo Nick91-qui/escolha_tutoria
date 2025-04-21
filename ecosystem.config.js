@@ -24,7 +24,7 @@ module.exports = {
       min_uptime: "10s",
       
       // Configurações de cluster
-      increment_var: 'PORT',
+
       instance_var: 'INSTANCE_ID',
       
       // Configurações de deploy
