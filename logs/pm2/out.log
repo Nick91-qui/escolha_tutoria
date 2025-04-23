@@ -612,3 +612,461 @@
 2025-04-22T14:23:03: 2025-04-22T17:23:03.852Z - POST /preferencias - 200 - 35ms
 2025-04-22T14:41:20: 2025-04-22T17:41:20.912Z - POST /verificar-aluno - 200 - 77ms
 2025-04-22T14:41:21: 2025-04-22T17:41:21.010Z - GET /preferencias/1I01/TESTE - 200 - 23ms
+2025-04-22T15:32:27: 2025-04-22T18:32:27.741Z - GET /favicon.ico - 404 - 7ms
+2025-04-22T17:20:09: 2025-04-22T20:20:09.025Z - POST /verificar-aluno - 200 - 125ms
+2025-04-22T17:20:09: 2025-04-22T20:20:09.073Z - GET /preferencias/1I01/TESTE - 304 - 24ms
+2025-04-22T17:20:29: 2025-04-22T20:20:29.481Z - POST /preferencias - 200 - 53ms
+2025-04-22T17:21:17: 2025-04-22T20:21:17.429Z - GET /favicon.ico - 404 - 5ms
+2025-04-22T17:23:28: 2025-04-22T20:23:28.202Z - POST /verificar-aluno - 200 - 7ms
+2025-04-22T17:23:28: 2025-04-22T20:23:28.216Z - GET /preferencias/1I01/TESTE - 304 - 6ms
+2025-04-22T17:23:33: 2025-04-22T20:23:33.014Z - POST /verificar-aluno - 200 - 5ms
+2025-04-22T17:23:33: 2025-04-22T20:23:33.025Z - GET /preferencias/1I01/TESTE - 200 - 5ms
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:12:31: 2025-04-23T10:12:31.721Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.727Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.730Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.731Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.739Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.742Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 2025-04-23T10:12:31.762Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.762Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 2025-04-23T10:12:31.766Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:31: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:12:31: 2025-04-23T10:12:31.829Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: Conexão com MongoDB estabelecida
+2025-04-23T07:12:31: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:12:46: 2025-04-23T10:12:46.707Z - POST /verificar-aluno - 200 - 35ms
+2025-04-23T07:12:46: 2025-04-23T10:12:46.725Z - GET /preferencias/1I01/TESTE - 304 - 13ms
+2025-04-23T07:14:43: 2025-04-23T10:14:43.050Z - GET /favicon.ico - 404 - 2ms
+2025-04-23T07:14:55: 2025-04-23T10:14:55.287Z - POST /verificar-aluno - 200 - 3ms
+2025-04-23T07:14:55: 2025-04-23T10:14:55.307Z - GET /preferencias/1I01/TESTE - 200 - 4ms
+2025-04-23T07:23:25: 2025-04-23T10:23:25.691Z - POST /verificar-aluno - 200 - 26ms
+2025-04-23T07:23:25: 2025-04-23T10:23:25.702Z - GET /preferencias/1I01/TESTE - 200 - 5ms
+2025-04-23T07:28:43: 2025-04-23T10:28:43.616Z - POST /verificar-aluno - 200 - 4ms
+2025-04-23T07:28:43: 2025-04-23T10:28:43.627Z - GET /preferencias/1I01/TESTE - 304 - 7ms
+2025-04-23T07:30:00: 2025-04-23T10:30:00.343Z - POST /verificar-aluno - 200 - 20ms
+2025-04-23T07:30:00: 2025-04-23T10:30:00.487Z - GET /preferencias/1I01/TESTE - 304 - 14ms
+2025-04-23T07:30:43: 2025-04-23T10:30:43.314Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:30:43: 2025-04-23T10:30:43.322Z - GET /preferencias/1I01/TESTE - 304 - 4ms
+2025-04-23T07:33:22: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:22: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:22: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:22: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:22: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:22: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:22: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:22: 2025-04-23T10:33:22.799Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:22: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:22: 2025-04-23T10:33:22.823Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:22: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:22: 2025-04-23T10:33:22.845Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:22: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:22: 2025-04-23T10:33:22.874Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:22: 2025-04-23T10:33:22.892Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: Conexão com MongoDB estabelecida
+2025-04-23T07:33:22: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:22: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:23: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:23: 2025-04-23T10:33:23.111Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:23: Conexão com MongoDB estabelecida
+2025-04-23T07:33:23: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:23: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:23: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:23: 2025-04-23T10:33:23.622Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:23: Conexão com MongoDB estabelecida
+2025-04-23T07:33:23: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:23: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:33:23: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:33:23: 2025-04-23T10:33:23.918Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:33:23: Conexão com MongoDB estabelecida
+2025-04-23T07:33:23: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:33:36: 2025-04-23T10:33:36.807Z - POST /verificar-aluno - 200 - 23ms
+2025-04-23T07:33:36: 2025-04-23T10:33:36.826Z - GET /preferencias/1I01/TESTE - 304 - 12ms
+2025-04-23T07:34:00: 2025-04-23T10:34:00.037Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:34:00: 2025-04-23T10:34:00.179Z - GET /preferencias/1I01/TESTE - 304 - 5ms
+2025-04-23T07:34:34: 2025-04-23T10:34:34.174Z - POST /verificar-aluno - 200 - 8ms
+2025-04-23T07:34:34: 2025-04-23T10:34:34.189Z - GET /preferencias/1I01/TESTE - 304 - 8ms
+2025-04-23T07:35:29: 2025-04-23T10:35:29.819Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:35:29: 2025-04-23T10:35:29.828Z - GET /preferencias/1I01/TESTE - 304 - 4ms
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: 2025-04-23T10:36:44.505Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:44: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:44: 2025-04-23T10:36:44.575Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:44: 2025-04-23T10:36:44.705Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 2025-04-23T10:36:44.708Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:44: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:44: 2025-04-23T10:36:44.735Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:44: 2025-04-23T10:36:44.835Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: Conexão com MongoDB estabelecida
+2025-04-23T07:36:44: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:44: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:44: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:45: 2025-04-23T10:36:45.009Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:45: Conexão com MongoDB estabelecida
+2025-04-23T07:36:45: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:45: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:36:45: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:36:45: 2025-04-23T10:36:45.225Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:36:45: Conexão com MongoDB estabelecida
+2025-04-23T07:36:45: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:36:54: 2025-04-23T10:36:54.872Z - POST /verificar-aluno - 200 - 21ms
+2025-04-23T07:36:54: 2025-04-23T10:36:54.882Z - GET /preferencias/1I01/TESTE - 304 - 6ms
+2025-04-23T07:37:28: 2025-04-23T10:37:28.907Z - POST /verificar-aluno - 200 - 3ms
+2025-04-23T07:37:28: 2025-04-23T10:37:28.927Z - GET /preferencias/1I01/TESTE - 304 - 3ms
+2025-04-23T07:37:58: 2025-04-23T10:37:58.199Z - POST /verificar-aluno - 200 - 6ms
+2025-04-23T07:37:58: 2025-04-23T10:37:58.210Z - GET /preferencias/1I01/TESTE - 304 - 5ms
+2025-04-23T07:38:16: 2025-04-23T10:38:16.903Z - POST /verificar-aluno - 200 - 4ms
+2025-04-23T07:38:16: 2025-04-23T10:38:16.930Z - GET /preferencias/1I01/TESTE - 304 - 3ms
+2025-04-23T07:39:57: 2025-04-23T10:39:57.196Z - POST /verificar-aluno - 200 - 3ms
+2025-04-23T07:39:57: 2025-04-23T10:39:57.215Z - GET /preferencias/1I01/TESTE - 304 - 2ms
+2025-04-23T07:44:35: 2025-04-23T10:44:35.366Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:44:35: 2025-04-23T10:44:35.376Z - GET /preferencias/1I01/TESTE - 304 - 5ms
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: 2025-04-23T10:45:18.845Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:18: Conexão com MongoDB estabelecida
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: 2025-04-23T10:45:18.920Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:18: ✅ Conectado ao MongoDB com sucesso!
+2025-04-23T07:45:18: Conexão com MongoDB estabelecida
+2025-04-23T07:45:18: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:18: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:19: 2025-04-23T10:45:19.019Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:19: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:19: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:19: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:19: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: ✅ Índices criados/atualizados com sucesso!
+2025-04-23T07:45:19: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:19: 2025-04-23T10:45:19.065Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 2025-04-23T10:45:19.064Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 2025-04-23T10:45:19.071Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 2025-04-23T10:45:19.070Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:19: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:19: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 2025-04-23T10:45:19.085Z [info]: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:19: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:45:19: Conexão com MongoDB estabelecida
+2025-04-23T07:45:19: 
+====================================
+🚀 Servidor iniciado com sucesso!
+📡 Porta: 3000
+🌐 URL: http://localhost:3000
+👨‍💼 Admin: http://localhost:3000/admin
+====================================
+            
+2025-04-23T07:46:47: 2025-04-23T10:46:47.297Z - POST /verificar-aluno - 200 - 28ms
+2025-04-23T07:46:47: 2025-04-23T10:46:47.310Z - GET /preferencias/1I01/TESTE - 304 - 7ms
+2025-04-23T07:47:02: 2025-04-23T10:47:02.282Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:47:02: 2025-04-23T10:47:02.462Z - GET /preferencias/1I01/TESTE - 304 - 4ms
+2025-04-23T07:49:56: 2025-04-23T10:49:56.027Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:49:56: 2025-04-23T10:49:56.036Z - GET /preferencias/1I01/TESTE - 304 - 4ms
+2025-04-23T07:50:18: 2025-04-23T10:50:18.335Z - POST /verificar-aluno - 200 - 5ms
+2025-04-23T07:50:18: 2025-04-23T10:50:18.355Z - GET /preferencias/1I01/TESTE - 304 - 4ms

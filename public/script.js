@@ -25,27 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let aluno = null;
     let professoresDisponiveis = [
-        { id: 1, nome: 'Ailton Luiz Silva', disciplina: 'GEOGRAFIA' },
-        { id: 2, nome: 'Bruna Spadeto Oliveira', disciplina: 'SOCIOLOGIA' },
-        { id: 3, nome: 'Giovana Manzoli Monteiro', disciplina: 'HISTÓRIA' },
-        { id: 4, nome: 'João Francisco Alves Mendes', disciplina: 'HISTÓRIA' },
-        { id: 5, nome: 'Kely de Jesus do Nascimento', disciplina: 'GEOGRAFIA' },
-        { id: 6, nome: 'Wyller Carlos Silva de Oliveira', disciplina: 'FILOSOFIA' },
-        { id: 7, nome: 'Nicholas Contijo Moreira', disciplina: 'Química - PCA' },
-        { id: 8, nome: 'Gerlândia Estevam do Nascimento', disciplina: 'Química' },
-        { id: 9, nome: 'Rondineli Schulthais Leite', disciplina: 'Matemática' },
-        { id: 10, nome: 'Richardson Sant\'Ana Pimentel', disciplina: 'Matemática' },
-        { id: 11, nome: 'Samantha de Barbi Vieira', disciplina: 'Biologia' },
-        { id: 12, nome: 'Pedro Henrique Santos Oliveira', disciplina: 'Física' },
-        { id: 13, nome: 'Gabriel Schimith dos Santos', disciplina: 'Física' },
-        { id: 14, nome: 'Patrícia Caleffi Simões Moreira', disciplina: 'Educação Física' },
-        { id: 15, nome: 'Alan Siqueira Ribeiro Pimentel', disciplina: 'Educação Física' },
-        { id: 16, nome: 'Maria Aparecida Rosa Meneguelli', disciplina: 'Arte' },
-        { id: 17, nome: 'Simone Motta', disciplina: 'Língua Portuguesa' },
-        { id: 18, nome: 'Tatiana Ferreira Reis Rainha', disciplina: 'Língua Portuguesa' },
-        { id: 19, nome: 'André Freitas Miranda', disciplina: 'Língua Portuguesa' },
-        { id: 20, nome: 'Felipe dos Santos Guasti', disciplina: 'Língua Inglesa' },
-        { id: 21, nome: 'Vitoria Rodrigues Santos', disciplina: 'Língua Inglesa' }
+        { id: 1, nome: 'Ailton', disciplina: 'GEOGRAFIA' },
+        { id: 2, nome: 'Bruna', disciplina: 'SOCIOLOGIA' },
+        { id: 3, nome: 'Giovana', disciplina: 'HISTÓRIA' },
+        { id: 4, nome: 'João', disciplina: 'HISTÓRIA' },
+        { id: 5, nome: 'Kely', disciplina: 'GEOGRAFIA' },
+        { id: 6, nome: 'Wyller', disciplina: 'FILOSOFIA' },
+        { id: 7, nome: 'Nicholas', disciplina: 'Química' },
+        { id: 8, nome: 'Gerlândia', disciplina: 'Química' },
+        { id: 9, nome: 'Rondineli', disciplina: 'Matemática' },
+        { id: 10, nome: 'Richardson', disciplina: 'Matemática' },
+        { id: 11, nome: 'Samantha', disciplina: 'Biologia' },
+        { id: 12, nome: 'Pedro', disciplina: 'Física' },
+        { id: 13, nome: 'Gabriel', disciplina: 'Física' },
+        { id: 14, nome: 'Patrícia', disciplina: 'Educação Física' },
+        { id: 15, nome: 'Alan', disciplina: 'Educação Física' },
+        { id: 16, nome: 'Cida', disciplina: 'Arte' },
+        { id: 17, nome: 'Simone', disciplina: 'Português' },
+        { id: 18, nome: 'Tatiana', disciplina: 'Português' },
+        { id: 19, nome: 'André', disciplina: 'Português' },
+        { id: 20, nome: 'Felipe', disciplina: 'Inglês' },
+        { id: 21, nome: 'Vitoria', disciplina: 'Inglês' }
     ];
     let escolhasAluno = [];
     let professorSelecionado = null;
@@ -465,4 +465,4 @@ async function atualizarStatusFila() {
     } catch (error) {
         console.error('Erro ao atualizar status da fila:', error);
     }
-} 
+}
