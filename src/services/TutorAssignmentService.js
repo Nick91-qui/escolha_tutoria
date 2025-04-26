@@ -389,6 +389,31 @@ class TutorAssignmentService {
                         }
                     },
                     {
+                        $lookup: {
+                            from: 'alunos',
+                            let: { tutorId: '$_id' },
+                            pipeline: [
+                                {
+                                    $lookup: {
+                                        from: 'assignments',
+                                        localField: '_id',
+                                        foreignField: 'studentId',
+                                        as: 'assignment'
+                                    }
+                                },
+                                { $unwind: '$assignment' },
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $eq: ['$assignment.tutorId', '$$tutorId']
+                                        }
+                                    }
+                                }
+                            ],
+                            as: 'students'
+                        }
+                    },
+                    {
                         $project: {
                             nome: 1,
                             disciplina: 1,
@@ -398,6 +423,17 @@ class TutorAssignmentService {
                                     this.CONFIG.MAX_STUDENTS_PER_TUTOR, 
                                     { $size: '$assignments' }
                                 ]
+                            },
+                            students: {
+                                $map: {
+                                    input: '$students',
+                                    as: 'student',
+                                    in: {
+                                        id: '$$student._id',
+                                        nome: '$$student.nome',
+                                        turma: '$$student.turma'
+                                    }
+                                }
                             }
                         }
                     }
@@ -408,16 +444,33 @@ class TutorAssignmentService {
             stats.tutors.full = tutorStats.filter(t => t.currentCount >= this.CONFIG.MAX_STUDENTS_PER_TUTOR);
             stats.tutors.available = tutorStats.filter(t => t.currentCount < this.CONFIG.MAX_STUDENTS_PER_TUTOR);
 
-            // Get unassigned students
-            const assignedStudentIds = await this.db.collection('assignments')
-                .distinct('studentId');
+            // Get unassigned students using aggregation instead of distinct
+            const assignedStudents = await this.db.collection('assignments')
+                .aggregate([
+                    {
+                        $group: {
+                            _id: null,
+                            studentIds: { $addToSet: '$studentId' }
+                        }
+                    }
+                ]).toArray();
+
+            const assignedStudentIds = assignedStudents[0]?.studentIds || [];
 
             stats.unassignedStudents = await this.db.collection('alunos')
-                .find({
-                    _id: { $nin: assignedStudentIds }
-                })
-                .project({ nome: 1, turma: 1 })
-                .toArray();
+                .aggregate([
+                    {
+                        $match: {
+                            _id: { $nin: assignedStudentIds }
+                        }
+                    },
+                    {
+                        $project: {
+                            nome: 1,
+                            turma: 1
+                        }
+                    }
+                ]).toArray();
 
             return stats;
         } catch (error) {

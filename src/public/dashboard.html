@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Atribuições</title>
-    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Dashboard de Atribuições</h1>
             <div class="actions">
-                <button id="btnProcess" class="btn primary">Processar Atribuições</button>
-                <button id="btnClear" class="btn danger">Limpar Atribuições</button>
+                <button id="btnProcess" class="btn-process">
+                    <span class="spinner" hidden></span>
+                    Processar Atribuições
+                </button>
+                <button id="btnClear" class="btn-clear">
+                    <span class="spinner" hidden></span>
+                    Limpar Atribuições
+                </button>
             </div>
         </header>
 
@@ -41,6 +47,15 @@
                 </div>
             </section>
 
+            <!-- Modal Tutor Students -->
+            <div id="tutorModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3 id="modalTitle"></h3>
+                    <div id="modalContent"></div>
+                </div>
+            </div>
+
             <!-- Unassigned Students -->
             <section class="students-card">
                 <h2>Alunos sem Tutor</h2>
@@ -50,6 +65,6 @@
             </section>
         </div>
     </div>
-    <script src="scripts/dashboard.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

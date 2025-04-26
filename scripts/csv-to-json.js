@@ -2,8 +2,8 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const path = require('path');
 
-const inputFile = path.join(__dirname, '..', 'data', 'professores.csv');
-const outputFile = path.join(__dirname, '..', 'data', 'professores_com_foto.json');
+const inputFile = path.join(__dirname, '..', 'data', 'alunos.csv');
+const outputFile = path.join(__dirname, '..', 'data', 'alunos.json');
 
 const alunos = [];
 
@@ -11,8 +11,8 @@ fs.createReadStream(inputFile)
     .pipe(csv())
     .on('data', (row) => {
         alunos.push({
-            disciplina: row.disciplina?.trim(),
-            nome: row.nome?.trim()
+            turma: row.turma?.trim(),
+            nome: row.nomeAluno?.trim()
         });
     })
     .on('end', () => {

@@ -54,3 +54,9 @@
 2025-04-26T15:07:29.288Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b20: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
 2025-04-26T15:07:29.318Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b10: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
 2025-04-26T15:07:29.349Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b27: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
+2025-04-26T16:18:04.106Z [error]: Erro ao gerar estatísticas detalhadas: Provided apiStrict:true, but the command distinct is not in API Version 1. Information on supported commands and migrations in API Version 1 can be found at https://dochub.mongodb.org/core/manual-versioned-api.
+2025-04-26T17:37:42.684Z [error]: Erro ao gerar estatísticas detalhadas: tutorStats.filter is not a function
+2025-04-26T17:42:24.188Z [error]: Erro ao gerar estatísticas detalhadas: A pipeline stage specification object must contain exactly one field.
+2025-04-26T17:42:33.625Z [error]: Erro ao gerar estatísticas detalhadas: A pipeline stage specification object must contain exactly one field.
+2025-04-26T17:48:29.216Z [error]: Erro ao gerar estatísticas detalhadas: A pipeline stage specification object must contain exactly one field.
+2025-04-26T17:48:44.922Z [error]: Erro ao gerar estatísticas detalhadas: A pipeline stage specification object must contain exactly one field.

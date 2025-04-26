@@ -1,0 +1,296 @@
+// Constants
+const API = {
+    PROCESS: '/api/assignments/process',
+    CLEAR: '/api/assignments/clear',
+    STATS: '/api/assignments/stats'
+};
+
+const DOM = {
+    initialize() {
+        this.btnProcess = document.getElementById('btnProcess');
+        this.btnClear = document.getElementById('btnClear');
+        this.overview = document.getElementById('overview');
+        this.logPanel = document.getElementById('logPanel');
+        this.tutorStats = document.getElementById('tutorStats');
+        this.unassignedList = document.getElementById('unassignedList');
+        
+        // Get spinner references
+        this.spinnerProcess = this.btnProcess.querySelector('.spinner');
+        this.spinnerClear = this.btnClear.querySelector('.spinner');
+        
+        // Ensure spinners are hidden initially
+        this.spinnerProcess.style.display = 'none';
+        this.spinnerClear.style.display = 'none';
+
+        this.modal = document.getElementById('tutorModal');
+        this.modalTitle = document.getElementById('modalTitle');
+        this.modalContent = document.getElementById('modalContent');
+        this.closeModal = document.querySelector('.close-modal');
+        
+        // Add modal close events
+        this.closeModal.addEventListener('click', () => this.modal.style.display = 'none');
+        window.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.modal.style.display = 'none';
+            }
+        });
+    }
+};
+
+// Log Management
+const Logger = {
+    add(message, type = 'info') {
+        const timestamp = new Date().toLocaleTimeString();
+        const logEntry = document.createElement('div');
+        logEntry.className = `log-entry ${type}`;
+        logEntry.textContent = `${timestamp} - ${message}`;
+        DOM.logPanel.appendChild(logEntry);
+        this.scrollToBottom();
+    },
+
+    scrollToBottom() {
+        DOM.logPanel.scrollTop = DOM.logPanel.scrollHeight;
+    },
+
+    clear() {
+        DOM.logPanel.innerHTML = '';
+    }
+};
+
+// API Calls
+const AssignmentService = {
+    async process() {
+        const response = await fetch(API.PROCESS, { method: 'POST' });
+        return await response.json();
+    },
+
+    async clear() {
+        const response = await fetch(API.CLEAR, { method: 'DELETE' });
+        return await response.json();
+    },
+
+    async getStats() {
+        const response = await fetch(API.STATS);
+        return await response.json();
+    }
+};
+
+// UI Rendering
+const UIRenderer = {
+    renderOverview(stats) {
+        const html = `
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <h3>Total de Alunos</h3>
+                    <p>${stats.total.students}</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Alunos Atribuídos</h3>
+                    <p>${stats.total.assignedStudents}</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Tutores Disponíveis</h3>
+                    <p>${stats.tutors.available.length}</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Tutores Lotados</h3>
+                    <p>${stats.tutors.full.length}</p>
+                </div>
+            </div>
+        `;
+        DOM.overview.innerHTML = html;
+    },
+
+    renderTutorStats(stats) {
+        const html = stats.tutors.details.map(tutor => `
+            <div class="tutor-item">
+                <h4 class="tutor-name" data-tutor='${JSON.stringify(tutor)}'>${tutor.nome} (${tutor.disciplina})</h4>
+                <div class="progress-bar">
+                    <div class="progress" style="width: ${(tutor.currentCount / (tutor.currentCount + tutor.remaining)) * 100}%">
+                        ${tutor.currentCount}/${tutor.currentCount + tutor.remaining}
+                    </div>
+                </div>
+                <p class="remaining">Vagas restantes: ${tutor.remaining}</p>
+            </div>
+        `).join('');
+        
+        DOM.tutorStats.innerHTML = html;
+
+        // Add click handlers for tutor names
+        DOM.tutorStats.querySelectorAll('.tutor-name').forEach(element => {
+            element.addEventListener('click', () => {
+                const tutor = JSON.parse(element.dataset.tutor);
+                this.showTutorModal(tutor);
+            });
+        });
+    },
+
+    showTutorModal(tutor) {
+        DOM.modalTitle.textContent = `Alunos de ${tutor.nome} - ${tutor.disciplina}`;
+        
+        const studentsList = tutor.students?.length 
+            ? `<ul class="student-list">
+                ${tutor.students.map(student => 
+                    `<li>${student.nome} (${student.turma})</li>`
+                ).join('')}
+               </ul>`
+            : '<p>Nenhum aluno atribuído ainda.</p>';
+
+        DOM.modalContent.innerHTML = `
+            <div class="modal-stats">
+                <p>Total de alunos: ${tutor.currentCount}</p>
+                <p>Vagas disponíveis: ${tutor.remaining}</p>
+            </div>
+            ${studentsList}
+        `;
+        
+        DOM.modal.style.display = 'block';
+    },
+
+    renderUnassignedStudents(stats) {
+        // Get unique classes
+        const classes = [...new Set(stats.unassignedStudents.map(s => s.turma))].sort();
+        
+        // Create filter options
+        const filterHtml = `
+            <div class="filter-section">
+                <label for="classFilter">Filtrar por turma:</label>
+                <select id="classFilter" class="class-filter">
+                    <option value="all">Todas as turmas</option>
+                    ${classes.map(turma => 
+                        `<option value="${turma}">${turma}</option>`
+                    ).join('')}
+                </select>
+            </div>
+        `;
+
+        // Create student list with filter
+        const studentListHtml = `
+            ${filterHtml}
+            <div class="students-section">
+                ${stats.unassignedStudents.length === 0 
+                    ? '<p class="success">Todos os alunos foram atribuídos!</p>'
+                    : `
+                        <p class="warning">Alunos aguardando atribuição: <span id="studentCount">${stats.unassignedStudents.length}</span></p>
+                        <ul class="student-list">
+                            ${stats.unassignedStudents.map(student => 
+                                `<li data-turma="${student.turma}">${student.nome} (${student.turma})</li>`
+                            ).join('')}
+                        </ul>
+                    `}
+            </div>
+        `;
+
+        DOM.unassignedList.innerHTML = studentListHtml;
+
+        // Add filter event listener
+        const filterSelect = document.getElementById('classFilter');
+        if (filterSelect) {
+            filterSelect.addEventListener('change', (e) => {
+                const selectedClass = e.target.value;
+                const studentItems = DOM.unassignedList.querySelectorAll('.student-list li');
+                let visibleCount = 0;
+
+                studentItems.forEach(item => {
+                    if (selectedClass === 'all' || item.dataset.turma === selectedClass) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Update count
+                const countSpan = document.getElementById('studentCount');
+                if (countSpan) {
+                    countSpan.textContent = visibleCount;
+                }
+            });
+        }
+    },
+
+    updateAll(stats) {
+        this.renderOverview(stats);
+        this.renderTutorStats(stats);
+        this.renderUnassignedStudents(stats);
+    }
+};
+
+// Event Handlers
+const EventHandlers = {
+    async handleProcess() {
+        const button = DOM.btnProcess;
+        const spinner = button.querySelector('.spinner');
+        
+        try {
+            button.disabled = true;
+            spinner.hidden = false;
+            Logger.add('Iniciando processamento de atribuições...');
+
+            const result = await AssignmentService.process();
+            
+            if (result.success) {
+                Logger.add('Processamento concluído com sucesso!', 'success');
+                const stats = await AssignmentService.getStats();
+                UIRenderer.updateAll(stats);
+            } else {
+                throw new Error(result.error);
+            }
+        } catch (error) {
+            Logger.add(`Erro no processamento: ${error.message}`, 'error');
+        } finally {
+            button.disabled = false;
+            spinner.hidden = true;
+        }
+    },
+
+    async handleClear() {
+        if (!confirm('Tem certeza que deseja limpar todas as atribuições?')) return;
+
+        const button = DOM.btnClear;
+        const spinner = button.querySelector('.spinner');
+
+        try {
+            button.disabled = true;
+            spinner.hidden = false;
+            Logger.add('Removendo todas as atribuições...');
+
+            const result = await AssignmentService.clear();
+            
+            if (result.success) {
+                Logger.add(`${result.deletedCount} atribuições removidas`, 'success');
+                const stats = await AssignmentService.getStats();
+                UIRenderer.updateAll(stats);
+            } else {
+                throw new Error(result.error);
+            }
+        } catch (error) {
+            Logger.add(`Erro ao limpar atribuições: ${error.message}`, 'error');
+        } finally {
+            button.disabled = false;
+            spinner.hidden = true;
+        }
+    }
+};
+
+// Initialize Dashboard
+async function initializeDashboard() {
+    try {
+        DOM.initialize();
+        
+        // Attach event listeners
+        DOM.btnProcess.addEventListener('click', EventHandlers.handleProcess);
+        DOM.btnClear.addEventListener('click', EventHandlers.handleClear);
+        
+        // Load initial data
+        Logger.add('Carregando dados iniciais...');
+        const stats = await AssignmentService.getStats();
+        UIRenderer.updateAll(stats);
+        Logger.add('Dashboard inicializado com sucesso', 'success');
+    } catch (error) {
+        Logger.add(`Erro ao inicializar dashboard: ${error.message}`, 'error');
+    }
+}
+
+// Start the application when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeDashboard);

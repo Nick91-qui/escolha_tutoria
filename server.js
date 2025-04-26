@@ -97,14 +97,21 @@ async function iniciarServidor() {
         // Rota principal com cache
         app.get('/', (req, res) => {
             res.sendFile(path.join(__dirname, 'src/public/index.html'), {
-                maxAge: '1h'
+                maxAge: '0h'
             });
         });
 
         // Rota admin com cache
         app.get('/admin', (req, res) => {
             res.sendFile(path.join(__dirname, 'src/public/admin.html'), {
-                maxAge: '1h'
+                maxAge: '0h'
+            });
+        });
+
+         // Rota admin com cache
+         app.get('/dashboard', (req, res) => {
+            res.sendFile(path.join(__dirname, 'src/public/dashboard.html'), {
+                maxAge: '0h'
             });
         });
 

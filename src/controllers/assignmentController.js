@@ -54,8 +54,24 @@ async function clearAssignments(req, res) {
     }
 }
 
+async function getAssignmentStats(req, res) {
+    try {
+        const service = new TutorAssignmentService();
+        await service.initialize();
+        
+        const stats = await service.getDetailedStats();
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+}
+
 module.exports = {
     processAssignments,
     getAssignments,
-    clearAssignments
+    clearAssignments,
+    getAssignmentStats
 };
