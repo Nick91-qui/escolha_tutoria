@@ -13,7 +13,7 @@ async function importarProfessores() {
         await client.connect();
         console.log("Conectado ao MongoDB com sucesso!");
 
-        const db = client.db("escola");
+        const db = client.db("escolha_tutoria");
         const collection = db.collection('professores');
 
         // Limpar coleção existente

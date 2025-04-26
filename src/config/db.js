@@ -14,11 +14,30 @@ const client = new MongoClient(uri, {
     }
 });
 
+// Adicionar após a criação do client
+client.on('commandStarted', (event) => {
+    console.debug('MongoDB comando iniciado:', event.commandName);
+});
+
+client.on('commandFailed', (event) => {
+    console.error('MongoDB comando falhou:', event.commandName);
+});
+
 let dbConnection;
 
 // Cache para otimização
 const cache = new Map();
 const CACHE_TTL = 300000; // 5 minutos em millisegundos
+const MAX_CACHE_SIZE = 1000;
+
+// Adicionar no início do arquivo, após as constantes
+function limparCacheSeNecessario() {
+    if (cache.size > MAX_CACHE_SIZE) {
+        const keysToDelete = Array.from(cache.keys())
+            .slice(0, Math.floor(MAX_CACHE_SIZE / 2));
+        keysToDelete.forEach(key => cache.delete(key));
+    }
+}
 
 async function criarIndices(db) {
     try {
@@ -47,7 +66,10 @@ async function criarIndices(db) {
     }
 }
 
-async function conectar() {
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 5000;
+
+async function conectarComRetry(tentativa = 1) {
     try {
         if (dbConnection) {
             return dbConnection;
@@ -56,18 +78,25 @@ async function conectar() {
         await client.connect();
         console.log("✅ Conectado ao MongoDB com sucesso!");
         
-        // Usar o nome do banco do ambiente
         const dbName = new URL(uri).pathname.substr(1) || 'escola';
         dbConnection = client.db(dbName);
         
-        // Criar índices ao conectar
         await criarIndices(dbConnection);
         
         return dbConnection;
     } catch (error) {
-        console.error("❌ Erro ao conectar:", error);
+        if (tentativa < MAX_RETRIES) {
+            console.log(`Tentativa ${tentativa} falhou, tentando novamente em ${RETRY_DELAY/1000}s...`);
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            return conectarComRetry(tentativa + 1);
+        }
+        console.error("❌ Erro ao conectar após várias tentativas:", error);
         throw error;
     }
+}
+
+async function conectar() {
+    return conectarComRetry();
 }
 
 function getWeekNumber(d) {
@@ -106,6 +135,7 @@ const db = {
 
             const result = { verificado: !!aluno };
             cache.set(cacheKey, { data: result, timestamp: Date.now() });
+            limparCacheSeNecessario();
             return result;
         } catch (error) {
             console.error("❌ Erro ao verificar aluno:", error);
@@ -152,6 +182,46 @@ const db = {
         }
     },
 
+    async salvarPreferenciasComTransacao(dados) {
+        const session = client.startSession();
+        try {
+            await session.withTransaction(async () => {
+                const db = await conectar();
+                const existente = await db.collection('preferencias').findOne({
+                    turma: dados.turma.trim().toUpperCase(),
+                    nome: dados.nome.trim().toUpperCase()
+                });
+
+                if (existente) {
+                    return { 
+                        success: false, 
+                        error: "Preferências já registradas",
+                        dataRegistro: existente.dataFormatada
+                    };
+                }
+
+                const infoTemporal = gerarInfoTemporal();
+                const resultado = await db.collection('preferencias').insertOne({
+                    ...dados,
+                    turma: dados.turma.trim().toUpperCase(),
+                    nome: dados.nome.trim().toUpperCase(),
+                    ...infoTemporal
+                });
+
+                // Limpar cache relacionado
+                cache.clear();
+
+                return { 
+                    success: true, 
+                    id: resultado.insertedId,
+                    timestamp: infoTemporal.timestamp
+                };
+            });
+        } finally {
+            await session.endSession();
+        }
+    },
+
     async buscarPreferencias(turma, nome) {
         try {
             const cacheKey = `pref:${turma}:${nome}`;
@@ -172,6 +242,7 @@ const db = {
                 .toArray();
 
             cache.set(cacheKey, { data: result, timestamp: Date.now() });
+            limparCacheSeNecessario();
             return result;
         } catch (error) {
             console.error("❌ Erro ao buscar preferências:", error);
@@ -217,11 +288,37 @@ const db = {
             };
 
             cache.set(cacheKey, { data: stats, timestamp: Date.now() });
+            limparCacheSeNecessario();
             return stats;
         } catch (error) {
             console.error("❌ Erro ao obter estatísticas:", error);
             throw error;
         }
+    },
+
+    async verificarSaude() {
+        try {
+            const db = await conectar();
+            await db.command({ ping: 1 });
+            return {
+                status: 'healthy',
+                latencia: await this.medirLatencia(),
+                cacheSize: cache.size,
+                connected: !!dbConnection
+            };
+        } catch (error) {
+            return {
+                status: 'unhealthy',
+                error: error.message,
+                connected: false
+            };
+        }
+    },
+
+    async medirLatencia() {
+        const inicio = Date.now();
+        await this.client.db().command({ ping: 1 });
+        return Date.now() - inicio;
     }
 };
 

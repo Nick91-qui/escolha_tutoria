@@ -1,0 +1,137 @@
+[
+  {
+    "nome": "Ailton",
+    "disciplina": "GEOGRAFIA",
+    "foto": "/images/professores/ailton_geografia.jpg"
+  },
+  {
+    "nome": "Bruna",
+    "disciplina": "SOCIOLOGIA",
+    "foto": "/images/professores/bruna_sociologia.jpg"
+  },
+  {
+    "nome": "Giovana",
+    "disciplina": "HISTÓRIA",
+    "foto": "/images/professores/giovana_história.jpg"
+  },
+  {
+    "nome": "João",
+    "disciplina": "HISTÓRIA",
+    "foto": "/images/professores/joão_história.jpg"
+  },
+  {
+    "nome": "Wyller",
+    "disciplina": "FILOSOFIA",
+    "foto": "/images/professores/wyller_filosofia.jpg"
+  },
+  {
+    "nome": "Nicholas",
+    "disciplina": "Química",
+    "foto": "/images/professores/nicholas_química.jpg"
+  },
+  {
+    "nome": "Gerlândia",
+    "disciplina": "Química",
+    "foto": "/images/professores/gerlândia_química.jpg"
+  },
+  {
+    "nome": "Rondineli",
+    "disciplina": "Matemática",
+    "foto": "/images/professores/rondineli_matemática.jpg"
+  },
+  {
+    "nome": "Richardson",
+    "disciplina": "Matemática",
+    "foto": "/images/professores/richardson_matemática.jpg"
+  },
+  {
+    "nome": "Samantha",
+    "disciplina": "Biologia",
+    "foto": "/images/professores/samantha_biologia.jpg"
+  },
+  {
+    "nome": "Pedro",
+    "disciplina": "Física",
+    "foto": "/images/professores/pedro_física.jpg"
+  },
+  {
+    "nome": "Gabriel",
+    "disciplina": "Física",
+    "foto": "/images/professores/gabriel_física.jpg"
+  },
+  {
+    "nome": "Patrícia",
+    "disciplina": "Educação Física",
+    "foto": "/images/professores/patrícia_educação_física.jpg"
+  },
+  {
+    "nome": "Alan",
+    "disciplina": "Educação Física",
+    "foto": "/images/professores/alan_educação_física.jpg"
+  },
+  {
+    "nome": "Cida",
+    "disciplina": "Arte",
+    "foto": "/images/professores/cida_arte.jpg"
+  },
+  {
+    "nome": "Simone",
+    "disciplina": "Português",
+    "foto": "/images/professores/simone_português.jpg"
+  },
+  {
+    "nome": "Tatiana",
+    "disciplina": "Português",
+    "foto": "/images/professores/tatiana_português.jpg"
+  },
+  {
+    "nome": "André",
+    "disciplina": "Português",
+    "foto": "/images/professores/andré_português.jpg"
+  },
+  {
+    "nome": "Felipe",
+    "disciplina": "Inglês",
+    "foto": "/images/professores/felipe_inglês.jpg"
+  },
+  {
+    "nome": "Vitoria",
+    "disciplina": "Inglês",
+    "foto": "/images/professores/vitoria_inglês.jpg"
+  },
+  {
+    "nome": "Sandra",
+    "disciplina": "Diretora",
+    "foto": "/images/professores/sandra_diretora.jpg"
+  },
+  {
+    "nome": "Loraine",
+    "disciplina": "Pedagoga",
+    "foto": "/images/professores/loraine_pedagoga.jpg"
+  },
+  {
+    "nome": "Karoline",
+    "disciplina": "Pedagoga",
+    "foto": "/images/professores/karoline_pedagoga.jpg"
+  },
+  {
+    "nome": "Elizete",
+    "disciplina": "Coordenadora",
+    "foto": "/images/professores/elizete_coordenadora.jpg"
+  },
+  {
+    "nome": "Patrícia",
+    "disciplina": "Coordenadora",
+    "foto": "/images/professores/patrícia_coordenadora.jpg"
+  },
+  {
+    "nome": "Kely",
+    "disciplina": "Coordenadora",
+    "foto": "/images/professores/kely_coordenadora.jpg"
+  },
+  {
+    "nome": "Najara",
+    "disciplina": "CASF",
+    "foto": "/images/professores/najara_casf.jpg"
+  }
+]
