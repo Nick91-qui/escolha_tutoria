@@ -1400,3 +1400,8 @@
 2025-04-26T18:16:52.426Z [info]: Total de alunos não atribuídos: 0
 2025-04-26T18:16:52.485Z [info]: Relatório final: {"totalAssignments":5,"randomAssignments":0,"tutorDistribution":[{"_id":"680aeb79342e9b37e3955b20","tutor":{"nome":"Felipe","disciplina":"Inglês"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680d222d3025f00594e69e5b","nome":"CRISLAN SEVERINO LIBAINO","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b0f","tutor":{"nome":"Bruna","disciplina":"SOCIOLOGIA"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680d222d3025f00594e69e56","nome":"CARLOS EDUARDO DE JESUS VENANCIO","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b0e","tutor":{"nome":"Ailton","disciplina":"GEOGRAFIA"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680d222d3025f00594e69e73","nome":"GUSTAVO PAULI LINHARES","turma":"1V2"}]},{"_id":"680aeb79342e9b37e3955b1c","tutor":{"nome":"Cida","disciplina":"Arte"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680d222d3025f00594e69e63","nome":"IARLEY DE OLIVEIRA RIBEIRO","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1b","tutor":{"nome":"Alan","disciplina":"Educação Física"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680d222d3025f00594e69e55","nome":"DAVI DOS SANTOS STEINER","turma":"1V1"}]}],"timestamp":"2025-04-26T18:16:52.483Z"}
 2025-04-26T18:16:52.508Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T18:22:16.718Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T18:22:16.778Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T18:22:16.817Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T18:22:16.822Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T18:22:16.824Z [info]: Conexão com MongoDB estabelecida

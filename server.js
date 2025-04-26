@@ -134,6 +134,7 @@ async function iniciarServidor() {
 📡 Porta: ${PORT}
 🌐 URL: http://localhost:${PORT}
 👨‍💼 Admin: http://localhost:${PORT}/admin
+⚙️ Dashboard: http://localhost:${PORT}/dashboard
 ====================================
             `);
         });
