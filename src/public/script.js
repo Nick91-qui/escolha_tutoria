@@ -384,32 +384,24 @@ function habilitarNovasEscolhas() {
 
 // Update handleConfirmar function
 async function handleConfirmar() {
-    if (state.escolhasAluno.length === CONFIG.MAX_ESCOLHAS) {
+    const btnConfirmar = state.elements.btnConfirmar;
+    
+    if (state.escolhasAluno.length === CONFIG.MAX_ESCOLHAS && !btnConfirmar.disabled) {
         try {
-            // Add debug log before sending
-            console.log('Estado atual:', {
-                nomeCompleto: state.nomeCompleto,
-                turma: state.turma,
-                escolhas: state.escolhasAluno
-            });
-
+            // Disable button and show loading state
+            btnConfirmar.disabled = true;
+            btnConfirmar.innerHTML = '<span class="spinner"></span> Enviando...';
+            
             const dadosEnvio = {
                 nome: state.nomeCompleto,
                 turma: state.turma,
                 preferencias: state.escolhasAluno.map(p => p.id)
             };
 
-            // Add debug log for payload
-            console.log('📤 Payload:', JSON.stringify(dadosEnvio, null, 2));
-
             const response = await api.salvarPreferencias(dadosEnvio);
             
-            // Add debug log for response
-            console.log('📥 Resposta:', response);
-
             if (response.sucesso) {
                 notificacoes.sucesso('Suas escolhas foram confirmadas com sucesso!');
-                state.elements.btnConfirmar.disabled = true;
                 
                 document.querySelectorAll('.acao').forEach(btn => {
                     btn.disabled = true;
@@ -424,6 +416,10 @@ async function handleConfirmar() {
         } catch (error) {
             console.error('❌ Erro ao enviar escolhas:', error);
             notificacoes.erro(error.message || 'Ocorreu um erro ao enviar suas escolhas.');
+            
+            // Re-enable button on error
+            btnConfirmar.disabled = false;
+            btnConfirmar.innerHTML = 'Confirmar Escolhas';
         }
     }
 }
@@ -598,7 +594,28 @@ function atualizarBotoes() {
 
 function mostrarMensagemFinal(mensagem) {
     const container = document.getElementById('escolhas-container');
+    const statusContainer = document.querySelector('.status-container');
+    const listaEscolhas = document.querySelector('.lista-escolhas');
+    const instrucoes = document.querySelector('.instrucoes');
+    const listasContainer = document.querySelector('.listas-container');
+    
     if (!container) return;
+
+    // Hide containers
+    if (statusContainer) {
+        statusContainer.style.display = 'none';
+    }
+    if (listaEscolhas) {
+        listaEscolhas.style.display = 'none';
+    }
+    if (instrucoes) {
+        instrucoes.textContent = "Você não pode selecionar nenhum tutor.";
+    }
+    if (listasContainer) {
+        listasContainer.style.display = 'grid';
+        listasContainer.style.gridTemplateColumns = '1fr';
+        listasContainer.style.gap = '1rem';
+    }
 
     const mensagemDiv = document.createElement('div');
     mensagemDiv.className = 'mensagem-final';

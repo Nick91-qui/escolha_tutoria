@@ -12,6 +12,14 @@ class EstatisticasService {
         const estatisticasTurmas = await db.collection('alunos')
             .aggregate([
                 {
+                    $lookup: {
+                        from: "preferencias",
+                        localField: "nome",
+                        foreignField: "nome",
+                        as: "preferencias"
+                    }
+                },
+                {
                     $group: {
                         _id: "$turma",
                         total: { $sum: 1 },
@@ -49,9 +57,22 @@ class EstatisticasService {
             .aggregate([
                 { $unwind: { path: '$preferencias', includeArrayIndex: 'posicao' }},
                 {
+                    $lookup: {
+                        from: "professores",
+                        localField: "preferencias",
+                        foreignField: "_id",
+                        as: "professorInfo"
+                    }
+                },
+                {
+                    $unwind: "$professorInfo"
+                },
+                {
                     $group: {
                         _id: {
                             professor: "$preferencias",
+                            professorNome: "$professorInfo.nome",
+                            professorDisciplina: "$professorInfo.disciplina",
                             posicao: "$posicao"
                         },
                         count: { $sum: 1 }
@@ -59,7 +80,11 @@ class EstatisticasService {
                 },
                 {
                     $group: {
-                        _id: "$_id.professor",
+                        _id: {
+                            id: "$_id.professor",
+                            nome: "$_id.professorNome",
+                            disciplina: "$_id.professorDisciplina"
+                        },
                         escolhas: {
                             $push: {
                                 posicao: "$_id.posicao",
@@ -72,7 +97,11 @@ class EstatisticasService {
                 {
                     $project: {
                         _id: 0,
-                        professor: "$_id",
+                        professor: {
+                            id: "$_id.id",
+                            nome: "$_id.nome",
+                            disciplina: "$_id.disciplina"
+                        },
                         escolhas: 1,
                         total: 1
                     }

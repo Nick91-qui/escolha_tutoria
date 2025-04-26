@@ -211,7 +211,7 @@ class AlunoService {
                     return {
                         id: prof._id,
                         nome: prof.nome,
-                        disciplina: prof.disciplina
+                        disciplina: prof.disciplina,
                     };
                 })
                 .filter(Boolean); // Remove null entries
@@ -263,7 +263,8 @@ class AlunoService {
                 console.log('📊 Exemplo do primeiro registro:', {
                     id: professores[0]._id,
                     nome: professores[0].nome,
-                    disciplina: professores[0].disciplina
+                    disciplina: professores[0].disciplina,
+                    foto: professores[0].foto
                 });
             }
 
@@ -274,6 +275,7 @@ class AlunoService {
                     id: prof._id,
                     nome: prof.nome,
                     disciplina: prof.disciplina,
+                    foto: prof.foto
                     // add any other relevant fields
                 }))
             };

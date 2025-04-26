@@ -11,6 +11,7 @@ const { configurarSocketHandlers } = require('./src/socket/handlers');
 const { Monitor } = require('./src/config/monitor');
 const escolhaModel = require('./src/models/escolha');
 const path = require('path');
+const assignmentRoutes = require('./src/routes/assignmentRoutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -45,6 +46,8 @@ app.use('/api/preferencias', limiter);
 // Rotas
 app.use('/api', require('./src/routes'));
 app.use('/api/admin', require('./src/routes/admin'));
+app.use('/api/assignments', assignmentRoutes);
+
 
 // Socket.IO
 const monitor = new Monitor();

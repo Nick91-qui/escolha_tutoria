@@ -57,6 +57,23 @@ async function criarIndices(db) {
             db.collection('preferencias').createIndex(
                 { dataCriacao: -1 },
                 { background: true }
+            ),
+            // Novos índices para assignments
+            db.collection('assignments').createIndex(
+                { studentId: 1 },
+                { unique: true, background: true }
+            ),
+            db.collection('assignments').createIndex(
+                { tutorId: 1 },
+                { background: true }
+            ),
+            db.collection('assignments').createIndex(
+                { timestamp: -1 },
+                { background: true }
+            ),
+            db.collection('assignments').createIndex(
+                { assignmentType: 1 },
+                { background: true }
             )
         ]);
 

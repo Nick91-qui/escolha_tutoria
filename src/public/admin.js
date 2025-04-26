@@ -104,8 +104,8 @@ function renderizarEstatisticasTurmas(estatisticas) {
                     <tr>
                         <td>${est.turma || ''}</td>
                         <td>${est.total || 0}</td>
-                        <td>${est.escolheram || 0}</td>
-                        <td>${(est.total || 0) - (est.escolheram || 0)}</td>
+                        <td>${est.alunosComEscolha || 0}</td>
+                        <td>${est.alunosSemEscolha || 0}</td>
                     </tr>
                 `).join('')}
             </tbody>
@@ -126,20 +126,38 @@ function renderizarEstatisticasProfessores(estatisticas) {
             <thead>
                 <tr>
                     <th>Professor</th>
+                    <th>Disciplina</th>
                     <th>1ª Escolha</th>
                     <th>2ª Escolha</th>
                     <th>3ª Escolha</th>
+                    <th>4ª Escolha</th>
+                    <th>5ª Escolha</th>
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
-                ${estatisticas.map(est => `
+                ${estatisticas.map(est => {
+                    // Create an array of counts initialized with zeros
+                    const escolhasPorPosicao = [0, 0, 0, 0, 0];
+                    
+                    // Fill in the actual counts
+                    est.escolhas.forEach(escolha => {
+                        escolhasPorPosicao[escolha.posicao] = escolha.count;
+                    });
+
+                    return `
                     <tr>
-                        <td>${est.nome || ''}</td>
-                        <td>${est.primeira || 0}</td>
-                        <td>${est.segunda || 0}</td>
-                        <td>${est.terceira || 0}</td>
+                        <td>${est.professor.nome || 'N/A'}</td>
+                        <td>${est.professor.disciplina || 'N/A'}</td>
+                        <td>${escolhasPorPosicao[0] || 0}</td>
+                        <td>${escolhasPorPosicao[1] || 0}</td>
+                        <td>${escolhasPorPosicao[2] || 0}</td>
+                        <td>${escolhasPorPosicao[3] || 0}</td>
+                        <td>${escolhasPorPosicao[4] || 0}</td>
+                        <td>${est.total || 0}</td>
                     </tr>
-                `).join('')}
+                    `;
+                }).join('')}
             </tbody>
         </table>
     `;

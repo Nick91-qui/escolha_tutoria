@@ -12,7 +12,7 @@ class EscolhaModel {
     async conectar() {
         try {
             await this.client.connect();
-            this.db = this.client.db('escola');
+            this.db = this.client.db('escolha_tutores');
             this.collection = this.db.collection('escolhas');
             this.alunosCollection = this.db.collection('alunos');
             logger.info('Conexão com MongoDB estabelecida');
@@ -52,6 +52,22 @@ class EscolhaModel {
 
     async processarEscolha(alunoId, dadosEscolha) {
         try {
+            // Primeiro verifica se já existe escolha processada
+            const escolhaExistente = await this.collection.findOne({
+                alunoId,
+                status: 'processado'
+            });
+
+            if (escolhaExistente) {
+                logger.warn(`Aluno ${alunoId} já possui escolha processada`);
+                return {
+                    acknowledged: false,
+                    error: 'ESCOLHA_JA_EXISTE',
+                    message: 'Aluno já realizou sua escolha'
+                };
+            }
+
+            // Se não existe, processa a nova escolha
             const resultado = await this.collection.updateOne(
                 { alunoId },
                 { 
@@ -65,7 +81,10 @@ class EscolhaModel {
             );
             
             logger.info(`Escolha processada para aluno ${alunoId}`);
-            return resultado;
+            return {
+                ...resultado,
+                success: true
+            };
         } catch (error) {
             logger.error(`Erro ao processar escolha do aluno ${alunoId}:`, error);
             throw error;
@@ -100,4 +119,4 @@ class EscolhaModel {
     }
 }
 
-module.exports = new EscolhaModel(); 
+module.exports = new EscolhaModel();

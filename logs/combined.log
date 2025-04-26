@@ -280,3 +280,552 @@
 2025-04-26T00:23:06.876Z [info]: Conexão com MongoDB estabelecida
 2025-04-26T00:23:06.892Z [info]: Conexão com MongoDB estabelecida
 2025-04-26T00:23:06.888Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:11:59.723Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:11:59.718Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:11:59.738Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:11:59.756Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:11:59.793Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:13:36.105Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:13:36.137Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:13:36.135Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:13:36.180Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:13:36.327Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:39:42.715Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:39:42.759Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:39:42.763Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:39:42.833Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:39:42.849Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:45:09.756Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:45:09.773Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:45:09.775Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:45:09.808Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:45:09.925Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:50:03.446Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:50:03.664Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:50:03.668Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:50:03.700Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:50:03.727Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:54:46.774Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:54:46.780Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:54:46.901Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:54:47.180Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T02:54:47.286Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T03:42:03.547Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T03:42:03.548Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T03:42:03.561Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T03:42:03.565Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T03:42:03.594Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:31:02.505Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:31:02.504Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:31:02.510Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:31:02.513Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:31:02.534Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:49:00.833Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:49:00.834Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:49:00.837Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:49:00.837Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:49:00.915Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:03.603Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:03.710Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:03.726Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:03.738Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:03.741Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:13.259Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T13:51:15.599Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:51:17.272Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T13:51:19.520Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:53:05.864Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:53:05.892Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:53:05.924Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:53:05.985Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:53:06.039Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:53:15.530Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T13:53:15.533Z [error]: Erro ao processar atribuições: this.db.startSession is not a function
+2025-04-26T13:56:49.305Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:56:49.317Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:56:49.318Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:56:49.326Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:56:49.374Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:56:51.878Z [error]: Erro ao inicializar TutorAssignmentService: getConnectionString is not a function
+2025-04-26T13:56:51.880Z [error]: Erro ao processar atribuições: getConnectionString is not a function
+2025-04-26T13:58:54.981Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:58:55.081Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:58:55.226Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:58:55.270Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:58:55.325Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T13:58:57.333Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T13:58:57.398Z [error]: Erro no processamento das atribuições: Transaction numbers are only allowed on a replica set member or mongos
+2025-04-26T13:58:57.400Z [error]: Erro ao processar atribuições: Transaction numbers are only allowed on a replica set member or mongos
+2025-04-26T14:29:09.016Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:29:09.025Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:29:09.053Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:29:09.059Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:29:09.085Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:29:20.107Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:29:20.412Z [info]: Total de alunos para processamento: 5
+2025-04-26T14:29:20.463Z [error]: Erro no processamento das atribuições: Transaction numbers are only allowed on a replica set member or mongos
+2025-04-26T14:29:20.466Z [error]: Erro ao processar atribuições: Transaction numbers are only allowed on a replica set member or mongos
+2025-04-26T14:30:50.685Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:30:50.693Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:30:50.698Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:30:50.710Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:30:50.830Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:30:52.457Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:30:52.493Z [info]: Total de alunos para processamento: 5
+2025-04-26T14:30:52.566Z [info]: Aluno YASMIN CHRISTINA BRAGA (1V3) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T14:30:52.590Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T14:30:52.609Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T14:30:52.622Z [info]: Aluno EMILY DE JESUS SANTOS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1b como 1ª opção
+2025-04-26T14:30:52.631Z [info]: Aluno DAVI DOS SANTOS STEINER (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T14:32:53.347Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:32:53.370Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:32:53.380Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:32:53.412Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:32:53.477Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:33:06.562Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:33:06.611Z [info]: Total de alunos para processamento: 0
+2025-04-26T14:33:06.613Z [info]: Processando 0 alunos
+2025-04-26T14:33:06.622Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:33:06.640Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:33:06.640Z"}
+2025-04-26T14:33:15.512Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:33:15.535Z [info]: Total de alunos para processamento: 0
+2025-04-26T14:33:15.536Z [info]: Processando 0 alunos
+2025-04-26T14:33:15.537Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:33:15.557Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:33:15.557Z"}
+2025-04-26T14:33:18.699Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:33:18.717Z [info]: Total de alunos para processamento: 0
+2025-04-26T14:33:18.717Z [info]: Processando 0 alunos
+2025-04-26T14:33:18.718Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:33:18.732Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:33:18.732Z"}
+2025-04-26T14:33:19.750Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:33:19.773Z [info]: Total de alunos para processamento: 0
+2025-04-26T14:33:19.781Z [info]: Processando 0 alunos
+2025-04-26T14:33:19.787Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:33:19.815Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:33:19.814Z"}
+2025-04-26T14:33:23.215Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:33:23.250Z [info]: Total de alunos para processamento: 0
+2025-04-26T14:33:23.252Z [info]: Processando 0 alunos
+2025-04-26T14:33:23.253Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:33:23.275Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:33:23.275Z"}
+2025-04-26T14:33:44.725Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:33:44.740Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:33:44.750Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:33:44.772Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:33:44.827Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:34:17.429Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:34:17.468Z [info]: Total de alunos para processamento: 0
+2025-04-26T14:34:17.474Z [info]: Processando 0 alunos
+2025-04-26T14:34:17.475Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:34:17.502Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:34:17.502Z"}
+2025-04-26T14:36:59.695Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:36:59.709Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:36:59.738Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:37:00.085Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:37:00.353Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:37:08.674Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:37:08.676Z [info]: Iniciando busca de preferências...
+2025-04-26T14:37:08.692Z [info]: Total de registros em preferencias: 5
+2025-04-26T14:37:08.701Z [info]: Preferências encontradas após filtros: 0
+2025-04-26T14:37:08.702Z [info]: Processando 0 alunos
+2025-04-26T14:37:08.703Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:37:08.717Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:37:08.717Z"}
+2025-04-26T14:38:35.671Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:38:35.694Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:38:35.787Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:38:35.807Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:38:35.900Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:38:37.229Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:38:37.233Z [info]: Iniciando busca de preferências...
+2025-04-26T14:38:37.259Z [info]: Após primeiro $match: 5
+2025-04-26T14:38:37.265Z [info]: Exemplo após primeiro match:
+2025-04-26T14:38:37.285Z [info]: Após $lookup: 5
+2025-04-26T14:38:37.291Z [info]: Exemplo após lookup:
+2025-04-26T14:38:37.301Z [info]: Preferências finais: 0
+2025-04-26T14:38:37.302Z [info]: Processando 0 alunos
+2025-04-26T14:38:37.306Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:38:37.347Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:38:37.347Z"}
+2025-04-26T14:40:40.183Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:40:40.299Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:40:40.367Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:40:40.388Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:40:40.405Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:41:03.172Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:41:03.174Z [info]: Iniciando busca de preferências...
+2025-04-26T14:41:03.192Z [info]: Estrutura do assignment após lookup:
+2025-04-26T14:41:03.212Z [info]: Preferências finais: 0
+2025-04-26T14:41:03.220Z [info]: Processando 0 alunos
+2025-04-26T14:41:03.221Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:41:03.253Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:41:03.253Z"}
+2025-04-26T14:42:56.163Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:42:56.224Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:42:56.235Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:42:56.248Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:42:56.274Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:43:01.714Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:43:01.716Z [info]: Iniciando busca de preferências...
+2025-04-26T14:43:01.733Z [info]: Total de preferências encontradas: 5
+2025-04-26T14:43:01.736Z [info]: Exemplo de preferência:
+2025-04-26T14:43:01.748Z [info]: Preferências após pipeline: 0
+2025-04-26T14:43:01.749Z [info]: Processando 0 alunos
+2025-04-26T14:43:01.751Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:43:01.763Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:43:01.763Z"}
+2025-04-26T14:44:51.298Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:44:51.333Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:44:51.339Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:44:51.363Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:44:51.401Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:44:53.067Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:44:53.068Z [info]: Iniciando busca de preferências...
+2025-04-26T14:44:53.082Z [info]: Total de preferências encontradas: 5
+2025-04-26T14:44:53.084Z [info]: Documento completo da primeira preferência:
+2025-04-26T14:44:53.096Z [info]: Após primeiro $match (tem preferências): 5
+2025-04-26T14:44:53.111Z [info]: Exemplo após lookup:
+2025-04-26T14:44:53.125Z [info]: Processando 0 alunos
+2025-04-26T14:44:53.127Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T14:44:53.143Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:44:53.143Z"}
+2025-04-26T14:50:20.420Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:50:20.444Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:50:20.445Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:50:20.450Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:50:20.479Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T14:50:22.370Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T14:50:22.372Z [info]: Iniciando busca de preferências...
+2025-04-26T14:50:22.429Z [info]: Preferências encontradas: 5
+2025-04-26T14:50:22.434Z [info]: Exemplo de preferência:
+2025-04-26T14:50:22.435Z [info]: Processando 5 alunos
+2025-04-26T14:50:22.436Z [info]: Processando aluno: YASMIN CHRISTINA BRAGA (1V3)
+2025-04-26T14:50:22.438Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b1a"]
+2025-04-26T14:50:22.473Z [info]: Tentando atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T14:50:22.474Z [info]: Contagem atual do tutor: 3/19
+2025-04-26T14:50:22.524Z [error]: Erro ao atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b0e: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680af873c0173ddcb2839b1b') }
+2025-04-26T14:50:22.538Z [info]: Tentando atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b1b
+2025-04-26T14:50:22.539Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T14:50:22.549Z [error]: Erro ao atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b1b: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680af873c0173ddcb2839b1b') }
+2025-04-26T14:50:22.560Z [info]: Tentando atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T14:50:22.561Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T14:50:22.571Z [error]: Erro ao atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b1f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680af873c0173ddcb2839b1b') }
+2025-04-26T14:50:22.578Z [info]: Tentando atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b0f
+2025-04-26T14:50:22.579Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.586Z [error]: Erro ao atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b0f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680af873c0173ddcb2839b1b') }
+2025-04-26T14:50:22.592Z [info]: Tentando atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b1a
+2025-04-26T14:50:22.593Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.600Z [error]: Erro ao atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b1a: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680af873c0173ddcb2839b1b') }
+2025-04-26T14:50:22.602Z [warn]: Aluno YASMIN CHRISTINA BRAGA (1V3) não foi atribuído a nenhuma preferência
+2025-04-26T14:50:22.603Z [info]: Aluno YASMIN CHRISTINA BRAGA não foi atribuído, indo para lista de não atribuídos
+2025-04-26T14:50:22.604Z [info]: Processando aluno: CARLOS EDUARDO DE JESUS VENANCIO (1V1)
+2025-04-26T14:50:22.604Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b20","680aeb79342e9b37e3955b11","680aeb79342e9b37e3955b28"]
+2025-04-26T14:50:22.612Z [info]: Tentando atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T14:50:22.615Z [info]: Contagem atual do tutor: 3/19
+2025-04-26T14:50:22.622Z [error]: Erro ao atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b0e: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c21573f9a343bb3095ac0') }
+2025-04-26T14:50:22.628Z [info]: Tentando atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T14:50:22.629Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T14:50:22.637Z [error]: Erro ao atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b1f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c21573f9a343bb3095ac0') }
+2025-04-26T14:50:22.644Z [info]: Tentando atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b20
+2025-04-26T14:50:22.645Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.652Z [error]: Erro ao atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b20: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c21573f9a343bb3095ac0') }
+2025-04-26T14:50:22.659Z [info]: Tentando atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b11
+2025-04-26T14:50:22.660Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.669Z [error]: Erro ao atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b11: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c21573f9a343bb3095ac0') }
+2025-04-26T14:50:22.676Z [info]: Tentando atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b28
+2025-04-26T14:50:22.677Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.685Z [error]: Erro ao atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b28: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c21573f9a343bb3095ac0') }
+2025-04-26T14:50:22.686Z [warn]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) não foi atribuído a nenhuma preferência
+2025-04-26T14:50:22.688Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO não foi atribuído, indo para lista de não atribuídos
+2025-04-26T14:50:22.689Z [info]: Processando aluno: CARLOS EDUARDO DE JESUS VENANCIO (1V1)
+2025-04-26T14:50:22.690Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b20","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b27"]
+2025-04-26T14:50:22.697Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T14:50:22.701Z [info]: Contagem atual do tutor: 3/19
+2025-04-26T14:50:22.707Z [error]: Erro ao atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b0e: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c22413f9a343bb3095ac1') }
+2025-04-26T14:50:22.716Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T14:50:22.717Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T14:50:22.723Z [error]: Erro ao atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b1f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c22413f9a343bb3095ac1') }
+2025-04-26T14:50:22.729Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b20
+2025-04-26T14:50:22.730Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.736Z [error]: Erro ao atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b20: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c22413f9a343bb3095ac1') }
+2025-04-26T14:50:22.745Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b10
+2025-04-26T14:50:22.747Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.756Z [error]: Erro ao atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b10: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c22413f9a343bb3095ac1') }
+2025-04-26T14:50:22.764Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b27
+2025-04-26T14:50:22.765Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.770Z [error]: Erro ao atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b27: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c22413f9a343bb3095ac1') }
+2025-04-26T14:50:22.770Z [warn]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) não foi atribuído a nenhuma preferência
+2025-04-26T14:50:22.771Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO não foi atribuído, indo para lista de não atribuídos
+2025-04-26T14:50:22.771Z [info]: Processando aluno: EMILY DE JESUS SANTOS (1V1)
+2025-04-26T14:50:22.772Z [info]: Preferências: ["680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1c","680aeb79342e9b37e3955b14","680aeb79342e9b37e3955b28","680aeb79342e9b37e3955b16"]
+2025-04-26T14:50:22.777Z [info]: Tentando atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b1b
+2025-04-26T14:50:22.778Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T14:50:22.785Z [error]: Erro ao atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b1b: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c3ac926865943d21aa2b9') }
+2025-04-26T14:50:22.790Z [info]: Tentando atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b1c
+2025-04-26T14:50:22.791Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.795Z [error]: Erro ao atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b1c: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c3ac926865943d21aa2b9') }
+2025-04-26T14:50:22.803Z [info]: Tentando atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b14
+2025-04-26T14:50:22.804Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.808Z [error]: Erro ao atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b14: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c3ac926865943d21aa2b9') }
+2025-04-26T14:50:22.813Z [info]: Tentando atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b28
+2025-04-26T14:50:22.814Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.820Z [error]: Erro ao atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b28: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c3ac926865943d21aa2b9') }
+2025-04-26T14:50:22.825Z [info]: Tentando atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b16
+2025-04-26T14:50:22.826Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.833Z [error]: Erro ao atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b16: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c3ac926865943d21aa2b9') }
+2025-04-26T14:50:22.834Z [warn]: Aluno EMILY DE JESUS SANTOS (1V1) não foi atribuído a nenhuma preferência
+2025-04-26T14:50:22.835Z [info]: Aluno EMILY DE JESUS SANTOS não foi atribuído, indo para lista de não atribuídos
+2025-04-26T14:50:22.835Z [info]: Processando aluno: DAVI DOS SANTOS STEINER (1V1)
+2025-04-26T14:50:22.836Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b14","680aeb79342e9b37e3955b26","680aeb79342e9b37e3955b1d","680aeb79342e9b37e3955b12"]
+2025-04-26T14:50:22.841Z [info]: Tentando atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T14:50:22.842Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T14:50:22.846Z [error]: Erro ao atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b1f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c458c587a0a21f9b23201') }
+2025-04-26T14:50:22.853Z [info]: Tentando atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b14
+2025-04-26T14:50:22.854Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.858Z [error]: Erro ao atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b14: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c458c587a0a21f9b23201') }
+2025-04-26T14:50:22.866Z [info]: Tentando atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b26
+2025-04-26T14:50:22.867Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.871Z [error]: Erro ao atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b26: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c458c587a0a21f9b23201') }
+2025-04-26T14:50:22.877Z [info]: Tentando atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b1d
+2025-04-26T14:50:22.878Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.883Z [error]: Erro ao atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b1d: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c458c587a0a21f9b23201') }
+2025-04-26T14:50:22.888Z [info]: Tentando atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b12
+2025-04-26T14:50:22.888Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.892Z [error]: Erro ao atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b12: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c458c587a0a21f9b23201') }
+2025-04-26T14:50:22.893Z [warn]: Aluno DAVI DOS SANTOS STEINER (1V1) não foi atribuído a nenhuma preferência
+2025-04-26T14:50:22.893Z [info]: Aluno DAVI DOS SANTOS STEINER não foi atribuído, indo para lista de não atribuídos
+2025-04-26T14:50:22.894Z [info]: Total de alunos não atribuídos: 5
+2025-04-26T14:50:22.920Z [info]: Tentando atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b16
+2025-04-26T14:50:22.920Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.925Z [error]: Erro ao atribuir aluno 680af873c0173ddcb2839b1b ao tutor 680aeb79342e9b37e3955b16: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680af873c0173ddcb2839b1b') }
+2025-04-26T14:50:22.943Z [info]: Tentando atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b15
+2025-04-26T14:50:22.944Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.950Z [error]: Erro ao atribuir aluno 680c21573f9a343bb3095ac0 ao tutor 680aeb79342e9b37e3955b15: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c21573f9a343bb3095ac0') }
+2025-04-26T14:50:22.969Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b23
+2025-04-26T14:50:22.970Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:22.975Z [error]: Erro ao atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b23: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c22413f9a343bb3095ac1') }
+2025-04-26T14:50:22.997Z [info]: Tentando atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b23
+2025-04-26T14:50:22.999Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:23.006Z [error]: Erro ao atribuir aluno 680c3ac926865943d21aa2b9 ao tutor 680aeb79342e9b37e3955b23: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c3ac926865943d21aa2b9') }
+2025-04-26T14:50:23.045Z [info]: Tentando atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b0f
+2025-04-26T14:50:23.047Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T14:50:23.054Z [error]: Erro ao atribuir aluno 680c458c587a0a21f9b23201 ao tutor 680aeb79342e9b37e3955b0f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680c458c587a0a21f9b23201') }
+2025-04-26T14:50:23.073Z [info]: Relatório final: {"totalAssignments":0,"randomAssignments":0,"tutorDistribution":[],"timestamp":"2025-04-26T14:50:23.073Z"}
+2025-04-26T15:07:02.723Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:07:02.747Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:07:02.756Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:07:02.772Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:07:02.779Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:07:28.898Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T15:07:28.907Z [info]: Iniciando busca de preferências...
+2025-04-26T15:07:28.965Z [info]: Preferências encontradas: 5
+2025-04-26T15:07:28.981Z [info]: Exemplo de preferência:
+2025-04-26T15:07:28.983Z [info]: Processando 5 alunos
+2025-04-26T15:07:28.992Z [info]: Processando aluno: YASMIN CHRISTINA BRAGA (1V3)
+2025-04-26T15:07:28.997Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b1a"]
+2025-04-26T15:07:29.066Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e80b para YASMIN CHRISTINA BRAGA
+2025-04-26T15:07:29.088Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e80b ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.092Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.113Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e80b -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.115Z [info]: Aluno YASMIN CHRISTINA BRAGA (1V3) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:07:29.116Z [info]: Processando aluno: CARLOS EDUARDO DE JESUS VENANCIO (1V1)
+2025-04-26T15:07:29.120Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b20","680aeb79342e9b37e3955b11","680aeb79342e9b37e3955b28"]
+2025-04-26T15:07:29.143Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7cf para CARLOS EDUARDO DE JESUS VENANCIO
+2025-04-26T15:07:29.160Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.162Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T15:07:29.177Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7cf -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.178Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:07:29.179Z [info]: Processando aluno: CARLOS EDUARDO DE JESUS VENANCIO (1V1)
+2025-04-26T15:07:29.180Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b20","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b27"]
+2025-04-26T15:07:29.195Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7cf para CARLOS EDUARDO DE JESUS VENANCIO
+2025-04-26T15:07:29.208Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.209Z [info]: Contagem atual do tutor: 2/19
+2025-04-26T15:07:29.228Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b0e: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
+2025-04-26T15:07:29.244Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:07:29.246Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.262Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b1f: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
+2025-04-26T15:07:29.276Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b20
+2025-04-26T15:07:29.277Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.288Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b20: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
+2025-04-26T15:07:29.305Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b10
+2025-04-26T15:07:29.307Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.318Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b10: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
+2025-04-26T15:07:29.336Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b27
+2025-04-26T15:07:29.340Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.349Z [error]: Erro ao atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b27: E11000 duplicate key error collection: escolha_tutoria.assignments index: studentId_1 dup key: { studentId: ObjectId('680ae75f28c36a513af9e7cf') }
+2025-04-26T15:07:29.352Z [warn]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) não foi atribuído a nenhuma preferência
+2025-04-26T15:07:29.355Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO não foi atribuído, indo para lista de não atribuídos
+2025-04-26T15:07:29.357Z [info]: Processando aluno: EMILY DE JESUS SANTOS (1V1)
+2025-04-26T15:07:29.358Z [info]: Preferências: ["680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1c","680aeb79342e9b37e3955b14","680aeb79342e9b37e3955b28","680aeb79342e9b37e3955b16"]
+2025-04-26T15:07:29.370Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d0 para EMILY DE JESUS SANTOS
+2025-04-26T15:07:29.382Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d0 ao tutor 680aeb79342e9b37e3955b1b
+2025-04-26T15:07:29.385Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.397Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d0 -> tutor 680aeb79342e9b37e3955b1b
+2025-04-26T15:07:29.398Z [info]: Aluno EMILY DE JESUS SANTOS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1b como 1ª opção
+2025-04-26T15:07:29.398Z [info]: Processando aluno: DAVI DOS SANTOS STEINER (1V1)
+2025-04-26T15:07:29.399Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b14","680aeb79342e9b37e3955b26","680aeb79342e9b37e3955b1d","680aeb79342e9b37e3955b12"]
+2025-04-26T15:07:29.415Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7ce para DAVI DOS SANTOS STEINER
+2025-04-26T15:07:29.431Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7ce ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:07:29.432Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:07:29.448Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7ce -> tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:07:29.449Z [info]: Aluno DAVI DOS SANTOS STEINER (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T15:07:29.450Z [info]: Total de alunos não atribuídos: 1
+2025-04-26T15:07:29.510Z [info]: Tentando atribuir aluno 680c22413f9a343bb3095ac1 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.511Z [info]: Contagem atual do tutor: 2/19
+2025-04-26T15:07:29.524Z [info]: Atribuição criada com sucesso: aluno 680c22413f9a343bb3095ac1 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:07:29.560Z [info]: Relatório final: {"totalAssignments":4,"randomAssignments":0,"tutorDistribution":[{"_id":"680aeb79342e9b37e3955b0e","tutor":{"nome":"Ailton","disciplina":"GEOGRAFIA"},"studentCount":2,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e80b","nome":"YASMIN CHRISTINA BRAGA","turma":"1V3"},{"id":"680ae75f28c36a513af9e7cf","nome":"CARLOS EDUARDO DE JESUS VENANCIO","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1b","tutor":{"nome":"Alan","disciplina":"Educação Física"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7d0","nome":"EMILY DE JESUS SANTOS","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1f","tutor":{"nome":"André","disciplina":"Português"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7ce","nome":"DAVI DOS SANTOS STEINER","turma":"1V1"}]}],"timestamp":"2025-04-26T15:07:29.559Z"}
+2025-04-26T15:13:06.165Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:13:06.185Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:13:06.221Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:13:06.276Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:13:06.329Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:16:11.729Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:16:11.743Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:16:11.744Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:16:11.768Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:16:11.779Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:19:41.561Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:19:41.713Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:19:41.812Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:19:41.825Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:19:42.077Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:23:28.485Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:23:28.494Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:23:28.498Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:23:28.574Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:23:28.602Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:23:31.205Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T15:23:31.207Z [info]: Iniciando busca de preferências...
+2025-04-26T15:23:31.237Z [info]: Preferências encontradas: 3
+2025-04-26T15:23:31.238Z [info]: Processando 3 alunos
+2025-04-26T15:23:31.239Z [info]: Processando aluno: DANIEL REZENDE RODRIGUES (1V1)
+2025-04-26T15:23:31.240Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b28","680aeb79342e9b37e3955b16"]
+2025-04-26T15:23:31.251Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d3 para DANIEL REZENDE RODRIGUES
+2025-04-26T15:23:31.258Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d3 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:23:31.258Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T15:23:31.270Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d3 -> tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:23:31.271Z [info]: Aluno DANIEL REZENDE RODRIGUES (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T15:23:31.271Z [info]: Processando aluno: DANIEL DO ROSARIO DE FREITAS (1V1)
+2025-04-26T15:23:31.272Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b20"]
+2025-04-26T15:23:31.280Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d7 para DANIEL DO ROSARIO DE FREITAS
+2025-04-26T15:23:31.288Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d7 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:23:31.288Z [info]: Contagem atual do tutor: 3/19
+2025-04-26T15:23:31.293Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d7 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:23:31.294Z [info]: Aluno DANIEL DO ROSARIO DE FREITAS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:23:31.297Z [info]: Processando aluno: RICHARD VIEIRA SILVA (1V1)
+2025-04-26T15:23:31.298Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b1c"]
+2025-04-26T15:23:31.303Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d9 para RICHARD VIEIRA SILVA
+2025-04-26T15:23:31.308Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d9 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:23:31.309Z [info]: Contagem atual do tutor: 4/19
+2025-04-26T15:23:31.314Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d9 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:23:31.314Z [info]: Aluno RICHARD VIEIRA SILVA (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:23:31.314Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T15:23:31.326Z [info]: Relatório final: {"totalAssignments":7,"randomAssignments":0,"tutorDistribution":[{"_id":"680aeb79342e9b37e3955b0e","tutor":{"nome":"Ailton","disciplina":"GEOGRAFIA"},"studentCount":4,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e80b","nome":"YASMIN CHRISTINA BRAGA","turma":"1V3"},{"id":"680ae75f28c36a513af9e7cf","nome":"CARLOS EDUARDO DE JESUS VENANCIO","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d7","nome":"DANIEL DO ROSARIO DE FREITAS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d9","nome":"RICHARD VIEIRA SILVA","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1b","tutor":{"nome":"Alan","disciplina":"Educação Física"},"studentCount":1,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7d0","nome":"EMILY DE JESUS SANTOS","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1f","tutor":{"nome":"André","disciplina":"Português"},"studentCount":2,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7ce","nome":"DAVI DOS SANTOS STEINER","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d3","nome":"DANIEL REZENDE RODRIGUES","turma":"1V1"}]}],"timestamp":"2025-04-26T15:23:31.326Z"}
+2025-04-26T15:30:42.546Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:30:42.551Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:30:42.575Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:30:42.654Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:30:42.667Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:30:58.387Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T15:30:58.398Z [info]: Total de preferências antes do agrupamento: 6
+2025-04-26T15:30:58.400Z [info]: Preferências brutas:
+2025-04-26T15:30:58.402Z [info]: Iniciando busca de preferências...
+2025-04-26T15:30:58.416Z [info]: Preferências encontradas: 5
+2025-04-26T15:30:58.417Z [info]: Processando 5 alunos após agrupamento
+2025-04-26T15:30:58.418Z [info]: Preferências agrupadas:
+2025-04-26T15:30:58.419Z [info]: Processando aluno: CARLOS EDUARDO DE JESUS VENANCIO (1V1)
+2025-04-26T15:30:58.420Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b20","680aeb79342e9b37e3955b18","680aeb79342e9b37e3955b1d"]
+2025-04-26T15:30:58.430Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7cf para CARLOS EDUARDO DE JESUS VENANCIO
+2025-04-26T15:30:58.458Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:30:58.459Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:30:58.465Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7cf -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:30:58.465Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:30:58.466Z [info]: Processando aluno: EMILY DE JESUS SANTOS (1V1)
+2025-04-26T15:30:58.467Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b11","680aeb79342e9b37e3955b27","680aeb79342e9b37e3955b23","680aeb79342e9b37e3955b28"]
+2025-04-26T15:30:58.471Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d0 para EMILY DE JESUS SANTOS
+2025-04-26T15:30:58.480Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d0 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:30:58.481Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:30:58.486Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d0 -> tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:30:58.486Z [info]: Aluno EMILY DE JESUS SANTOS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T15:30:58.487Z [info]: Processando aluno: DANIEL REZENDE RODRIGUES (1V1)
+2025-04-26T15:30:58.488Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b28","680aeb79342e9b37e3955b16"]
+2025-04-26T15:30:58.495Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d3 para DANIEL REZENDE RODRIGUES
+2025-04-26T15:30:58.501Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d3 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:30:58.502Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T15:30:58.509Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d3 -> tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:30:58.510Z [info]: Aluno DANIEL REZENDE RODRIGUES (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T15:30:58.511Z [info]: Processando aluno: DANIEL DO ROSARIO DE FREITAS (1V1)
+2025-04-26T15:30:58.512Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b20"]
+2025-04-26T15:30:58.519Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d7 para DANIEL DO ROSARIO DE FREITAS
+2025-04-26T15:30:58.530Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d7 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:30:58.531Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T15:30:58.534Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d7 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:30:58.535Z [info]: Aluno DANIEL DO ROSARIO DE FREITAS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:30:58.535Z [info]: Processando aluno: RICHARD VIEIRA SILVA (1V1)
+2025-04-26T15:30:58.536Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b1c"]
+2025-04-26T15:30:58.542Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d9 para RICHARD VIEIRA SILVA
+2025-04-26T15:30:58.548Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d9 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:30:58.549Z [info]: Contagem atual do tutor: 2/19
+2025-04-26T15:30:58.553Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d9 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:30:58.554Z [info]: Aluno RICHARD VIEIRA SILVA (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:30:58.554Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T15:30:58.568Z [info]: Relatório final: {"totalAssignments":5,"randomAssignments":0,"tutorDistribution":[{"_id":"680aeb79342e9b37e3955b0e","tutor":{"nome":"Ailton","disciplina":"GEOGRAFIA"},"studentCount":3,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7cf","nome":"CARLOS EDUARDO DE JESUS VENANCIO","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d7","nome":"DANIEL DO ROSARIO DE FREITAS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d9","nome":"RICHARD VIEIRA SILVA","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1f","tutor":{"nome":"André","disciplina":"Português"},"studentCount":2,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7d0","nome":"EMILY DE JESUS SANTOS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d3","nome":"DANIEL REZENDE RODRIGUES","turma":"1V1"}]}],"timestamp":"2025-04-26T15:30:58.568Z"}
+2025-04-26T15:32:54.619Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T15:32:54.626Z [info]: Total de preferências antes do agrupamento: 6
+2025-04-26T15:32:54.629Z [info]: Preferências brutas:
+2025-04-26T15:32:54.630Z [info]: Iniciando busca de preferências...
+2025-04-26T15:32:54.642Z [info]: Preferências encontradas: 0
+2025-04-26T15:32:54.643Z [info]: Processando 0 alunos após agrupamento
+2025-04-26T15:32:54.644Z [info]: Preferências agrupadas:
+2025-04-26T15:32:54.645Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T15:32:54.655Z [info]: Relatório final: {"totalAssignments":5,"randomAssignments":0,"tutorDistribution":[{"_id":"680aeb79342e9b37e3955b0e","tutor":{"nome":"Ailton","disciplina":"GEOGRAFIA"},"studentCount":3,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7cf","nome":"CARLOS EDUARDO DE JESUS VENANCIO","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d7","nome":"DANIEL DO ROSARIO DE FREITAS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d9","nome":"RICHARD VIEIRA SILVA","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b1f","tutor":{"nome":"André","disciplina":"Português"},"studentCount":2,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7d0","nome":"EMILY DE JESUS SANTOS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d3","nome":"DANIEL REZENDE RODRIGUES","turma":"1V1"}]}],"timestamp":"2025-04-26T15:32:54.655Z"}
+2025-04-26T15:41:31.373Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:31.508Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:31.512Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:31.525Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:31.553Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:45.608Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:45.640Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:45.721Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:45.722Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:41:45.794Z [info]: Conexão com MongoDB estabelecida
+2025-04-26T15:42:14.430Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T15:42:14.437Z [info]: Assignments removidos: 5
+2025-04-26T15:42:49.251Z [info]: TutorAssignmentService inicializado com sucesso
+2025-04-26T15:42:49.266Z [info]: Total de preferências antes do agrupamento: 6
+2025-04-26T15:42:49.269Z [info]: Preferências brutas:
+2025-04-26T15:42:49.270Z [info]: Iniciando busca de preferências...
+2025-04-26T15:42:49.284Z [info]: Preferências encontradas: 5
+2025-04-26T15:42:49.284Z [info]: Processando 5 alunos após agrupamento
+2025-04-26T15:42:49.286Z [info]: Preferências agrupadas:
+2025-04-26T15:42:49.287Z [info]: Processando aluno: CARLOS EDUARDO DE JESUS VENANCIO (1V1)
+2025-04-26T15:42:49.288Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b20","680aeb79342e9b37e3955b18","680aeb79342e9b37e3955b1d"]
+2025-04-26T15:42:49.295Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7cf para CARLOS EDUARDO DE JESUS VENANCIO
+2025-04-26T15:42:49.303Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7cf ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:42:49.304Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:42:49.310Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7cf -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:42:49.311Z [info]: Aluno CARLOS EDUARDO DE JESUS VENANCIO (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:42:49.311Z [info]: Processando aluno: EMILY DE JESUS SANTOS (1V1)
+2025-04-26T15:42:49.312Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b11","680aeb79342e9b37e3955b27","680aeb79342e9b37e3955b23","680aeb79342e9b37e3955b28"]
+2025-04-26T15:42:49.318Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d0 para EMILY DE JESUS SANTOS
+2025-04-26T15:42:49.323Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d0 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:42:49.324Z [info]: Contagem atual do tutor: 0/19
+2025-04-26T15:42:49.328Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d0 -> tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:42:49.329Z [info]: Aluno EMILY DE JESUS SANTOS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T15:42:49.329Z [info]: Processando aluno: DANIEL REZENDE RODRIGUES (1V1)
+2025-04-26T15:42:49.330Z [info]: Preferências: ["680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b10","680aeb79342e9b37e3955b28","680aeb79342e9b37e3955b16"]
+2025-04-26T15:42:49.336Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d3 para DANIEL REZENDE RODRIGUES
+2025-04-26T15:42:49.341Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d3 ao tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:42:49.342Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T15:42:49.346Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d3 -> tutor 680aeb79342e9b37e3955b1f
+2025-04-26T15:42:49.347Z [info]: Aluno DANIEL REZENDE RODRIGUES (1V1) atribuído ao tutor 680aeb79342e9b37e3955b1f como 1ª opção
+2025-04-26T15:42:49.347Z [info]: Processando aluno: DANIEL DO ROSARIO DE FREITAS (1V1)
+2025-04-26T15:42:49.350Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b20"]
+2025-04-26T15:42:49.356Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d7 para DANIEL DO ROSARIO DE FREITAS
+2025-04-26T15:42:49.360Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d7 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:42:49.361Z [info]: Contagem atual do tutor: 1/19
+2025-04-26T15:42:49.366Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d7 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:42:49.366Z [info]: Aluno DANIEL DO ROSARIO DE FREITAS (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:42:49.367Z [info]: Processando aluno: RICHARD VIEIRA SILVA (1V1)
+2025-04-26T15:42:49.368Z [info]: Preferências: ["680aeb79342e9b37e3955b0e","680aeb79342e9b37e3955b1b","680aeb79342e9b37e3955b1f","680aeb79342e9b37e3955b0f","680aeb79342e9b37e3955b1c"]
+2025-04-26T15:42:49.373Z [info]: ID do aluno encontrado: 680ae75f28c36a513af9e7d9 para RICHARD VIEIRA SILVA
+2025-04-26T15:42:49.378Z [info]: Tentando atribuir aluno 680ae75f28c36a513af9e7d9 ao tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:42:49.379Z [info]: Contagem atual do tutor: 2/19
+2025-04-26T15:42:49.384Z [info]: Atribuição criada com sucesso: aluno 680ae75f28c36a513af9e7d9 -> tutor 680aeb79342e9b37e3955b0e
+2025-04-26T15:42:49.385Z [info]: Aluno RICHARD VIEIRA SILVA (1V1) atribuído ao tutor 680aeb79342e9b37e3955b0e como 1ª opção
+2025-04-26T15:42:49.385Z [info]: Total de alunos não atribuídos: 0
+2025-04-26T15:42:49.394Z [info]: Relatório final: {"totalAssignments":5,"randomAssignments":0,"tutorDistribution":[{"_id":"680aeb79342e9b37e3955b1f","tutor":{"nome":"André","disciplina":"Português"},"studentCount":2,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7d0","nome":"EMILY DE JESUS SANTOS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d3","nome":"DANIEL REZENDE RODRIGUES","turma":"1V1"}]},{"_id":"680aeb79342e9b37e3955b0e","tutor":{"nome":"Ailton","disciplina":"GEOGRAFIA"},"studentCount":3,"randomAssignments":0,"students":[{"id":"680ae75f28c36a513af9e7cf","nome":"CARLOS EDUARDO DE JESUS VENANCIO","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d7","nome":"DANIEL DO ROSARIO DE FREITAS","turma":"1V1"},{"id":"680ae75f28c36a513af9e7d9","nome":"RICHARD VIEIRA SILVA","turma":"1V1"}]}],"timestamp":"2025-04-26T15:42:49.394Z"}
