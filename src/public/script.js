@@ -610,6 +610,8 @@ function mostrarMensagemFinal(mensagem) {
     }
     if (instrucoes) {
         instrucoes.textContent = "Você não pode selecionar nenhum tutor.";
+        instrucoes.style.borderLeft = '4px solid #721c24'; 
+        instrucoes.style.backgroundColor = '#f8d7da'; 
     }
     if (listasContainer) {
         listasContainer.style.display = 'grid';
