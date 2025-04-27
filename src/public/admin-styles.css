@@ -8,11 +8,17 @@ body {
     font-family: Arial, sans-serif;
     background: #f5f5f5;
     padding: 20px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .admin-container {
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -83,4 +89,167 @@ header {
 
 .aluno-item:last-child {
     border-bottom: none;
+}
+
+/* Responsive Design */
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .admin-container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .actions button {
+        margin: 0;
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .data-section {
+        grid-template-columns: 1fr;
+    }
+
+    /* Estilos específicos para as seções de tabelas */
+    .turmas-section,
+    .professores-section {
+        margin-bottom: 20px;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    /* Estilos específicos para as seções de tabelas */
+    .alunos-section {
+        margin-bottom: 20px;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    .turmas-section .data-grid,
+    .professores-section .data-grid {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        width: 100%; /* Garante que o container da tabela não seja maior que a tela */
+    }
+
+    .turmas-section .data-grid table,
+    .professores-section .data-grid table {
+        width: auto; /* Permite que a tabela cresça conforme o conteúdo */
+        min-width: 600px; /* Largura mínima para evitar quebrar o layout */
+        border-collapse: collapse;
+    }
+
+    .turmas-section .data-grid th,
+    .professores-section .data-grid th,
+    .turmas-section .data-grid td,
+    .professores-section .data-grid td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #eee;
+        white-space: nowrap;
+        font-size: 0.9em;
+        text-align: left;
+    }
+
+    .turmas-section .data-grid th,
+    .professores-section .data-grid th {
+        background-color: #f8f8f8;
+        font-weight: bold;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .alunos-list {
+        max-height: 700px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .aluno-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        font-size: 0.95em;
+    }
+
+    .aluno-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Estilos gerais para outros data-grid (se houver) */
+    .data-grid {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 100%; /* Garante que o container não seja maior que a tela */
+        /* max-height: 300px; Removi para permitir altura dinâmica */
+        overflow-x: auto; /* Caso outras tabelas também precisem de rolagem */
+        -webkit-overflow-scrolling: touch;
+        max-width: min-content;
+    }
+
+    .data-grid table {
+        width: auto; /* Permite que a tabela cresça conforme o conteúdo */
+        min-width: auto; /* Ajuste conforme a necessidade de outras tabelas */
+        border-collapse: collapse;
+    }
+
+    .data-grid th,
+    .data-grid td {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+        white-space: nowrap; /* Importante para a rolagem horizontal */
+    }
+
+    .data-grid th {
+        background-color: #f8f8f8;
+        font-weight: bold;
+    }
+
+    /* Custom scrollbars para mobile */
+    .turmas-section .data-grid::-webkit-scrollbar,
+    .professores-section .data-grid::-webkit-scrollbar,
+    .data-grid::-webkit-scrollbar,
+    .alunos-list::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+
+    .turmas-section .data-grid::-webkit-scrollbar-thumb,
+    .professores-section .data-grid::-webkit-scrollbar-thumb,
+    .data-grid::-webkit-scrollbar-thumb,
+    .alunos-list::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
 }
