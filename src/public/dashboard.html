@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Atribuições</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard de Atribuições</h1>
+            <div class="actions">
+                <button id="btnProcess" class="btn-process">
+                    <span class="spinner" hidden></span>
+                    Processar Atribuições
+                </button>
+                <button id="btnClear" class="btn-clear">
+                    <span class="spinner" hidden></span>
+                    Limpar Atribuições
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Stats Overview -->
+            <section class="stats-card">
+                <h2>Visão Geral</h2>
+                <div id="overview" class="stats-content">
+                    Carregando...
+                </div>
+            </section>
+
+            <!-- Live Logs -->
+            <section class="logs-card">
+                <h2>Logs de Execução</h2>
+                <div id="logPanel" class="logs-content">
+                    Aguardando execução...
+                </div>
+            </section>
+
+            <!-- Tutor Stats -->
+            <section class="tutors-card">
+                <h2>Status dos Tutores</h2>
+                <div id="tutorStats" class="tutors-content">
+                    Carregando...
+                </div>
+            </section>
+
+            <!-- Modal Tutor Students -->
+            <div id="tutorModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3 id="modalTitle"></h3>
+                    <div id="modalContent"></div>
+                </div>
+            </div>
+
+            <!-- Unassigned Students -->
+            <section class="students-card">
+                <h2>Alunos sem Tutor</h2>
+                <div id="unassignedList" class="students-content">
+                    Carregando...
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+</html>

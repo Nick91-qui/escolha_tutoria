@@ -1,0 +1,69 @@
+config:
+  target: "http://localhost:3001"
+  phases:
+    - duration: 30  # duração em segundos
+      arrivalRate: 1 # 1 usuário por segundo
+  payload:
+    path: "alunos-teste.csv"
+    fields:
+      - "turma"
+      - "nome"
+    order: "sequence"
+    skipHeader: true
+  plugins:
+    expect: {}
+
+scenarios:
+  - name: "Fluxo de escolha de tutoria"
+    flow:
+      # Passo 1: Verificar aluno
+      - post:
+          url: "/api/verificar-aluno"
+          json:
+            turma: "{{ turma }}"
+            nome: "{{ nome }}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "verificado"
+      
+      # Aguarda 2 segundos
+      - think: 2
+      
+      # Passo 2: Buscar lista de professores
+      - get:
+          url: "/api/professores"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "professores"
+      
+      # Aguarda 1 segundo
+      - think: 1
+      
+      # Passo 3: Fazer escolha de tutoria
+      - post:
+          url: "/api/preferencias"
+          json:
+            turma: "{{ turma }}"
+            nome: "{{ nome }}"
+            preferencias: [
+              "Ailton Luiz Silva",
+              "Bruna Spadeto Oliveira",
+              "Giovana Manzoli Monteiro"
+            ]
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "sucesso"
+      
+      # Aguarda 2 segundos
+      - think: 2
+      
+      # Passo 4: Verificar se escolha foi salva
+      - get:
+          url: "/api/preferencias/{{ turma }}/{{ nome }}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "sucesso" 

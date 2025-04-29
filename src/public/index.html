@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Escolha de Tutoria</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Escolha de Tutoria</h1>
+        
+        <!-- Formulário de Login -->
+        <form id="form-login" class="form-login">
+            <h2>Login do Aluno</h2>
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" required placeholder="Digite seu nome completo">
+            </div>
+            <div class="form-group">
+                <label for="turma">Turma:</label>
+                <select id="turma" required>
+                    <option value="">Selecione sua turma</option>
+                    <option value="1V1">1I01</option>
+                    <option value="1V2">1I02</option>
+                    <option value="1V3">1I03</option>
+                    <option value="1V4">1I04</option>
+                    <option value="1V5">1I05</option>
+                    <option value="1V6">1I06</option>
+                    <option value="2V1">2I01</option>
+                    <option value="2V2">2I02</option>
+                    <option value="2V3">2I03</option>
+                    <option value="2V4">2I04</option>
+                    <option value="2V5">2I05</option>
+                    <option value="2V6">2I06</option>
+                    <option value="3V1">3I01</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+
+        <!-- Container de Escolhas -->
+        <div id="escolhas-container" class="escolhas-container">
+            <div class="info-aluno"></div>
+            
+            <div class="status-container">
+                <h3>Status da Fila</h3>
+                <div class="status-info">
+                    <p>Posição na fila: <span id="posicao-fila">-</span></p>
+                    <p>Tempo estimado: <span id="tempo-estimado">-</span> minutos</p>
+                </div>
+                <div class="progress-container">
+                    <div class="progress"></div>
+                </div>
+            </div>
+
+            <div class="listas-container">
+                <div class="lista lista-tutores">
+                    <h3>Tutores</h3>
+                    <div class="instrucoes">
+                        <p>Selecione até 5 tutores em ordem de preferência</p>
+                    </div>
+                    <div id="lista-professores" class="cards-container"></div>
+                </div>
+
+                <div class="lista lista-escolhas">
+                    <h3>Minhas Escolhas</h3>
+                    <div class="instrucoes">
+                        <p>Suas escolhas em ordem de preferência (máximo 5)</p>
+                    </div>
+                    <div id="lista-escolhas" class="cards-container" style="counter-reset: escolha 0;">
+                        <!-- Os cards serão inseridos aqui dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <button id="btn-confirmar" class="btn btn-confirmar">Confirmar Escolhas</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+config:
+  target: "http://localhost:3001"
+  phases:
+    # Fase 1: Aquecimento - começa devagar
+    - duration: 30
+      arrivalRate: 1
+      name: "Aquecimento"
+    
+    # Fase 2: Ramp-up - aumenta gradualmente
+    - duration: 60
+      arrivalRate: 2
+      rampTo: 10
+      name: "Aumento gradual"
+    
+    # Fase 3: Carga constante - mantém carga moderada
+    - duration: 120
+      arrivalRate: 10
+      name: "Carga constante"
+    
+    # Fase 4: Pico - teste de pico de carga
+    - duration: 30
+      arrivalRate: 20
+      name: "Pico de carga"
+    
+    # Fase 5: Cool-down - reduz gradualmente
+    - duration: 30
+      arrivalRate: 2
+      name: "Redução"
+
+  payload:
+    path: "alunos-teste.csv"
+    fields:
+      - "turma"
+      - "nome"
+    order: "sequence"
+    skipHeader: true
+    
+  plugins:
+    metrics-by-endpoint: {}
+    expect: {}
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+
+scenarios:
+  - name: "Fluxo completo de escolha de tutoria"
+    flow:
+      # Passo 1: Verificar aluno
+      - post:
+          url: "/api/verificar-aluno"
+          json:
+            turma: "{{ turma }}"
+            nome: "{{ nome }}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "verificado"
+      
+      # Aguarda entre 3-5 segundos
+      - think: 4
+      
+      # Passo 2: Buscar lista de professores
+      - get:
+          url: "/api/professores"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "professores"
+      
+      # Aguarda entre 2-4 segundos
+      - think: 3
+      
+      # Passo 3: Fazer escolha de tutoria
+      - post:
+          url: "/api/preferencias"
+          json:
+            turma: "{{ turma }}"
+            nome: "{{ nome }}"
+            preferencias: [
+              "Ailton Luiz Silva",
+              "Bruna Spadeto Oliveira",
+              "Giovana Manzoli Monteiro"
+            ]
+          expect:
+            - statusCode: [200, 400]
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "sucesso"
+      
+      # Aguarda entre 3-5 segundos
+      - think: 4
+      
+      # Passo 4: Verificar se escolha foi salva
+      - get:
+          url: "/api/preferencias/{{ turma }}/{{ nome }}"
+          expect:
+            - statusCode: 200
+            - contentType: "application/json; charset=utf-8"
+            - hasProperty: "sucesso" 

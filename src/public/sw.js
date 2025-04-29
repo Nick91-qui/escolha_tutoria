@@ -5,8 +5,8 @@ const DATA_CACHE_NAME = 'data-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/app.js',
-    '/style.css',
+    '/script.js',
+    '/styles.css',
     '/offline.html' // Página para quando estiver offline
 ];
 
