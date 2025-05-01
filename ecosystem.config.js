@@ -24,8 +24,12 @@ module.exports = {
       min_uptime: "10s",
       
       // Configurações de cluster
-
       instance_var: 'INSTANCE_ID',
+      
+      // Configurações otimizadas para alta carga
+      wait_ready: true,
+      listen_timeout: 3000,
+      kill_timeout: 5000,
       
       // Configurações de deploy
       autorestart: true,
