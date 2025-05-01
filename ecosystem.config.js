@@ -1,7 +1,7 @@
 module.exports = {
     apps: [{
       name: "sistema-tutoria",
-      script: "./src/cluster.js",
+      script: "./src/config/cluster.js",
       instances: "max", // Usa o número máximo de CPUs disponíveis
       exec_mode: "cluster",
       watch: false,
