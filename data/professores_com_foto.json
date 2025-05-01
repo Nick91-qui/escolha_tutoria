@@ -50,6 +50,11 @@
     "foto": "/images/professores/samantha_biologia.jpg"
   },
   {
+    "nome": "Marli",
+    "disciplina": "Biologia",
+    "foto": "/images/professores/marli_biologia.jpg"
+  },
+  {
     "nome": "Pedro",
     "disciplina": "Física",
     "foto": "/images/professores/pedro_física.jpg"
