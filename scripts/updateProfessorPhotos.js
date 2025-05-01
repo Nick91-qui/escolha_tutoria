@@ -1,8 +1,9 @@
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
-const uri = 'mongodb://localhost:27017';
+const uri = process.env.MONGODB_URI;
 const dbName = 'escola';
 
 async function updateProfessorPhotos() {
