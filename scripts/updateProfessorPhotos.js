@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const uri = 'mongodb://localhost:27017';
-const dbName = 'escolha_tutoria';
+const dbName = 'escola';
 
 async function updateProfessorPhotos() {
     const client = new MongoClient(uri);

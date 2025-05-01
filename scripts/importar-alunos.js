@@ -40,7 +40,7 @@ async function importarTodosAlunos() {
         await client.connect();
         console.log("✅ Conectado ao MongoDB com sucesso!");
 
-        const targetDb = client.db('escolha_tutoria');
+        const targetDb = client.db('escola');
         
         // Limpar coleção de destino
         await targetDb.collection('alunos').deleteMany({});

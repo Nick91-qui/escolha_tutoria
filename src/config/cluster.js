@@ -28,6 +28,10 @@ class ClusterConfig {
             return false; // indica que é o processo master
         } else {
             console.log(`👷 Worker ${process.pid} iniciando`);
+            
+            // Importar e iniciar o servidor quando for um worker
+            require('../../server');
+            
             return true; // indica que é um worker
         }
     }
