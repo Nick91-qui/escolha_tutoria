@@ -1,11 +1,12 @@
 module.exports = {
     apps: [{
       name: "sistema-tutoria",
-      script: "./src/config/cluster.js",
-      instances: "max", // Usa o número máximo de CPUs disponíveis
+      script: "./server.js",  // Apontar diretamente para o server.js em vez do cluster.js
+      instances: "max",       // Usa o número máximo de CPUs disponíveis
       exec_mode: "cluster",
       watch: false,
       max_memory_restart: "1G",
+      node_args: "--max-old-space-size=4096", // Configuração de memória adicionada aqui
       env: {
         NODE_ENV: "production",
         PORT: 3000
