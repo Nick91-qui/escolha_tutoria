@@ -161,13 +161,15 @@ const UIRenderer = {
                 ).join('')}
                </ul>`
             : '<p>Nenhum aluno atribuído ainda.</p>';
-
+    
         DOM.modalContent.innerHTML = `
             <div class="modal-stats">
                 <p>Total de alunos: ${tutor.currentCount}</p>
                 <p>Vagas disponíveis: ${tutor.remaining}</p>
             </div>
-            ${studentsList}
+            <div class="modal-students-wrapper">
+                ${studentsList}
+            </div>
         `;
         
         DOM.modal.style.display = 'block';

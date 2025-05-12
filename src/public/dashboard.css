@@ -175,6 +175,12 @@ header {
     max-width: 500px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#modalContent{
+    overflow-y: auto;
 }
 
 .close-modal {
@@ -284,15 +290,46 @@ header {
 }
 
 /* Student List */
+/* Modal Students Container */
+.modal-students-wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #f9f9f9;
+}
+
 .student-list {
-    list-style: none;
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
 }
 
 .student-list li {
-    padding: 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 5px;
+    padding: 3px 0;
 }
 
+/* Estilização da barra de rolagem */
+.modal-students-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-students-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-students-wrapper::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.modal-students-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #0d6efd;
+}
 .student-list li:last-child {
     border-bottom: none;
 }
