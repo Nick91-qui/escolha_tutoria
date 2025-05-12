@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 class TutorAssignmentService {
     constructor() {
         this.CONFIG = {
-            MAX_STUDENTS_PER_TUTOR: 19,
+            MAX_STUDENTS_PER_TUTOR: 15,
             MAX_PREFERENCES: 5
         };
         this.db = null;
@@ -475,6 +475,156 @@ class TutorAssignmentService {
             return stats;
         } catch (error) {
             logger.error('Erro ao gerar estatísticas detalhadas:', error);
+            throw error;
+        }
+    }
+
+    async generateTutorListsPDF() {
+        try {
+            logger.info('Buscando dados para gerar PDFs...');
+            
+            const tutorAssignments = await this.db.collection('professores')
+                .aggregate([
+                    {
+                        $lookup: {
+                            from: 'assignments',
+                            localField: '_id',
+                            foreignField: 'tutorId',
+                            as: 'assignments'
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'alunos',
+                            let: { tutorId: '$_id' },
+                            pipeline: [
+                                {
+                                    $lookup: {
+                                        from: 'assignments',
+                                        localField: '_id',
+                                        foreignField: 'studentId',
+                                        as: 'assignment'
+                                    }
+                                },
+                                { $unwind: '$assignment' },
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $eq: ['$assignment.tutorId', '$$tutorId']
+                                        }
+                                    }
+                                },
+                                {
+                                    $sort: { 
+                                        turma: 1,
+                                        nome: 1
+                                    }
+                                }
+                            ],
+                            as: 'students'
+                        }
+                    },
+                    {
+                        $match: {
+                            students: { $ne: [] }
+                        }
+                    },
+                    {
+                        $project: {
+                            nome: 1,
+                            disciplina: 1,
+                            students: {
+                                $map: {
+                                    input: '$students',
+                                    as: 'student',
+                                    in: {
+                                        nome: '$$student.nome',
+                                        turma: '$$student.turma'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]).toArray();
+
+            if (!tutorAssignments.length) {
+                logger.warn('Nenhuma atribuição encontrada para gerar PDFs');
+                return { 
+                    success: false, 
+                    message: 'Não há atribuições para gerar PDFs' 
+                };
+            }
+
+            return {
+                success: true,
+                data: tutorAssignments,
+                message: `Dados preparados para ${tutorAssignments.length} tutores`
+            };
+        } catch (error) {
+            logger.error('Erro ao buscar dados para PDFs:', error);
+            throw error;
+        }
+    }
+
+    async generateStudentPreferencesList() {
+        try {
+            logger.info('Gerando lista de escolhas dos alunos...');
+            
+            const studentPreferences = await this.db.collection('assignments')
+                .aggregate([
+                    {
+                        $lookup: {
+                            from: 'alunos',
+                            localField: 'studentId',
+                            foreignField: '_id',
+                            as: 'aluno'
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'professores',
+                            localField: 'tutorId',
+                            foreignField: '_id',
+                            as: 'tutor'
+                        }
+                    },
+                    {
+                        $unwind: '$aluno'
+                    },
+                    {
+                        $unwind: '$tutor'
+                    },
+                    {
+                        $project: {
+                            nome: '$aluno.nome',
+                            turma: '$aluno.turma',
+                            tutorNome: '$tutor.nome',
+                            tutorDisciplina: '$tutor.disciplina',
+                            preferenceNumber: 1
+                        }
+                    },
+                    {
+                        $sort: {
+                            turma: 1,
+                            nome: 1
+                        }
+                    }
+                ]).toArray();
+
+            if (!studentPreferences.length) {
+                return {
+                    success: false,
+                    message: 'Não há escolhas de alunos para gerar PDF'
+                };
+            }
+
+            return {
+                success: true,
+                data: studentPreferences,
+                message: `Dados preparados para ${studentPreferences.length} alunos`
+            };
+        } catch (error) {
+            logger.error('Erro ao gerar lista de escolhas:', error);
             throw error;
         }
     }

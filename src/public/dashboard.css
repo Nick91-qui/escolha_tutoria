@@ -362,3 +362,60 @@ header {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.btn-download {
+    min-width: 160px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-download:hover {
+    background: #45a049;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.btn-download:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-download-preferences {
+    min-width: 160px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    background: #2196F3;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-download-preferences:hover {
+    background: #1976D2;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+.btn-download-preferences:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
