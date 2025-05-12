@@ -401,12 +401,38 @@ class TutorAssignmentService {
                                         as: 'assignment'
                                     }
                                 },
-                                { $unwind: '$assignment' },
+                                { $unwind: { path: '$assignment', preserveNullAndEmptyArrays: false } },
                                 {
                                     $match: {
                                         $expr: {
                                             $eq: ['$assignment.tutorId', '$$tutorId']
                                         }
+                                    }
+                                },
+                                {
+                                    $lookup: {
+                                        from: 'preferencias',
+                                        let: { aluno_nome: "$nome", aluno_turma: "$turma" },
+                                        pipeline: [
+                                            {
+                                                $match: {
+                                                    $expr: {
+                                                        $and: [
+                                                            { $eq: ["$nome", "$$aluno_nome"] },
+                                                            { $eq: ["$turma", "$$aluno_turma"] }
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            { $sort: { dataRegistro: 1 } },
+                                            { $limit: 1 }
+                                        ],
+                                        as: 'preferencia'
+                                    }
+                                },
+                                {
+                                    $addFields: {
+                                        dataRegistro: { $arrayElemAt: ["$preferencia.dataRegistro", 0] }
                                     }
                                 }
                             ],
@@ -431,7 +457,8 @@ class TutorAssignmentService {
                                     in: {
                                         id: '$$student._id',
                                         nome: '$$student.nome',
-                                        turma: '$$student.turma'
+                                        turma: '$$student.turma',
+                                        dataRegistro: '$$student.dataRegistro'
                                     }
                                 }
                             }

@@ -154,10 +154,18 @@ const UIRenderer = {
     showTutorModal(tutor) {
         DOM.modalTitle.textContent = `Alunos de ${tutor.nome} - ${tutor.disciplina}`;
         
-        const studentsList = tutor.students?.length 
+        // Ordenar alunos pela data de registro (do mais antigo para o mais recente)
+        const sortedStudents = tutor.students ? [...tutor.students].sort((a, b) => {
+            // Verificar se dataRegistro existe antes de comparar
+            if (!a.dataRegistro) return -1;
+            if (!b.dataRegistro) return 1;
+            return new Date(a.dataRegistro || 0) - new Date(b.dataRegistro || 0);
+        }) : [];
+        
+        const studentsList = sortedStudents.length 
             ? `<ul class="student-list">
-                ${tutor.students.map(student => 
-                    `<li>${student.nome} (${student.turma})</li>`
+                ${sortedStudents.map((student, index) => 
+                    `<li>${index + 1}. ${student.nome} (${student.turma})${student.dataRegistro ? ` - ${new Date(student.dataRegistro).toLocaleString('pt-BR')}` : ''}</li>`
                 ).join('')}
                </ul>`
             : '<p>Nenhum aluno atribuído ainda.</p>';
