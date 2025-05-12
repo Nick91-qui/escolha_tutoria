@@ -1,9 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const { MongoClient } = require('mongodb');
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+    console.error('❌ MONGODB_URI não encontrada no arquivo .env');
+    console.log('🔍 Procurando .env em:', path.join(__dirname, '..', '.env'));
+    process.exit(1);
+}
 
 function normalizarTexto(texto) {
     if (!texto) return '';

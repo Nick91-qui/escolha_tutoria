@@ -2,7 +2,9 @@
 const API = {
     PROCESS: '/api/assignments/process',
     CLEAR: '/api/assignments/clear',
-    STATS: '/api/assignments/stats'
+    STATS: '/api/assignments/stats',
+    DOWNLOAD: '/api/assignments/download-lists',
+    DOWNLOAD_PREFERENCES: '/api/assignments/download-preferences'
 };
 
 const DOM = {
@@ -13,6 +15,12 @@ const DOM = {
         this.logPanel = document.getElementById('logPanel');
         this.tutorStats = document.getElementById('tutorStats');
         this.unassignedList = document.getElementById('unassignedList');
+        this.btnDownload = document.getElementById('btnDownload');
+        this.spinnerDownload = this.btnDownload.querySelector('.spinner');
+        this.spinnerDownload.style.display = 'none';
+        this.btnDownloadPreferences = document.getElementById('btnDownloadPreferences');
+        this.spinnerDownloadPreferences = this.btnDownloadPreferences.querySelector('.spinner');
+        this.spinnerDownloadPreferences.style.display = 'none';
         
         // Get spinner references
         this.spinnerProcess = this.btnProcess.querySelector('.spinner');
@@ -72,6 +80,24 @@ const AssignmentService = {
     async getStats() {
         const response = await fetch(API.STATS);
         return await response.json();
+    },
+
+    async downloadLists() {
+        const response = await fetch(API.DOWNLOAD);
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Erro ao baixar listas');
+        }
+        return response.blob();
+    },
+
+    async downloadPreferencesList() {
+        const response = await fetch(API.DOWNLOAD_PREFERENCES);
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Erro ao baixar lista de escolhas');
+        }
+        return response.blob();
     }
 };
 
@@ -213,6 +239,11 @@ const UIRenderer = {
         this.renderOverview(stats);
         this.renderTutorStats(stats);
         this.renderUnassignedStudents(stats);
+
+        // Update download buttons state
+        const hasAssignments = stats.total.assignedStudents > 0;
+        DOM.btnDownload.disabled = !hasAssignments;
+        DOM.btnDownloadPreferences.disabled = !hasAssignments;  // Enable/disable preferences button based on assignments
     }
 };
 
@@ -270,6 +301,65 @@ const EventHandlers = {
             button.disabled = false;
             spinner.hidden = true;
         }
+    },
+
+    async handleDownload() {
+        const button = DOM.btnDownload;
+        const spinner = DOM.spinnerDownload;
+
+        try {
+            button.disabled = true;
+            spinner.style.display = 'inline-block';
+            Logger.add('Gerando PDFs das listas...');
+
+            const blob = await AssignmentService.downloadLists();
+            
+            // Create download link
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `listas-tutores-${new Date().toISOString().split('T')[0]}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            Logger.add('Download das listas concluído!', 'success');
+        } catch (error) {
+            Logger.add(`Erro ao baixar listas: ${error.message}`, 'error');
+        } finally {
+            button.disabled = false;
+            spinner.style.display = 'none';
+        }
+    },
+
+    async handleDownloadPreferences() {
+        const button = DOM.btnDownloadPreferences;
+        const spinner = DOM.spinnerDownloadPreferences;
+
+        try {
+            button.disabled = true;
+            spinner.style.display = 'inline-block';
+            Logger.add('Gerando PDF de escolhas dos alunos...');
+
+            const blob = await AssignmentService.downloadPreferencesList();
+            
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `lista-escolhas-${new Date().toISOString().split('T')[0]}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            Logger.add('Download da lista de escolhas concluído!', 'success');
+        } catch (error) {
+            Logger.add(`Erro ao baixar lista de escolhas: ${error.message}`, 'error');
+        } finally {
+            button.disabled = false;
+            spinner.style.display = 'none';
+        }
     }
 };
 
@@ -281,6 +371,8 @@ async function initializeDashboard() {
         // Attach event listeners
         DOM.btnProcess.addEventListener('click', EventHandlers.handleProcess);
         DOM.btnClear.addEventListener('click', EventHandlers.handleClear);
+        DOM.btnDownload.addEventListener('click', EventHandlers.handleDownload);
+        DOM.btnDownloadPreferences.addEventListener('click', EventHandlers.handleDownloadPreferences);
         
         // Load initial data
         Logger.add('Carregando dados iniciais...');
