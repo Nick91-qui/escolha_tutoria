@@ -6,9 +6,30 @@ class TutorAssignmentService {
     constructor() {
         this.CONFIG = {
             MAX_STUDENTS_PER_TUTOR: 15,
-            MAX_PREFERENCES: 5
+            MAX_STUDENTS_PEDAGOGICAL: 6,
+            MAX_PREFERENCES: 5,
+            PEDAGOGICAL_ROLES: [
+                'CASF',
+                'COORDENADOR',
+                'COORDENADORA',
+                'PEDAGOGO',
+                'PEDAGOGA',
+                'DIRETORA',
+                'DIRETOR',
+                'COORDENADORA PEDAGOGICA',
+                'COORDENADOR PEDAGOGICO'
+            ]
         };
         this.db = null;
+    }
+
+    normalizarTexto(texto) {
+        if (!texto) return '';
+        return texto
+            .toUpperCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim();
     }
 
     async initialize() {
@@ -101,13 +122,15 @@ class TutorAssignmentService {
 
     async assignStudentToTutor(studentId, tutorId, preferenceNumber) {
         try {
+            // Get tutor's max student limit
+            const maxStudents = await this.getTutorMaxStudents(tutorId);
             const currentCount = await this.getTutorCurrentCount(tutorId);
             
             logger.info(`Tentando atribuir aluno ${studentId} ao tutor ${tutorId}`);
-            logger.info(`Contagem atual do tutor: ${currentCount}/${this.CONFIG.MAX_STUDENTS_PER_TUTOR}`);
+            logger.info(`Contagem atual do tutor: ${currentCount}/${maxStudents}`);
             
-            if (currentCount >= this.CONFIG.MAX_STUDENTS_PER_TUTOR) {
-                logger.info(`Tutor ${tutorId} está com capacidade máxima`);
+            if (currentCount >= maxStudents) {
+                logger.info(`Tutor ${tutorId} está com capacidade máxima (${maxStudents} alunos)`);
                 return false;
             }
 
@@ -129,7 +152,7 @@ class TutorAssignmentService {
 
     async processStudentPreferences(preference) {
         try {
-            // Primeiro, buscar o ID do aluno pelo nome
+            // Find student ID
             const aluno = await this.db.collection('alunos').findOne({ 
                 nome: preference.nome,
                 turma: preference.turma 
@@ -142,28 +165,50 @@ class TutorAssignmentService {
 
             logger.info(`ID do aluno encontrado: ${aluno._id} para ${preference.nome}`);
 
-            // Verifica preferências
+            // Verify preferences
             if (!preference.preferencias || !Array.isArray(preference.preferencias)) {
                 logger.error(`Preferências inválidas para o aluno ${preference.nome}`);
                 return false;
             }
 
-            // Tenta atribuir para cada preferência
+            // Try preferred tutors first
             for (let i = 0; i < preference.preferencias.length; i++) {
                 const tutorId = preference.preferencias[i];
                 const assigned = await this.assignStudentToTutor(
-                    aluno._id,  // Usa o ID correto do aluno
+                    aluno._id,
                     tutorId,
                     i + 1
                 );
                 
                 if (assigned) {
-                    logger.info(`Aluno ${preference.nome} (${preference.turma}) atribuído ao tutor ${tutorId} como ${i + 1}ª opção`);
+                    logger.info(`Aluno ${preference.nome} atribuído ao tutor ${tutorId} (${i + 1}ª opção)`);
                     return true;
                 }
             }
             
-            logger.warn(`Aluno ${preference.nome} (${preference.turma}) não foi atribuído a nenhuma preferência`);
+            // If no preferred tutors available, try random assignment
+            logger.warn(`Nenhuma preferência disponível para ${preference.nome}, tentando atribuição aleatória`);
+            
+            const availableTutors = await this.getAvailableTutors();
+            
+            if (availableTutors.length > 0) {
+                // Random selection from available tutors
+                const randomIndex = Math.floor(Math.random() * availableTutors.length);
+                const randomTutor = availableTutors[randomIndex];
+                
+                const assigned = await this.assignStudentToTutor(
+                    aluno._id,
+                    randomTutor._id,
+                    null // null indicates random assignment
+                );
+                
+                if (assigned) {
+                    logger.info(`Aluno ${preference.nome} atribuído aleatoriamente ao tutor ${randomTutor.nome}`);
+                    return true;
+                }
+            }
+            
+            logger.error(`Não foi possível atribuir ${preference.nome} a nenhum tutor`);
             return false;
         } catch (error) {
             logger.error(`Erro ao processar preferências do aluno ${preference.nome}:`, error);
@@ -172,7 +217,6 @@ class TutorAssignmentService {
     }
 
     async getAvailableTutors() {
-        // Ajustado para usar campos corretos da collection professores
         const tutors = await this.db.collection('professores')
             .find({}, {
                 projection: {
@@ -198,9 +242,10 @@ class TutorAssignmentService {
             assignments.map(a => [a._id.toString(), a.count])
         );
 
-        return tutors.filter(tutor => 
-            (tutorCounts.get(tutor._id.toString()) || 0) < this.CONFIG.MAX_STUDENTS_PER_TUTOR
-        );
+        return await Promise.all(tutors.filter(async tutor => {
+            const maxStudents = await this.getTutorMaxStudents(tutor._id);
+            return (tutorCounts.get(tutor._id.toString()) || 0) < maxStudents;
+        }));
     }
 
     async processAssignments() {
@@ -653,6 +698,35 @@ class TutorAssignmentService {
         } catch (error) {
             logger.error('Erro ao gerar lista de escolhas:', error);
             throw error;
+        }
+    }
+
+    async getTutorMaxStudents(tutorId) {
+        try {
+            const tutor = await this.db.collection('professores').findOne(
+                { _id: new ObjectId(tutorId) },
+                { projection: { disciplina: 1 } }
+            );
+
+            if (!tutor) {
+                logger.warn(`Tutor não encontrado: ${tutorId}`);
+                return this.CONFIG.MAX_STUDENTS_PER_TUTOR;
+            }
+
+            const disciplinaNormalizada = this.normalizarTexto(tutor.disciplina);
+            const isPedagogical = this.CONFIG.PEDAGOGICAL_ROLES.some(role => 
+                disciplinaNormalizada.includes(this.normalizarTexto(role))
+            );
+
+            const maxStudents = isPedagogical 
+                ? this.CONFIG.MAX_STUDENTS_PEDAGOGICAL 
+                : this.CONFIG.MAX_STUDENTS_PER_TUTOR;
+
+            logger.info(`Limite de alunos para ${tutor.disciplina}: ${maxStudents}`);
+            return maxStudents;
+        } catch (error) {
+            logger.error('Erro ao obter limite de alunos do tutor:', error);
+            return this.CONFIG.MAX_STUDENTS_PER_TUTOR;
         }
     }
 }

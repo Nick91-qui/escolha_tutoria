@@ -128,17 +128,22 @@ const UIRenderer = {
     },
 
     renderTutorStats(stats) {
-        const html = stats.tutors.details.map(tutor => `
-            <div class="tutor-item">
-                <h4 class="tutor-name" data-tutor='${JSON.stringify(tutor)}'>${tutor.nome} (${tutor.disciplina})</h4>
-                <div class="progress-bar">
-                    <div class="progress" style="width: ${(tutor.currentCount / (tutor.currentCount + tutor.remaining)) * 100}%">
-                        ${tutor.currentCount}/${tutor.currentCount + tutor.remaining}
+        const html = stats.tutors.details.map(tutor => {
+            // Get max students based on role
+            const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+            
+            return `
+                <div class="tutor-item">
+                    <h4 class="tutor-name" data-tutor='${JSON.stringify(tutor)}'>${tutor.nome} (${tutor.disciplina})</h4>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${(tutor.currentCount / maxStudents) * 100}%">
+                            ${tutor.currentCount}/${maxStudents}
+                        </div>
                     </div>
+                    <p class="remaining">Vagas restantes: ${maxStudents - tutor.currentCount}</p>
                 </div>
-                <p class="remaining">Vagas restantes: ${tutor.remaining}</p>
-            </div>
-        `).join('');
+            `;
+        }).join('');
         
         DOM.tutorStats.innerHTML = html;
 
@@ -152,6 +157,8 @@ const UIRenderer = {
     },
 
     showTutorModal(tutor) {
+        const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+        
         DOM.modalTitle.textContent = `Alunos de ${tutor.nome} - ${tutor.disciplina}`;
         
         // Ordenar alunos pela data de registro (do mais antigo para o mais recente)
@@ -173,7 +180,8 @@ const UIRenderer = {
         DOM.modalContent.innerHTML = `
             <div class="modal-stats">
                 <p>Total de alunos: ${tutor.currentCount}</p>
-                <p>Vagas disponíveis: ${tutor.remaining}</p>
+                <p>Vagas disponíveis: ${maxStudents - tutor.currentCount}</p>
+                <p>Limite máximo: ${maxStudents} alunos</p>
             </div>
             <div class="modal-students-wrapper">
                 ${studentsList}
@@ -243,6 +251,33 @@ const UIRenderer = {
                 }
             });
         }
+    },
+
+    isPedagogicalRole(disciplina) {
+        const pedagogicalRoles = [
+            'CASF',
+            'COORDENADOR',
+            'COORDENADORA',
+            'PEDAGOGO',
+            'PEDAGOGA',
+            'DIRETORA',
+            'DIRETOR',
+            'COORDENADORA PEDAGOGICA',
+            'COORDENADOR PEDAGOGICO'
+        ];
+        
+        return pedagogicalRoles.some(role => 
+            this.normalizarTexto(disciplina).includes(this.normalizarTexto(role))
+        );
+    },
+
+    normalizarTexto(texto) {
+        if (!texto) return '';
+        return texto
+            .toUpperCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim();
     },
 
     updateAll(stats) {
