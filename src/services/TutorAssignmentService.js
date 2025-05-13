@@ -726,6 +726,20 @@ class TutorAssignmentService {
         }
     }
 
+    isPedagogicalRole(disciplina) {
+        if (!disciplina) return false;
+        const disciplinaNormalizada = this.normalizarTexto(disciplina);
+        return this.CONFIG.PEDAGOGICAL_ROLES.some(role => 
+            disciplinaNormalizada.includes(this.normalizarTexto(role))
+        );
+    }
+
+    getMaxStudents(disciplina) {
+        return this.isPedagogicalRole(disciplina) 
+            ? this.CONFIG.MAX_STUDENTS_PEDAGOGICAL 
+            : this.CONFIG.MAX_STUDENTS_PER_TUTOR;
+    }
+
     async getTutorMaxStudents(tutorId) {
         try {
             const tutor = await this.db.collection('professores').findOne(
@@ -738,14 +752,7 @@ class TutorAssignmentService {
                 return this.CONFIG.MAX_STUDENTS_PER_TUTOR;
             }
 
-            const disciplinaNormalizada = this.normalizarTexto(tutor.disciplina);
-            const isPedagogical = this.CONFIG.PEDAGOGICAL_ROLES.some(role => 
-                disciplinaNormalizada.includes(this.normalizarTexto(role))
-            );
-
-            const maxStudents = isPedagogical 
-                ? this.CONFIG.MAX_STUDENTS_PEDAGOGICAL 
-                : this.CONFIG.MAX_STUDENTS_PER_TUTOR;
+            const maxStudents = this.getMaxStudents(tutor.disciplina);
 
             logger.info(`Limite de alunos para ${tutor.disciplina}: ${maxStudents}`);
             return maxStudents;

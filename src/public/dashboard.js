@@ -106,12 +106,12 @@ const UIRenderer = {
     renderOverview(stats) {
         // Calculate available and full tutors correctly
         const availableTutors = stats.tutors.details.filter(tutor => {
-            const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+            const maxStudents = this.getMaxStudents(tutor.disciplina);
             return tutor.currentCount < maxStudents;
         });
 
         const fullTutors = stats.tutors.details.filter(tutor => {
-            const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+            const maxStudents = this.getMaxStudents(tutor.disciplina);
             return tutor.currentCount >= maxStudents;
         });
 
@@ -140,8 +140,7 @@ const UIRenderer = {
 
     renderTutorStats(stats) {
         const html = stats.tutors.details.map(tutor => {
-            // Get max students based on role
-            const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+            const maxStudents = this.getMaxStudents(tutor.disciplina);
             
             return `
                 <div class="tutor-item">
