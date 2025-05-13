@@ -32665,3 +32665,15 @@
 2025-05-13T20:40:17.637Z [info]: Processando aluno: MARCOS VINICIUS FOLLI MARIANO (1V3)
 2025-05-13T20:40:17.637Z [info]: Preferências: ["681340b8e37a34539383965a","681340b8e37a34539383965d","681340b8e37a345393839671","681340b8e37a345393839660","681340b8e37a345393839657"]
 2025-05-13T20:40:17.658Z [info]: ID do aluno encontrado: 68133b7485110e3a118c051d para MARCOS VINICIUS FOLLI MARIANO
+2025-05-13T20:44:00.189Z [info]: Conexão com MongoDB estabelecida
+2025-05-13T20:44:00.196Z [info]: Conexão com MongoDB estabelecida
+2025-05-13T20:44:00.227Z [info]: Conexão com MongoDB estabelecida
+2025-05-13T20:44:00.311Z [info]: Conexão com MongoDB estabelecida
+2025-05-13T20:44:00.743Z [info]: Conexão com MongoDB estabelecida
+2025-05-13T20:44:06.356Z [info]: TutorAssignmentService inicializado com sucesso
+2025-05-13T20:44:12.917Z [info]: TutorAssignmentService inicializado com sucesso
+2025-05-13T20:44:13.033Z [info]: Assignments removidos: 68
+2025-05-13T20:44:13.182Z [info]: TutorAssignmentService inicializado com sucesso
+2025-05-13T20:44:17.996Z [info]: TutorAssignmentService inicializado com sucesso
+2025-05-13T20:45:47.032Z [info]: TutorAssignmentService inicializado com sucesso
+2025-05-13T20:45:53.600Z [info]: TutorAssignmentService inicializado com sucesso

@@ -166,8 +166,13 @@ const UIRenderer = {
         });
     },
 
+    getMaxStudents(disciplina) {
+        return this.isPedagogicalRole(disciplina) ? 6 : 18;
+    },
+
     showTutorModal(tutor) {
-        const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+        // Substituir valor fixo pelo método getMaxStudents
+        const maxStudents = this.getMaxStudents(tutor.disciplina);
         
         DOM.modalTitle.textContent = `Alunos de ${tutor.nome} - ${tutor.disciplina}`;
         
