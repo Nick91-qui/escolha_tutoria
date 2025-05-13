@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 class TutorAssignmentService {
     constructor() {
         this.CONFIG = {
-            MAX_STUDENTS_PER_TUTOR: 15,
+            MAX_STUDENTS_PER_TUTOR: 18,
             MAX_STUDENTS_PEDAGOGICAL: 6,
             MAX_PREFERENCES: 5,
             PEDAGOGICAL_ROLES: [
@@ -35,6 +35,19 @@ class TutorAssignmentService {
     async initialize() {
         try {
             this.db = await conectar();
+            
+            // Criar índices com collation para busca sem considerar acentos
+            await this.db.collection('preferencias').createIndex(
+                { nome: 1, turma: 1 }, 
+                { 
+                    collation: { 
+                        locale: 'pt',
+                        strength: 1,  // Ignora acentos e maiúsculas/minúsculas
+                        alternate: 'shifted' // Ignora pontuação e espaços
+                    }
+                }
+            );
+            
             logger.info('TutorAssignmentService inicializado com sucesso');
         } catch (error) {
             logger.error('Erro ao inicializar TutorAssignmentService:', error);
@@ -59,7 +72,10 @@ class TutorAssignmentService {
                     // Remover duplicatas por nome+turma
                     {
                         $group: {
-                            _id: { nome: "$nome", turma: "$turma" },
+                            _id: { 
+                                nome: { $toLower: "$nome" },  // Converter para minúsculo
+                                turma: "$turma" 
+                            },
                             // Pegar o registro mais recente em caso de duplicata
                             doc: { $first: "$$ROOT" },
                             dataRegistro: { $first: "$dataRegistro" }
@@ -85,26 +101,26 @@ class TutorAssignmentService {
                                 {
                                     $match: {
                                         $expr: {
-                                            $eq: ['$aluno.nome', '$$aluno_nome']
+                                            $eq: [
+                                                { $toLower: '$aluno.nome' }, 
+                                                { $toLower: '$$aluno_nome' }
+                                            ]
                                         }
                                     }
                                 }
                             ],
                             as: 'assignment'
                         }
-                    },
-                    {
-                        $match: {
-                            assignment: { $size: 0 }
-                        }
-                    },
-                    {
-                        $sort: { 
-                            dataRegistro: 1,
-                            _id: 1
-                        }
                     }
-                ]).toArray();
+                ], 
+                { 
+                    collation: { 
+                        locale: 'pt',
+                        strength: 1,
+                        alternate: 'shifted'
+                    }
+                }
+            ).toArray();
 
             logger.info(`Preferências encontradas: ${preferences.length}`);
             return preferences;
@@ -152,11 +168,20 @@ class TutorAssignmentService {
 
     async processStudentPreferences(preference) {
         try {
-            // Find student ID
-            const aluno = await this.db.collection('alunos').findOne({ 
-                nome: preference.nome,
-                turma: preference.turma 
-            });
+            // Find student ID usando collation
+            const aluno = await this.db.collection('alunos').findOne(
+                { 
+                    nome: preference.nome,
+                    turma: preference.turma 
+                },
+                {
+                    collation: { 
+                        locale: 'pt',
+                        strength: 1,
+                        alternate: 'shifted'
+                    }
+                }
+            );
 
             if (!aluno) {
                 logger.error(`Aluno não encontrado: ${preference.nome} (${preference.turma})`);
