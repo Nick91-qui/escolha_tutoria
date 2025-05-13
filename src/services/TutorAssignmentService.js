@@ -138,6 +138,10 @@ class TutorAssignmentService {
 
     async assignStudentToTutor(studentId, tutorId, preferenceNumber) {
         try {
+            // Convert string IDs to ObjectId
+            const studentObjId = new ObjectId(studentId);
+            const tutorObjId = new ObjectId(tutorId);
+
             // Get tutor's max student limit
             const maxStudents = await this.getTutorMaxStudents(tutorId);
             const currentCount = await this.getTutorCurrentCount(tutorId);
@@ -151,8 +155,8 @@ class TutorAssignmentService {
             }
 
             await this.db.collection('assignments').insertOne({
-                studentId: new ObjectId(studentId),
-                tutorId: new ObjectId(tutorId),
+                studentId: studentObjId,
+                tutorId: tutorObjId,
                 assignmentType: preferenceNumber ? 'preference' : 'random',
                 preferenceNumber,
                 timestamp: new Date()
@@ -184,59 +188,81 @@ class TutorAssignmentService {
             );
 
             if (!aluno) {
-                logger.error(`Aluno não encontrado: ${preference.nome} (${preference.turma})`);
+                logger.error(`[ASSIGNMENT_FAILED] Aluno não encontrado no banco: ${preference.nome} (${preference.turma})`);
                 return false;
             }
 
-            logger.info(`ID do aluno encontrado: ${aluno._id} para ${preference.nome}`);
+            // Convert aluno._id to string if it's an ObjectId
+            const studentId = aluno._id.toString();
+            logger.info(`[ASSIGNMENT_START] Processando ${preference.nome} (${preference.turma}) - ID: ${studentId}`);
 
             // Verify preferences
             if (!preference.preferencias || !Array.isArray(preference.preferencias)) {
-                logger.error(`Preferências inválidas para o aluno ${preference.nome}`);
+                logger.error(`[ASSIGNMENT_FAILED] Preferências inválidas para ${preference.nome}: ${JSON.stringify(preference.preferencias)}`);
                 return false;
+            }
+
+            // Log current state of each preferred tutor
+            for (let i = 0; i < preference.preferencias.length; i++) {
+                const tutorId = preference.preferencias[i];
+                const currentCount = await this.getTutorCurrentCount(tutorId);
+                const maxStudents = await this.getTutorMaxStudents(tutorId);
+                
+                logger.info(`[TUTOR_STATUS] Opção ${i + 1}: Tutor ${tutorId} - ${currentCount}/${maxStudents} alunos`);
             }
 
             // Try preferred tutors first
             for (let i = 0; i < preference.preferencias.length; i++) {
                 const tutorId = preference.preferencias[i];
+                logger.info(`[ATTEMPT] Tentando atribuir ${preference.nome} ao tutor ${tutorId} (Opção ${i + 1})`);
+                
                 const assigned = await this.assignStudentToTutor(
-                    aluno._id,
+                    studentId,  // Use string ID instead of object
                     tutorId,
                     i + 1
                 );
                 
                 if (assigned) {
-                    logger.info(`Aluno ${preference.nome} atribuído ao tutor ${tutorId} (${i + 1}ª opção)`);
+                    logger.info(`[ASSIGNMENT_SUCCESS] ${preference.nome} atribuído ao tutor ${tutorId} (${i + 1}ª opção)`);
                     return true;
                 }
             }
             
             // If no preferred tutors available, try random assignment
-            logger.warn(`Nenhuma preferência disponível para ${preference.nome}, tentando atribuição aleatória`);
+            logger.warn(`[RANDOM_START] Iniciando atribuição aleatória para ${preference.nome}`);
             
             const availableTutors = await this.getAvailableTutors();
+            logger.info(`[RANDOM_OPTIONS] ${availableTutors.length} tutores disponíveis para atribuição aleatória`);
             
             if (availableTutors.length > 0) {
-                // Random selection from available tutors
+                // Log available tutors for random assignment
+                availableTutors.forEach(tutor => {
+                    logger.info(`[RANDOM_TUTOR] Tutor disponível: ${tutor.nome} (${tutor.disciplina})`);
+                });
+
                 const randomIndex = Math.floor(Math.random() * availableTutors.length);
                 const randomTutor = availableTutors[randomIndex];
                 
+                logger.info(`[RANDOM_ATTEMPT] Tentando atribuir ${preference.nome} ao tutor ${randomTutor.nome}`);
+                
                 const assigned = await this.assignStudentToTutor(
-                    aluno._id,
-                    randomTutor._id,
-                    null // null indicates random assignment
+                    studentId,  // Use string ID instead of object
+                    randomTutor._id.toString(),  // Convert tutor ID to string as well
+                    null
                 );
                 
                 if (assigned) {
-                    logger.info(`Aluno ${preference.nome} atribuído aleatoriamente ao tutor ${randomTutor.nome}`);
+                    logger.info(`[RANDOM_SUCCESS] ${preference.nome} atribuído aleatoriamente ao tutor ${randomTutor.nome}`);
                     return true;
                 }
+            } else {
+                logger.error(`[ASSIGNMENT_FAILED] Não há tutores disponíveis para atribuição aleatória de ${preference.nome}`);
             }
             
-            logger.error(`Não foi possível atribuir ${preference.nome} a nenhum tutor`);
+            logger.error(`[ASSIGNMENT_FAILED] ${preference.nome} não pôde ser atribuído a nenhum tutor`);
             return false;
         } catch (error) {
-            logger.error(`Erro ao processar preferências do aluno ${preference.nome}:`, error);
+            logger.error(`[ERROR] Erro ao processar preferências de ${preference.nome}:`, error);
             return false;
         }
     }

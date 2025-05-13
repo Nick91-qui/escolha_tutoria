@@ -1,60 +1,8 @@
-2025-05-13T20:23:18.703Z [error]: Aluno não encontrado: GABRIEL PIRES RODRIGUES (1V3)
-2025-05-13T20:23:18.886Z [error]: Aluno não encontrado: BRUNA KALLYTA GONCALVES LIMA (2V3)
-2025-05-13T20:23:18.941Z [error]: Aluno não encontrado: PEDRO HENRIQUE SALVADOR GREGÓRIO (1V2)
-2025-05-13T20:23:19.447Z [error]: Aluno não encontrado: EVELYN PREMOLI DE OLIVEIRA (2V1)
-2025-05-13T20:23:27.614Z [error]: Aluno não encontrado: AGATHA CHRISTIE SABARA DE FREITAS NOGUEIRA (2V4)
-2025-05-13T20:23:30.180Z [error]: Aluno não encontrado: NATHAN FERREIRA DE LIMA (2V1)
-2025-05-13T20:23:31.962Z [error]: Aluno não encontrado: AMANDA VARNELE ALVES (2V1)
-2025-05-13T20:23:34.879Z [error]: Aluno não encontrado: ANIE BHEATRIZ DA SILVA REIS DE SOUZA (1V3)
-2025-05-13T20:23:36.797Z [error]: Aluno não encontrado: ANA JULIA SALINO (2V1)
-2025-05-13T20:23:37.890Z [error]: Aluno não encontrado: PATRÍCIA ROCHA PEREIRA CARDOSO (2V1)
-2025-05-13T20:23:41.662Z [error]: Aluno não encontrado: YASMIM DA CONCEICAO DE SOUZA (1V2)
-2025-05-13T20:23:42.639Z [error]: Aluno não encontrado: LARISSA DA SILVA (2V1)
-2025-05-13T20:23:43.593Z [error]: Aluno não encontrado: ALANA GABRIELY MARTINS REBULI DA SILVA (1V5)
-2025-05-13T20:23:43.627Z [error]: Aluno não encontrado: GABRIELLY SOUZA GOMES (1V1)
-2025-05-13T20:23:44.220Z [error]: Aluno não encontrado: KELVIN FERREIRA NASCIMENTO (2V1)
-2025-05-13T20:23:49.158Z [error]: Aluno não encontrado: TIAGO PAMPOLIM DE JESUS (2V1)
-2025-05-13T20:23:52.400Z [error]: Aluno não encontrado: VENUS MARIA RAMOS SIQUEIRA (2V6)
-2025-05-13T20:23:56.648Z [error]: Aluno não encontrado: THAILA DA SILVA RODRIGUES (2V1)
-2025-05-13T20:23:58.256Z [error]: Aluno não encontrado: ANA LAYZA DA SILVA RAMOS (2V1)
-2025-05-13T20:23:58.664Z [error]: Aluno não encontrado: MARIA CLARA DE ANDRADE SIQUEIRA (2V1)
-2025-05-13T20:24:02.478Z [error]: Aluno não encontrado: ERIQUE GOMES DA SILVA (2V4)
-2025-05-13T20:24:08.043Z [error]: Não foi possível atribuir IARLLEY DE AMORIM GOMES a nenhum tutor
-2025-05-13T20:24:09.496Z [error]: Aluno não encontrado: LIVIA RISSOLI MACHADO (1V1)
-2025-05-13T20:24:15.113Z [error]: Não foi possível atribuir ALEX BARBOSA DE PAULA a nenhum tutor
-2025-05-13T20:24:16.712Z [error]: Não foi possível atribuir CRISLAINE RAMOS BATISTA DE OLIVEIRA a nenhum tutor
-2025-05-13T20:24:17.338Z [error]: Não foi possível atribuir KETELEN INACIO NASCIMENTO a nenhum tutor
-2025-05-13T20:24:17.917Z [error]: Não foi possível atribuir LUIS HENRIQUE MOURA DE OLIVEIRA a nenhum tutor
-2025-05-13T20:24:18.373Z [error]: Não foi possível atribuir ANA JULIA BELO DE OLIVEIRA a nenhum tutor
-2025-05-13T20:29:21.825Z [error]: Não foi possível atribuir EVELIN ALEXSANDRA MIRANDA GUIMARÃES a nenhum tutor
-2025-05-13T20:29:23.487Z [error]: Não foi possível atribuir RICKELMI CLAUDINO SILVA a nenhum tutor
-2025-05-13T20:29:26.010Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839659: Argument passed in does not match the accepted types
-2025-05-13T20:29:26.124Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839668: Argument passed in does not match the accepted types
-2025-05-13T20:29:26.395Z [error]: Não foi possível atribuir THAILA DA SILVA RODRIGUES a nenhum tutor
-2025-05-13T20:29:30.346Z [error]: Não foi possível atribuir MARIA CLARA DE ANDRADE SIQUEIRA a nenhum tutor
-2025-05-13T20:29:39.392Z [error]: Não foi possível atribuir VIVIANE VITÓRIA ROSA NUNES a nenhum tutor
-2025-05-13T20:29:40.357Z [error]: Não foi possível atribuir LUCAS KAYKE DE OLIVEIRA CORREIA a nenhum tutor
-2025-05-13T20:29:44.096Z [error]: Não foi possível atribuir ERICK DOS SANTOS FREITAS a nenhum tutor
-2025-05-13T20:29:46.631Z [error]: Não foi possível atribuir GEOVANA PAIVA DOS SANTOS a nenhum tutor
-2025-05-13T20:29:49.171Z [error]: Não foi possível atribuir YORI BARBOSA SILVA a nenhum tutor
-2025-05-13T20:29:50.018Z [error]: Não foi possível atribuir HELOISA DE ARCANTES PEREIRA a nenhum tutor
-2025-05-13T20:29:50.494Z [error]: Não foi possível atribuir THADEU DA SILVA LEITE a nenhum tutor
-2025-05-13T20:29:52.337Z [error]: Não foi possível atribuir ARIELY OTAVIA MARTINS OLIVEIRA a nenhum tutor
-2025-05-13T20:29:55.424Z [error]: Não foi possível atribuir DÉBORA LOYOLA DOS SANTOS a nenhum tutor
-2025-05-13T20:29:55.945Z [error]: Não foi possível atribuir KATHERINE RIBEIRO PAIVA a nenhum tutor
-2025-05-13T20:29:56.645Z [error]: Não foi possível atribuir JULIA PEIXOTO DE SOUZA a nenhum tutor
-2025-05-13T20:29:57.204Z [error]: Não foi possível atribuir YASMIM SOUZA GUILHERME a nenhum tutor
-2025-05-13T20:29:57.849Z [error]: Não foi possível atribuir EDUARDA HOFFMAN MAGNAGO a nenhum tutor
-2025-05-13T20:29:58.593Z [error]: Não foi possível atribuir EMILLY DOS SANTOS CISQUINI a nenhum tutor
-2025-05-13T20:29:59.154Z [error]: Não foi possível atribuir ISABELLY VITÓRIA E SILVA a nenhum tutor
-2025-05-13T20:29:59.622Z [error]: Não foi possível atribuir BRUNO HENRIQUE COSTA DE OLIVEIRA a nenhum tutor
-2025-05-13T20:30:00.919Z [error]: Não foi possível atribuir MARIANA CERQUEIRA ANDRADE a nenhum tutor
-2025-05-13T20:30:01.559Z [error]: Não foi possível atribuir ALEX BARBOSA DE PAULA a nenhum tutor
-2025-05-13T20:30:02.665Z [error]: Não foi possível atribuir BRUNO DE SOUZA GOMES a nenhum tutor
-2025-05-13T20:30:03.944Z [error]: Não foi possível atribuir LUAN PIRES DA VITÓRIA a nenhum tutor
-2025-05-13T20:30:04.628Z [error]: Não foi possível atribuir GUSTAVO PAULI LINHARES a nenhum tutor
-2025-05-13T20:30:05.610Z [error]: Não foi possível atribuir KETELEN INACIO NASCIMENTO a nenhum tutor
-2025-05-13T20:30:06.028Z [error]: Não foi possível atribuir LUIS HENRIQUE MOURA DE OLIVEIRA a nenhum tutor
-2025-05-13T20:30:07.594Z [error]: Não foi possível atribuir ANA JULIA BELO DE OLIVEIRA a nenhum tutor
-2025-05-13T20:30:08.336Z [error]: Não foi possível atribuir ANA JÚLIA BARROS DE CAMPOS a nenhum tutor
-2025-05-13T20:30:08.804Z [error]: Não foi possível atribuir EVELYN FERRARI LUCHI a nenhum tutor
+2025-05-13T21:02:58.738Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839659: Argument passed in does not match the accepted types
+2025-05-13T21:02:58.873Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839660: Argument passed in does not match the accepted types
+2025-05-13T21:02:58.971Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839668: Argument passed in does not match the accepted types
+2025-05-13T21:02:59.049Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839666: Argument passed in does not match the accepted types
+2025-05-13T21:02:59.129Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a345393839662: Argument passed in does not match the accepted types
+2025-05-13T21:02:59.531Z [error]: Erro ao atribuir aluno [object Object] ao tutor 681340b8e37a34539383966d: Argument passed in does not match the accepted types
+2025-05-13T21:02:59.536Z [error]: [RANDOM_FAILED] Falha na atribuição aleatória de THAILA DA SILVA RODRIGUES ao tutor Loraine
+2025-05-13T21:02:59.536Z [error]: [ASSIGNMENT_FAILED] THAILA DA SILVA RODRIGUES não pôde ser atribuído a nenhum tutor

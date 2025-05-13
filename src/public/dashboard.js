@@ -7,6 +7,22 @@ const API = {
     DOWNLOAD_PREFERENCES: '/api/assignments/download-preferences'
 };
 
+const CONFIG = {
+    MAX_STUDENTS_PER_TUTOR: 18,
+    MAX_STUDENTS_PEDAGOGICAL: 6,
+    PEDAGOGICAL_ROLES: [
+        'CASF',
+        'COORDENADOR',
+        'COORDENADORA',
+        'PEDAGOGO',
+        'PEDAGOGA',
+        'DIRETORA',
+        'DIRETOR',
+        'COORDENADORA PEDAGOGICA',
+        'COORDENADOR PEDAGOGICO'
+    ]
+};
+
 const DOM = {
     initialize() {
         this.btnProcess = document.getElementById('btnProcess');
@@ -167,7 +183,7 @@ const UIRenderer = {
     },
 
     getMaxStudents(disciplina) {
-        return this.isPedagogicalRole(disciplina) ? 6 : 18;
+        return this.isPedagogicalRole(disciplina) ? CONFIG.MAX_STUDENTS_PEDAGOGICAL : CONFIG.MAX_STUDENTS_PER_TUTOR;
     },
 
     showTutorModal(tutor) {
@@ -269,19 +285,7 @@ const UIRenderer = {
     },
 
     isPedagogicalRole(disciplina) {
-        const pedagogicalRoles = [
-            'CASF',
-            'COORDENADOR',
-            'COORDENADORA',
-            'PEDAGOGO',
-            'PEDAGOGA',
-            'DIRETORA',
-            'DIRETOR',
-            'COORDENADORA PEDAGOGICA',
-            'COORDENADOR PEDAGOGICO'
-        ];
-        
-        return pedagogicalRoles.some(role => 
+        return CONFIG.PEDAGOGICAL_ROLES.some(role => 
             this.normalizarTexto(disciplina).includes(this.normalizarTexto(role))
         );
     },
