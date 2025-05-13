@@ -104,6 +104,17 @@ const AssignmentService = {
 // UI Rendering
 const UIRenderer = {
     renderOverview(stats) {
+        // Calculate available and full tutors correctly
+        const availableTutors = stats.tutors.details.filter(tutor => {
+            const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+            return tutor.currentCount < maxStudents;
+        });
+
+        const fullTutors = stats.tutors.details.filter(tutor => {
+            const maxStudents = this.isPedagogicalRole(tutor.disciplina) ? 6 : 15;
+            return tutor.currentCount >= maxStudents;
+        });
+
         const html = `
             <div class="stat-grid">
                 <div class="stat-item">
@@ -116,11 +127,11 @@ const UIRenderer = {
                 </div>
                 <div class="stat-item">
                     <h3>Tutores Disponíveis</h3>
-                    <p>${stats.tutors.available.length}</p>
+                    <p>${availableTutors.length}</p>
                 </div>
                 <div class="stat-item">
                     <h3>Tutores Lotados</h3>
-                    <p>${stats.tutors.full.length}</p>
+                    <p>${fullTutors.length}</p>
                 </div>
             </div>
         `;
