@@ -41,41 +41,101 @@ function limparCacheSeNecessario() {
 
 async function criarIndices(db) {
     try {
-        await Promise.all([
-            db.collection('alunos').createIndex(
+        // Verificar quais índices já existem na coleção assignments
+        const indexesAssignments = await db.collection('assignments').listIndexes().toArray();
+        const studentIdIndexExists = indexesAssignments.some(idx => 
+            idx.key && idx.key.studentId !== undefined
+        );
+        const tutorIdIndexExists = indexesAssignments.some(idx => 
+            idx.key && idx.key.tutorId !== undefined
+        );
+        const timestampIndexExists = indexesAssignments.some(idx => 
+            idx.key && idx.key.timestamp !== undefined
+        );
+        const assignmentTypeIndexExists = indexesAssignments.some(idx => 
+            idx.key && idx.key.assignmentType !== undefined
+        );
+
+        // Verificar índices na coleção alunos
+        const indexesAlunos = await db.collection('alunos').listIndexes().toArray();
+        const alunosIndexExists = indexesAlunos.some(idx => 
+            idx.key && idx.key.turma !== undefined && idx.key.nome !== undefined
+        );
+
+        // Verificar índices na coleção preferencias
+        const indexesPreferencias = await db.collection('preferencias').listIndexes().toArray();
+        const prefTurmaNomeIndexExists = indexesPreferencias.some(idx => 
+            idx.key && idx.key.turma !== undefined && idx.key.nome !== undefined
+        );
+        const prefTimestampIndexExists = indexesPreferencias.some(idx => 
+            idx.key && idx.key.timestamp !== undefined
+        );
+        const prefDataCriacaoIndexExists = indexesPreferencias.some(idx => 
+            idx.key && idx.key.dataCriacao !== undefined
+        );
+
+        // Array para coletar promessas de criação de índices
+        const indexPromises = [];
+
+        // Adicionar promessas apenas para índices que não existem
+        if (!alunosIndexExists) {
+            indexPromises.push(db.collection('alunos').createIndex(
                 { turma: 1, nome: 1 },
                 { unique: true, background: true }
-            ),
-            db.collection('preferencias').createIndex(
+            ));
+        }
+
+        if (!prefTurmaNomeIndexExists) {
+            indexPromises.push(db.collection('preferencias').createIndex(
                 { turma: 1, nome: 1 },
                 { background: true }
-            ),
-            db.collection('preferencias').createIndex(
+            ));
+        }
+
+        if (!prefTimestampIndexExists) {
+            indexPromises.push(db.collection('preferencias').createIndex(
                 { timestamp: -1 },
                 { background: true }
-            ),
-            db.collection('preferencias').createIndex(
+            ));
+        }
+
+        if (!prefDataCriacaoIndexExists) {
+            indexPromises.push(db.collection('preferencias').createIndex(
                 { dataCriacao: -1 },
                 { background: true }
-            ),
-            // Novos índices para assignments
-            db.collection('assignments').createIndex(
+            ));
+        }
+
+        if (!studentIdIndexExists) {
+            indexPromises.push(db.collection('assignments').createIndex(
                 { studentId: 1 },
                 { unique: true, background: true }
-            ),
-            db.collection('assignments').createIndex(
+            ));
+        }
+
+        if (!tutorIdIndexExists) {
+            indexPromises.push(db.collection('assignments').createIndex(
                 { tutorId: 1 },
                 { background: true }
-            ),
-            db.collection('assignments').createIndex(
+            ));
+        }
+
+        if (!timestampIndexExists) {
+            indexPromises.push(db.collection('assignments').createIndex(
                 { timestamp: -1 },
                 { background: true }
-            ),
-            db.collection('assignments').createIndex(
+            ));
+        }
+
+        if (!assignmentTypeIndexExists) {
+            indexPromises.push(db.collection('assignments').createIndex(
                 { assignmentType: 1 },
                 { background: true }
-            )
-        ]);
+            ));
+        }
+
+        // Executar todas as promessas de criação de índices
+        await Promise.all(indexPromises);
 
         console.log("✅ Índices criados/atualizados com sucesso!");
     } catch (error) {

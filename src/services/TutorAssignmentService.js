@@ -138,22 +138,42 @@ class TutorAssignmentService {
 
     async assignStudentToTutor(studentId, tutorId, preferenceNumber) {
         try {
-            // Convert string IDs to ObjectId
+            // Certificar que estamos trabalhando com strings de ID
+            if (studentId && typeof studentId !== 'string') {
+                if (studentId._id) {
+                    studentId = studentId._id.toString();
+                } else if (studentId.toString) {
+                    studentId = studentId.toString();
+                } else {
+                    logger.error(`Tipo inválido de studentId: ${typeof studentId}`);
+                    return false;
+                }
+            }
+            
+            if (tutorId && typeof tutorId !== 'string') {
+                if (tutorId._id) {
+                    tutorId = tutorId._id.toString();
+                } else if (tutorId.toString) {
+                    tutorId = tutorId.toString();
+                }
+            }
+
+            // Converter para ObjectId agora que temos strings válidas
             const studentObjId = new ObjectId(studentId);
             const tutorObjId = new ObjectId(tutorId);
 
-            // Get tutor's max student limit
+            // Verificar limite de alunos do tutor
             const maxStudents = await this.getTutorMaxStudents(tutorId);
             const currentCount = await this.getTutorCurrentCount(tutorId);
             
-            logger.info(`Tentando atribuir aluno ${studentId} ao tutor ${tutorId}`);
-            logger.info(`Contagem atual do tutor: ${currentCount}/${maxStudents}`);
+            logger.info(`Tentando atribuir aluno ${studentId} ao tutor ${tutorId} (${currentCount}/${maxStudents})`);
             
             if (currentCount >= maxStudents) {
-                logger.info(`Tutor ${tutorId} está com capacidade máxima (${maxStudents} alunos)`);
+                logger.info(`[CAPACITY_FULL] Tutor ${tutorId} está com capacidade máxima (${maxStudents} alunos)`);
                 return false;
             }
 
+            // Criar atribuição
             await this.db.collection('assignments').insertOne({
                 studentId: studentObjId,
                 tutorId: tutorObjId,
@@ -162,17 +182,17 @@ class TutorAssignmentService {
                 timestamp: new Date()
             });
 
-            logger.info(`Atribuição criada com sucesso: aluno ${studentId} -> tutor ${tutorId}`);
+            logger.info(`[SUCCESS] Atribuição criada: aluno ${studentId} -> tutor ${tutorId}`);
             return true;
         } catch (error) {
-            logger.error(`Erro ao atribuir aluno ${studentId} ao tutor ${tutorId}:`, error);
+            logger.error(`[ERROR] Erro ao atribuir aluno ${studentId} ao tutor ${tutorId}: ${error.message}`);
             return false;
         }
     }
 
     async processStudentPreferences(preference) {
         try {
-            // Find student ID usando collation
+            // Encontrar o ID do aluno
             const aluno = await this.db.collection('alunos').findOne(
                 { 
                     nome: preference.nome,
@@ -181,90 +201,99 @@ class TutorAssignmentService {
                 {
                     collation: { 
                         locale: 'pt',
-                        strength: 1,
-                        alternate: 'shifted'
+                        strength: 1
                     }
                 }
             );
 
             if (!aluno) {
-                logger.error(`[ASSIGNMENT_FAILED] Aluno não encontrado no banco: ${preference.nome} (${preference.turma})`);
+                logger.error(`[NOT_FOUND] Aluno não encontrado: ${preference.nome} (${preference.turma})`);
                 return false;
             }
 
-            // Convert aluno._id to string if it's an ObjectId
+            // Verificar se o aluno já está atribuído
+            const existingAssignment = await this.db.collection('assignments')
+                .findOne({ studentId: aluno._id });
+
+            if (existingAssignment) {
+                logger.info(`[SKIP] ${preference.nome} já está atribuído ao tutor ${existingAssignment.tutorId}`);
+                return true;
+            }
+
+            // Garantir que temos um ID válido
             const studentId = aluno._id.toString();
-            logger.info(`[ASSIGNMENT_START] Processando ${preference.nome} (${preference.turma}) - ID: ${studentId}`);
+            
+            // Processar preferências com tratamento de erro consistente
+            for (const tutorId of preference.preferencias) {
+                try {
+                    const assigned = await this.assignStudentToTutor(
+                        studentId,
+                        tutorId.toString(),
+                        preference.preferencias.indexOf(tutorId) + 1
+                    );
 
-            // Verify preferences
-            if (!preference.preferencias || !Array.isArray(preference.preferencias)) {
-                logger.error(`[ASSIGNMENT_FAILED] Preferências inválidas para ${preference.nome}: ${JSON.stringify(preference.preferencias)}`);
-                return false;
-            }
-
-            // Log current state of each preferred tutor
-            for (let i = 0; i < preference.preferencias.length; i++) {
-                const tutorId = preference.preferencias[i];
-                const currentCount = await this.getTutorCurrentCount(tutorId);
-                const maxStudents = await this.getTutorMaxStudents(tutorId);
-                
-                logger.info(`[TUTOR_STATUS] Opção ${i + 1}: Tutor ${tutorId} - ${currentCount}/${maxStudents} alunos`);
-            }
-
-            // Try preferred tutors first
-            for (let i = 0; i < preference.preferencias.length; i++) {
-                const tutorId = preference.preferencias[i];
-                logger.info(`[ATTEMPT] Tentando atribuir ${preference.nome} ao tutor ${tutorId} (Opção ${i + 1})`);
-                
-                const assigned = await this.assignStudentToTutor(
-                    studentId,  // Use string ID instead of object
-                    tutorId,
-                    i + 1
-                );
-                
-                if (assigned) {
-                    logger.info(`[ASSIGNMENT_SUCCESS] ${preference.nome} atribuído ao tutor ${tutorId} (${i + 1}ª opção)`);
-                    return true;
+                    if (assigned) {
+                        return true;
+                    }
+                } catch (prefError) {
+                    logger.warn(`Erro ao tentar preferência ${tutorId} para aluno ${studentId}: ${prefError.message}`);
+                    // Continue para a próxima preferência
                 }
             }
-            
-            // If no preferred tutors available, try random assignment
+
+            // Atribuição aleatória com melhor tratamento de erro
+            return await this.assignRandomTutor(preference, studentId);
+        } catch (error) {
+            logger.error(`[PROCESS_ERROR] Erro ao processar preferências: ${error.message}`);
+            return false;
+        }
+    }
+
+    // Separar a atribuição aleatória em um método próprio para melhor organização
+    async assignRandomTutor(preference, studentId) {
+        try {
             logger.warn(`[RANDOM_START] Iniciando atribuição aleatória para ${preference.nome}`);
             
             const availableTutors = await this.getAvailableTutors();
-            logger.info(`[RANDOM_OPTIONS] ${availableTutors.length} tutores disponíveis para atribuição aleatória`);
-            
-            if (availableTutors.length > 0) {
-                // Log available tutors for random assignment
-                availableTutors.forEach(tutor => {
-                    logger.info(`[RANDOM_TUTOR] Tutor disponível: ${tutor.nome} (${tutor.disciplina})`);
-                });
+            if (availableTutors.length === 0) {
+                logger.error(`[NO_TUTORS] Não há tutores disponíveis para ${preference.nome}`);
+                return false;
+            }
 
-                const randomIndex = Math.floor(Math.random() * availableTutors.length);
-                const randomTutor = availableTutors[randomIndex];
-                
-                logger.info(`[RANDOM_ATTEMPT] Tentando atribuir ${preference.nome} ao tutor ${randomTutor.nome}`);
-                
-                const assigned = await this.assignStudentToTutor(
-                    studentId,  // Use string ID instead of object
-                    randomTutor._id.toString(),  // Convert tutor ID to string as well
-                    null
-                );
+            // Ordenar tutores por número de alunos (menor para maior)
+            const sortedTutors = await this.getSortedTutorsByLoad(availableTutors);
+            
+            // Tentar atribuir ao tutor com menor carga
+            for (const tutor of sortedTutors) {
+                const tutorId = tutor._id.toString();
+                const assigned = await this.assignStudentToTutor(studentId, tutorId, null);
                 
                 if (assigned) {
-                    logger.info(`[RANDOM_SUCCESS] ${preference.nome} atribuído aleatoriamente ao tutor ${randomTutor.nome}`);
+                    logger.info(`[RANDOM_SUCCESS] ${preference.nome} atribuído ao tutor ${tutor.nome}`);
                     return true;
                 }
-            } else {
-                logger.error(`[ASSIGNMENT_FAILED] Não há tutores disponíveis para atribuição aleatória de ${preference.nome}`);
             }
-            
+
             logger.error(`[ASSIGNMENT_FAILED] ${preference.nome} não pôde ser atribuído a nenhum tutor`);
             return false;
         } catch (error) {
-            logger.error(`[ERROR] Erro ao processar preferências de ${preference.nome}:`, error);
+            logger.error(`[RANDOM_ERROR] Erro na atribuição aleatória: ${error.message}`);
             return false;
         }
+    }
+
+    // Método para ordenar tutores por carga
+    async getSortedTutorsByLoad(tutors) {
+        // Adicionar contagem de alunos a cada tutor
+        const tutorsWithCount = await Promise.all(
+            tutors.map(async (tutor) => {
+                const count = await this.getTutorCurrentCount(tutor._id);
+                return { ...tutor, count };
+            })
+        );
+        
+        // Ordenar por menor carga primeiro
+        return tutorsWithCount.sort((a, b) => a.count - b.count);
     }
 
     async getAvailableTutors() {
@@ -305,72 +334,197 @@ class TutorAssignmentService {
         }
         
         try {
-            // Debug: Verificar total de preferências antes do agrupamento
-            const allPrefs = await this.db.collection('preferencias').find().toArray();
-            logger.info(`Total de preferências antes do agrupamento: ${allPrefs.length}`);
-            logger.info('Preferências brutas:', allPrefs.map(p => ({
-                nome: p.nome,
-                turma: p.turma,
-                dataRegistro: p.dataRegistro
-            })));
+            // 1. Limpar assignments existentes
+            await this.clearAllAssignments();
+            logger.info('Assignments anteriores removidos');
 
-            // Get preferences (após agrupamento)
-            const preferences = await this.getOrderedPreferences();
-            logger.info(`Processando ${preferences.length} alunos após agrupamento`);
-            logger.info('Preferências agrupadas:', preferences.map(p => ({
-                nome: p.nome,
-                turma: p.turma,
-                dataRegistro: p.dataRegistro
-            })));
+            // 2. Buscar preferências únicas (sem o lookup desnecessário)
+            const preferences = await this.db.collection('preferencias')
+                .aggregate([
+                    {
+                        $match: {
+                            preferencias: { $exists: true, $ne: [] }
+                        }
+                    },
+                    {
+                        $sort: { dataRegistro: -1 }  // Pega o registro mais recente
+                    },
+                    {
+                        $group: {
+                            _id: { 
+                                nome: { $toLower: "$nome" }, 
+                                turma: "$turma" 
+                            },
+                            doc: { $first: "$$ROOT" }  // Pega o primeiro doc (mais recente)
+                        }
+                    },
+                    {
+                        $replaceRoot: { newRoot: "$doc" }
+                    }
+                ]).toArray();
+
+            logger.info(`Processando ${preferences.length} alunos`);
             
+            // 3. Manter track de alunos já atribuídos
+            const assignedStudents = new Set();
             const unassignedStudents = [];
-            
-            // 2. Process each student
+
+            // 4. Processar preferências
             for (const preference of preferences) {
-                logger.info(`Processando aluno: ${preference.nome} (${preference.turma})`);
-                logger.info(`Preferências: ${JSON.stringify(preference.preferencias)}`);
+                const studentKey = `${preference.nome.toLowerCase()}-${preference.turma}`;
                 
+                if (assignedStudents.has(studentKey)) {
+                    logger.info(`Aluno ${preference.nome} já foi atribuído, pulando...`);
+                    continue;
+                }
+
                 const success = await this.processStudentPreferences(preference);
                 
-                if (!success) {
-                    logger.info(`Aluno ${preference.nome} não foi atribuído, indo para lista de não atribuídos`);
-                    unassignedStudents.push(preference._id);
+                if (success) {
+                    assignedStudents.add(studentKey);
+                    logger.info(`Aluno ${preference.nome} atribuído com sucesso`);
+                } else {
+                    unassignedStudents.push(preference);
+                    logger.info(`Aluno ${preference.nome} não atribuído, adicionado à lista de espera`);
                 }
             }
-            
-            // 3. Handle unassigned
-            logger.info(`Total de alunos não atribuídos: ${unassignedStudents.length}`);
+
+            // 5. Processar alunos não atribuídos
             if (unassignedStudents.length > 0) {
-                await this.processRandomAssignments(unassignedStudents);
+                logger.info(`Tentando atribuição aleatória para ${unassignedStudents.length} alunos`);
+                for (const student of unassignedStudents) {
+                    if (assignedStudents.has(`${student.nome.toLowerCase()}-${student.turma}`)) {
+                        continue;
+                    }
+                    await this.processRandomAssignments([student]);
+                }
             }
 
-            // 4. Generate report
+            // 6. Gerar relatório final
             const report = await this.generateAssignmentReport();
-            logger.info(`Relatório final: ${JSON.stringify(report)}`);
+            logger.info(`Processamento concluído. Relatório: ${JSON.stringify(report)}`);
             return report;
+
         } catch (error) {
             logger.error('Erro no processamento das atribuições:', error);
             throw error;
         }
     }
 
-    async processRandomAssignments(unassignedStudents) {
-        for (const studentId of unassignedStudents) {
-            const availableTutors = await this.getAvailableTutors();
-            
-            if (availableTutors.length === 0) {
-                throw new Error('Não há tutores disponíveis para atribuição aleatória');
-            }
-
-            // Escolha aleatória de tutor
-            const randomIndex = Math.floor(Math.random() * availableTutors.length);
-            const randomTutor = availableTutors[randomIndex];
-
-            await this.assignStudentToTutor(
-                studentId,
-                randomTutor._id,
-                null // preferenceNumber null indica atribuição aleatória
+    // Este método está incorreto - estamos passando objetos mas tratando como IDs
+    async findAndFormatStudentId(nome, turma) {
+        try {
+            const aluno = await this.db.collection('alunos').findOne(
+                { 
+                    nome: nome,
+                    turma: turma 
+                },
+                {
+                    collation: { 
+                        locale: 'pt',
+                        strength: 1
+                    }
+                }
             );
+    
+            if (!aluno) {
+                logger.error(`Aluno não encontrado: ${nome} (${turma})`);
+                return null;
+            }
+    
+            // Garantir que o ID seja string
+            const studentId = aluno._id.toString();
+            logger.info(`ID do aluno ${nome} formatado corretamente: ${studentId}`);
+            return studentId;
+        } catch (error) {
+            logger.error(`Erro ao buscar aluno ${nome}: ${error.message}`);
+            return null;
+        }
+    }
+    
+    // Modifique o método processRandomAssignments para ser mais simples e direto
+    async processRandomAssignments(unassignedStudents) {
+        try {
+            for (const preference of unassignedStudents) {
+                // Passo 1: Encontrar o ID do aluno
+                const aluno = await this.db.collection('alunos').findOne(
+                    { 
+                        nome: preference.nome,
+                        turma: preference.turma 
+                    },
+                    {
+                        collation: { 
+                            locale: 'pt',
+                            strength: 1
+                        }
+                    }
+                );
+                
+                if (!aluno) {
+                    logger.error(`[RANDOM_FAILED] Aluno não encontrado: ${preference.nome} (${preference.turma})`);
+                    continue;
+                }
+                
+                // Passo 2: Obter o ID como string
+                const studentId = aluno._id.toString();
+                logger.info(`Tentando atribuição para ${preference.nome} com ID: ${studentId}`);
+                
+                // Passo 3: Obter tutores com espaço, ordenados por menor carga
+                const tutores = await this.db.collection('professores').find().toArray();
+                const tutoresComContagem = [];
+                
+                for (const tutor of tutores) {
+                    const count = await this.getTutorCurrentCount(tutor._id);
+                    const max = await this.getTutorMaxStudents(tutor._id);
+                    
+                    if (count < max) {
+                        tutoresComContagem.push({
+                            ...tutor,
+                            count,
+                            max
+                        });
+                    }
+                }
+                
+                // Ordenar por menor carga
+                tutoresComContagem.sort((a, b) => a.count - b.count);
+                
+                if (tutoresComContagem.length === 0) {
+                    logger.error(`[RANDOM_FAILED] Não há tutores disponíveis para ${preference.nome}`);
+                    continue;
+                }
+                
+                // Passo 4: Tentar atribuir ao tutor com menor carga
+                let atribuido = false;
+                
+                for (const tutor of tutoresComContagem) {
+                    try {
+                        const tutorId = tutor._id.toString();
+                        
+                        logger.info(`Tentando atribuir ${preference.nome} ao tutor ${tutor.nome} (${tutor.count}/${tutor.max})`);
+                        
+                        const success = await this.assignStudentToTutor(
+                            studentId, 
+                            tutorId,
+                            null
+                        );
+                        
+                        if (success) {
+                            logger.info(`[RANDOM_SUCCESS] ${preference.nome} atribuído ao tutor ${tutor.nome}`);
+                            atribuido = true;
+                            break;
+                        }
+                    } catch (err) {
+                        logger.error(`Erro ao tentar atribuir ${preference.nome} ao tutor ${tutor.nome}: ${err.message}`);
+                    }
+                }
+                
+                if (!atribuido) {
+                    logger.error(`[RANDOM_FAILED] ${preference.nome} não pôde ser atribuído a nenhum tutor`);
+                }
+            }
+        } catch (error) {
+            logger.error(`[RANDOM_ERROR] Erro ao processar atribuições aleatórias: ${error.message}`);
         }
     }
 
